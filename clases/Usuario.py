@@ -6,3 +6,12 @@ class Usuario:
     
     def getNombre(self):
         return self.nombre
+
+    def getNombre(self):
+        return self.nombre
+    
+    def getMail(Self):
+        return Self.password
+    
+    def getPassaword(self):
+        return self.password

@@ -7,7 +7,7 @@ from clases import Siguiendo
 from clases import Maridaje
 from clases import Usuario
 import datetime
-import interfaz
+from interfaz import interfaz
 
 #fecha = datetime.datetime(2020,5,17)
 fecha = datetime.datetime(2024,1,17)
@@ -16,16 +16,14 @@ fecha2 = datetime.datetime(2024,1,15)
 fecha3 = datetime.datetime(2021,4,20)
 #---INSTANCIAS DE USUARIO---
 usuario1 = Usuario("Carlos Gomez", "carlos@example.com", "contraseña123")
-usuario2 = Usuario
-("Marcos Diaz", "Marcos@example.com", "segura456")
+usuario2 = Usuario("Marcos Diaz", "Marcos@example.com", "segura456")
 usuario3 = Usuario("Juan Ricciardo", "juan@example.com", "clave789")
 #---INSTANCIAS DE BODEGA---#
-
-
 
 bodega = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
 bodega2 = Bodega(None, None,None, 'holex', 2, fecha2 )
 bodega3 = Bodega(None, None,None, 'holaa', 2, fecha3 )
+#print(bodega.nombre)
 
 '''bodega1 = Bodega("42.4194° N, 71.1062° W", "Viñedos del Valle es una bodega familiar dedicada a la producción de vinos orgánicos y sostenibles.", "Fundada en 1998 por la familia Martínez, Viñedos del Valle ha crecido hasta convertirse en una de las bodegas líderes de la región.", "Viñedos del Valle", 6, fecha )
 
