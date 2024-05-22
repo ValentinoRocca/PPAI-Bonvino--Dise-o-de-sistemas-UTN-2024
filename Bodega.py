@@ -34,7 +34,14 @@ class Bodega:
         self.ultimaActualizacion = nuevaActualizacion
 
 
+    
 
+
+
+
+
+
+#PRUEBA
 fecha1 = datetime.datetime(2024,1,1)
 fecha2 = datetime.datetime(2024,5,5)
 fechaAct = datetime.datetime.now()

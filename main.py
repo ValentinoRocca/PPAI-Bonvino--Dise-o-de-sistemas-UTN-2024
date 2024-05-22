@@ -1,6 +1,6 @@
 from Bodega import Bodega
 from clases import Enofilo
-import Vino
+from Vino import Vino
 from clases import Varietal
 from clases import TipoUva
 from clases import Siguiendo

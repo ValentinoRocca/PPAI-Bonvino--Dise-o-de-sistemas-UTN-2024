@@ -2,7 +2,7 @@ import tkinter as tk
 from Bodega import Bodega
 import datetime
 import gestor
-from gestor import arrayBodega
+
 
 #def inicializar_interfaz(bodega):
 
