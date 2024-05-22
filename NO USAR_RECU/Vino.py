@@ -25,7 +25,7 @@ class Vino:
             if i.nombre == self.nombre:
                 return True
             else:  
-                return False
+                return False ## ====> crear vino directamente
 
     
     def setPrecio(self, nuevoPrecio):

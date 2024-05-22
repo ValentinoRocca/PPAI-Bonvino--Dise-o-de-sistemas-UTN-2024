@@ -1,4 +1,5 @@
 import datetime
+import Vino
 
 class Bodega:
     def __init__(self, coordenadaUbicacion, descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
@@ -12,6 +13,10 @@ class Bodega:
          
     def agregar_vino(self, vino):
         self.vinos.append(vino)
+    
+    def agregar_vinos(self, vinosAAgregar):
+        for vino in vinosAAgregar:
+            self.vinos.append(vino)
     
     def estaDisponible(self, fechaActual):
         ##                          1/1/2024                                    2   *       30
@@ -34,7 +39,25 @@ class Bodega:
         self.ultimaActualizacion = nuevaActualizacion
 
 
+    def actualizarVino(vinoPropio, vinoApi, fechaActual):
+        vinoPropio.precio = vinoApi.precio
+        vinoPropio.imagenEtiqueta = vinoApi.imagenEtiqueta
+        vinoPropio.notaCata = vinoApi.notaCata
+        vinoPropio.fechaAct = fechaActual
     
+
+
+    def crearVino(self, VinoAPI, fechaAct):
+        nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino, VinoAPI.añada,fechaAct)
+        Vino.crearVarietal(VinoAPI.varietal)
+        self.agregar_vino(nuevoVino)
+    '''
+    nuevoVino = Vino(act.nombre, act.imagenEtiqueta, act.notaCataVino, act.añada,bodega,hoy)
+            bodega.agregar_vino(nuevoVino)
+    '''
+
+    def agregarVinos(vino):
+        
 
 
 
