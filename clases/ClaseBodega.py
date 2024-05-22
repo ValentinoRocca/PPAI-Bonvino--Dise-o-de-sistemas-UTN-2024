@@ -1,8 +1,9 @@
 import datetime
-import Vino
+from .Vino import *
+
 
 class Bodega:
-    def __init__(self, coordenadaUbicacion, descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
+    def __init__(self, coordenadaUbicacion , descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
         self.coordenadas = coordenadaUbicacion
         self.descripcion = descripcion
         self.historia = historia
@@ -39,13 +40,14 @@ class Bodega:
         self.ultimaActualizacion = nuevaActualizacion
 
 
-    def actualizarVino(vinoPropio, vinoApi, fechaActual):
-        vinoPropio.precio = vinoApi.precio
-        vinoPropio.imagenEtiqueta = vinoApi.imagenEtiqueta
-        vinoPropio.notaCata = vinoApi.notaCata
-        vinoPropio.fechaAct = fechaActual
-    
+    def actualizarVino(self,vinoPropio, vinoApi, fechaActual):
+        vinoPropio.setPrecio(vinoApi.precio)
+        vinoPropio.setImagenEtiqueta(vinoApi.imagenEtiqueta)
+        vinoPropio.setNotaCata(vinoApi.notaCataVino)
+        vinoPropio.setFechaActualizacion(fechaActual)
 
+    def getDatosVinoBodegaSeleccionada(self):
+        return self.vinos
 
     def crearVino(self, VinoAPI, fechaAct):
         nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino, VinoAPI.añada,fechaAct)
@@ -57,11 +59,18 @@ class Bodega:
     '''
 
     def agregarVinos(vino):
-        
+        pass
 
+    def getDatosVinoBodegaSeleccionada(self):
+        return self.vinos
 
-
-
+    def mostrarVinos(self):
+        for vino in self.vinos:
+            precioNuevo= vino.precio
+            notaCataVinoNuevo = vino.notaCataVino
+            imagenEtiquetaNuevo = vino.imagenEtiqueta
+            fechaActNuevo = vino.fechaAct
+            print(precioNuevo,' ,', notaCataVinoNuevo, ' ,',imagenEtiquetaNuevo, ' ,',fechaActNuevo)
 
 
 #PRUEBA

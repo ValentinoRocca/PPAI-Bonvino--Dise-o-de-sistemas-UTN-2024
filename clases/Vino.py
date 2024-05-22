@@ -1,4 +1,5 @@
-import Varietal
+from .Varietal import *
+
 
 class Vino:
     def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
@@ -7,8 +8,8 @@ class Vino:
         self.notaCataVino = notaCataVino
         self.precio = precio
         self.añada = añada
-        self.maridaje= []
-        self.varietal = []#VER px es un array
+        self.maridajes= []
+        self.varietales = []#VER px es un array
         self.reseñas = []
        # self.bodega = bodega => VINO NO TIENE BODEGA
         self.fechaAct = fechaAct
@@ -35,20 +36,20 @@ class Vino:
 
     def setPrecio(self, nuevoPrecio):
         self.precio = nuevoPrecio
-        return ("El precio ha sido actualizado, el nuevo precio del vino es: ", nuevoPrecio)
+        #return ("El precio ha sido actualizado, el nuevo precio del vino es: ", nuevoPrecio)
 
     def setNotaCata(self, nuevaNotaCata):
         self.notaCataVino = nuevaNotaCata
-        print("Se han actualizado las notas de cata del vino")
+        #print("Se han actualizado las notas de cata del vino")
 
     def setImagenEtiqueta(self, nuevaImagenEtiqueta):
         self.imagenEtiqueta = nuevaImagenEtiqueta
         
     def setFechaActualizacion(self, fechaActualizacion):
         self.fechaAct = fechaActualizacion
-        print("Se ha actualizado la fecha de actualizacion del vino")
+        #print("Se ha actualizado la fecha de actualizacion del vino")
 
-    def crearVarietal(self, newVarietal):
+    def agregarVarietAlVino(self, newVarietal):
         esVarietal = isinstance(newVarietal, Varietal)
         if esVarietal:
             self.varietal.append(newVarietal)
