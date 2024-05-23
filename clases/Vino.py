@@ -1,5 +1,6 @@
 from .Varietal import *
-
+from .Maridaje import *
+from .ClaseBodega import *
 
 class Vino:
     def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
@@ -14,8 +15,6 @@ class Vino:
        # self.bodega = bodega => VINO NO TIENE BODEGA
         self.fechaAct = fechaAct
 
-    def agregar_maridaje(self, maridaje):
-       self.maridaje.append(maridaje)
     
        
     def sosVinoAActualizar(self, vinosAActualizar):
@@ -49,14 +48,22 @@ class Vino:
         self.fechaAct = fechaActualizacion
         #print("Se ha actualizado la fecha de actualizacion del vino")
 
-    def agregarVarietAlVino(self, newVarietal):
-        esVarietal = isinstance(newVarietal, Varietal)
-        if esVarietal:
-            self.varietal.append(newVarietal)
-            print("Se ha actualizado el varietal del vino")
-        else:
-            print("El objeto ingresado no es de la clase varietal, no se han realizado cambios...")
+    def agregarVarietal(self, newVarietal):
+            self.varietales.append(newVarietal)
+            
+    def agregar_maridaje(self, newMaridaje):
+            self.maridajes.append(newMaridaje)
+            
     
-    def crearVarietal():
-        pass
+     # varietalAPI [descripcion, porcentaje, tipoDeUva]
+    def crearVarietal(self,varietales, arrayDeTipoDeUva):
+        for varietal in varietales:
+            tipoDeUvaObjeto = buscarTipoUva(arrayDeTipoDeUva, varietal[2])  
+            nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
+            self.agregaVarietal(nuevoVarietal)
+    
+##falta buscarTipoUva... (respecto al nombre)
+
+
+
     

@@ -1,6 +1,6 @@
 import datetime
 from .Vino import *
-
+from gestor import *
 
 class Bodega:
     def __init__(self, coordenadaUbicacion , descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
@@ -49,16 +49,24 @@ class Bodega:
     def getDatosVinoBodegaSeleccionada(self):
         return self.vinos
 
-    def crearVino(self, vinoAPI, fechaAct):
+    def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
         
         ''''
         nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino,VinoAPI.precio, VinoAPI.añada,fechaAct)
         nuevoVino.crearVarietal(VinoAPI.varietal)
         self.agregar_vino(nuevoVino)
         '''
-        
+        varietalesAPI = vinoAPI.varietales
         nuevoVino = Vino(vinoAPI.nombre, vinoAPI.imagenEtiqueta, vinoAPI.notaCataVino, vinoAPI.precio, vinoAPI.añada, fechaAct)
+        for maridaje in maridajes:
+            nuevoVino.agregar_maridaje(maridaje)
+                                                            
+        nuevoVino.crearVarietal(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
+
+        # varietalAPI [nombre, descripcion, porcentaje, tipoDeUva]
+        
+    
     
 
     def agregarVinos(vino):
