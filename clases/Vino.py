@@ -57,4 +57,6 @@ class Vino:
         else:
             print("El objeto ingresado no es de la clase varietal, no se han realizado cambios...")
     
+    def crearVarietal():
+        pass
     

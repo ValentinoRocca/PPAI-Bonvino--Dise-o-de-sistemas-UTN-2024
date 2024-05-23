@@ -49,28 +49,34 @@ class Bodega:
     def getDatosVinoBodegaSeleccionada(self):
         return self.vinos
 
-    def crearVino(self, VinoAPI, fechaAct):
-        nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino, VinoAPI.añada,fechaAct)
-        Vino.crearVarietal(VinoAPI.varietal)
+    def crearVino(self, vinoAPI, fechaAct):
+        
+        ''''
+        nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino,VinoAPI.precio, VinoAPI.añada,fechaAct)
+        nuevoVino.crearVarietal(VinoAPI.varietal)
         self.agregar_vino(nuevoVino)
-    '''
-    nuevoVino = Vino(act.nombre, act.imagenEtiqueta, act.notaCataVino, act.añada,bodega,hoy)
-            bodega.agregar_vino(nuevoVino)
-    '''
+        '''
+        
+        nuevoVino = Vino(vinoAPI.nombre, vinoAPI.imagenEtiqueta, vinoAPI.notaCataVino, vinoAPI.precio, vinoAPI.añada, fechaAct)
+        self.agregar_vino(nuevoVino)
+    
 
     def agregarVinos(vino):
         pass
 
-    def getDatosVinoBodegaSeleccionada(self):
+    def getVinosBodega(self):
         return self.vinos
 
     def mostrarVinos(self):
         for vino in self.vinos:
+            nombre= vino.nombre
             precioNuevo= vino.precio
             notaCataVinoNuevo = vino.notaCataVino
             imagenEtiquetaNuevo = vino.imagenEtiqueta
+            añada = vino.añada
             fechaActNuevo = vino.fechaAct
-            print(precioNuevo,' ,', notaCataVinoNuevo, ' ,',imagenEtiquetaNuevo, ' ,',fechaActNuevo)
+            
+            print(nombre, ' ,', precioNuevo,' ,', notaCataVinoNuevo, ' ,',imagenEtiquetaNuevo, ' ,',fechaActNuevo,' ,', añada)
 
 
 #PRUEBA

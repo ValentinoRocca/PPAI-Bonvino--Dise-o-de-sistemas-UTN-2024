@@ -3,8 +3,8 @@ class Maridaje:
         self.descripcion = descripcion
         self.nombre = nombre
     
-    def sosMaridaje(self, maridajeAPI):
-        if (self.nombre == maridajeAPI):
+    def sosMaridaje(self, nombreMaridajeAPI):
+        if (self.nombre == nombreMaridajeAPI):
             return True
         else:
             return False
