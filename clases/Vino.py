@@ -56,14 +56,19 @@ class Vino:
             
     
      # varietalAPI [descripcion, porcentaje, tipoDeUva]
-    def crearVarietal(self,varietales, arrayDeTipoDeUva):
+    def crearVarietales(self,varietales, arrayDeTipoDeUva):
         for varietal in varietales:
             tipoDeUvaObjeto = buscarTipoUva(arrayDeTipoDeUva, varietal[2])  
             nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
-            self.agregaVarietal(nuevoVarietal)
+            self.agregarVarietal(nuevoVarietal)
     
 ##falta buscarTipoUva... (respecto al nombre)
-
+    def buscarTipoUva(arrayTipoDeUva, stringTipoDeUva):
+         for tipoDeUva in arrayTipoDeUva:
+              if tipoDeUva.nombre == stringTipoDeUva:
+                   return tipoDeUva
+        
+        
 
 
     

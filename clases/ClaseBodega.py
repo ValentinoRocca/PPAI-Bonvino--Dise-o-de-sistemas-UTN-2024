@@ -20,7 +20,7 @@ class Bodega:
             self.vinos.append(vino)
     
     def estaDisponible(self, fechaActual):
-        ##                          1/1/2024                                    2   *       30
+        ##                          1/1/2024                                    2      *    30
         fecha_limite = self.ultimaActualizacion + datetime.timedelta(days=self.periodoAct * 30)
         if fechaActual > fecha_limite:
             return True
@@ -50,18 +50,14 @@ class Bodega:
         return self.vinos
 
     def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
-        
-        ''''
-        nuevoVino = Vino(VinoAPI.nombre, VinoAPI.imagenEtiqueta, VinoAPI.notaCataVino,VinoAPI.precio, VinoAPI.añada,fechaAct)
-        nuevoVino.crearVarietal(VinoAPI.varietal)
-        self.agregar_vino(nuevoVino)
-        '''
+
         varietalesAPI = vinoAPI.varietales
+        
         nuevoVino = Vino(vinoAPI.nombre, vinoAPI.imagenEtiqueta, vinoAPI.notaCataVino, vinoAPI.precio, vinoAPI.añada, fechaAct)
         for maridaje in maridajes:
             nuevoVino.agregar_maridaje(maridaje)
                                                             
-        nuevoVino.crearVarietal(varietalesAPI, arrayDeTipoDeUva)
+        nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
 
         # varietalAPI [nombre, descripcion, porcentaje, tipoDeUva]
@@ -69,8 +65,8 @@ class Bodega:
     
     
 
-    def agregarVinos(vino):
-        pass
+    def agregarVinos(self, vino):
+        self.vinos.append(vino)
 
     def getVinosBodega(self):
         return self.vinos

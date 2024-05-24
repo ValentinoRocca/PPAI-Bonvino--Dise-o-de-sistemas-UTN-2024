@@ -6,6 +6,7 @@ from clases.Vino import *
 from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
+from clases.NotificacionPush import *
 class GestorActualizarVinos:
     def __init__(self, fechaActual):
         self.fechaActual = fechaActual
@@ -67,21 +68,19 @@ def actualizarVinosBodega(bodega,arrayVinosApi):   #Recorre los vinos api buscan
     for vinoApi in arrayVinosApi:#  (vino1, vino2, vino3)
         existe = False
         for vino in bodega.vinos:#    (vino40, vin1, vino3)
-            
             if sosElMismoVino(vinoApi, vino):
                 bodega.actualizarVino(vino, vinoApi, hoy) 
                 existe = True     
                 break
         
         if not existe:
-
             maridajeAPI = buscarMaridaje(vinoApi, arrayMaridajesSistemas) 
-            
-            tiposUvaAPI = buscarTipoUva(vinoApi, arrayTiposDeUvaSistema)
-            
-            bodega.crearVino(vinoApi, hoy, maridajeAPI, vinoApi.varietales, arrayDeTipoDeUva)
-            
+            bodega.crearVino(vinoApi, hoy, maridajeAPI, arrayTiposDeUvaSistema)
 
+    bodega.setFechaActualizacion(hoy)
+
+
+'''# ESTO AL FINAL LO HACEMOS EN LA BODEGA, EN LA FUN CREAR VINO
 def buscarTipoUva(VinoAPI, tiposDeUvaSistema):
     tipoUvaNuevoVino = []
     for varietal in VinoAPI.varietales:
@@ -90,7 +89,7 @@ def buscarTipoUva(VinoAPI, tiposDeUvaSistema):
                 tipoUvaNuevoVino.append(uvaSistema)
     
     return tipoUvaNuevoVino
-
+''' 
 
 def buscarMaridaje(vinoApi, arrayMaridajesSistemas):
     maridajesNuevoVino = []
@@ -102,10 +101,42 @@ def buscarMaridaje(vinoApi, arrayMaridajesSistemas):
     
     return maridajesNuevoVino
     
-# nombreMaridaje
-    
 def sosElMismoVino(vinoBodegaApi, vinoBodegaSeleccionada):
     return (vinoBodegaApi.nombre == vinoBodegaSeleccionada.nombre)
+
+# FALTARIA LO DE CREAR UN RESUMEN DE LAS NOVEDADES
+def generarResumen():
+    pass
+
+#=================================================================================================================================
+#Paso 7
+
+#arrayEnofilosSistemas -> serian todos lo enofilos del sistema
+arrayEnofilosSistema = []
+
+notificacionPush = NotificacionPush("mensaje")
+resumen = "resumenDeLasNovedades"
+
+def notificarSuscripciones(bodega):
+    nombresUsuariosSuscriptosABodega=[]
+    for enofilo in arrayEnofilosSistema:
+        if enofilo.estaSuscriptoABodega(bodega):
+            nombreEnofilo = enofilo.obtenerNombreUsuario()
+            nombresUsuariosSuscriptosABodega.append(nombreEnofilo)
+
+    notificacionPush.actualizarNovedadBodega(bodega, nombresUsuariosSuscriptosABodega, resumen)
+
+
+
+
+
+
+
+
+
+
+
+
 
 #-------------------------------------------------------------------------------------------------------
 #reinicio de variables
@@ -151,8 +182,9 @@ arrayBodega = [bodega1, bodega2, bodega3]
 #================================================================================
 #####-------------------------------VINOS SISTEMA---------------------------#####
 #================================================================================
-#uvas
-#--------------------------------------------------------------------------------# 
+#---------------------------------uvas-------------------------------------------
+#-------------------------------------------------------------------------------# 
+
 uva1 = TipoUva("Una uva bastante buena", "uva1")
 uva2 = TipoUva("Una uva  buena", "uva2")
 uva3 = TipoUva("Una uva mala", "uva3")

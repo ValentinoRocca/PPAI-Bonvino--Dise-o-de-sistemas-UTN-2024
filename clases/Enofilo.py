@@ -13,8 +13,8 @@ class Enofilo:
     def estaSuscrito(self, bodega):
         for i in range (self.siguiendos):
             if i == bodega:
-                print("El Enófilo ", self.nombre, "está suscrito a la bodega ", bodega)
-                return True
+             print("El Enófilo ", self.nombre, "está suscrito a la bodega ", bodega)
+             return True
             else:
                 print("El Enófilo ", self.nombre, " no está suscrito a la bodega ", bodega)
                 return False
@@ -22,3 +22,12 @@ class Enofilo:
     def getNombre(self):
         print("El nombre del Enófilo es ", self.nombre)
         return self.nombre
+
+    def estaSuscriptoABodega(self, bodega):
+        for siguiendo in self.siguiendos:
+                if siguiendo.sosDeBodega(bodega):
+                    return True
+        return False
+
+    def obtenerNombreUsuario(self):
+        return self.usuario.getNombre()
