@@ -1,6 +1,5 @@
 from .Varietal import *
 from .Maridaje import *
-from .ClaseBodega import *
 
 class Vino:
     def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
@@ -51,20 +50,21 @@ class Vino:
     def agregarVarietal(self, newVarietal):
             self.varietales.append(newVarietal)
             
-    def agregar_maridaje(self, newMaridaje):
+    def agregarMaridaje(self, newMaridaje):
             self.maridajes.append(newMaridaje)
             
     
      # varietalAPI [descripcion, porcentaje, tipoDeUva]
     def crearVarietales(self,varietales, arrayDeTipoDeUva):
         for varietal in varietales:
-            tipoDeUvaObjeto = buscarTipoUva(arrayDeTipoDeUva, varietal[2])  
+            tipo_Uva = varietal[2]
+            tipoDeUvaObjeto = self.buscarTipoUva(arrayDeTipoDeUva, tipo_Uva)  
             nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
             self.agregarVarietal(nuevoVarietal)
     
 ##falta buscarTipoUva... (respecto al nombre)
-    def buscarTipoUva(arrayTipoDeUva, stringTipoDeUva):
-         for tipoDeUva in arrayTipoDeUva:
+    def buscarTipoUva( self, arrayTipoDeUvaSistema, stringTipoDeUva):
+         for tipoDeUva in arrayTipoDeUvaSistema:
               if tipoDeUva.nombre == stringTipoDeUva:
                    return tipoDeUva
         

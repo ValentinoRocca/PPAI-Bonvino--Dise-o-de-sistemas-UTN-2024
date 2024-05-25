@@ -2,11 +2,10 @@
 from clases.Maridaje import *
 from clases.ClaseBodega import *
 import datetime
-from clases.Vino import *
+#from clases.Vino import *
 from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
-from clases.NotificacionPush import *
 class GestorActualizarVinos:
     def __init__(self, fechaActual):
         self.fechaActual = fechaActual
@@ -41,27 +40,28 @@ def buscarBodegasAActualizar(arrayBodega): # VER EN EL DIAG DE SECUENCIA bellisi
 #=====================================================================================================================================
 #Paso 5
 def buscarVinosAPI(bodegaApi):   #Obtiene los vinos actualizados y los nuevos vinos en la api
-    return bodegaApi.vinos
+    return bodegaApi
 
  #SERIAN LAS BODEGAS DEL SISTEMA
 # STRING         BODEGAS
 
-def buscarBodegaSeleccionada(bodegaSeleccionada, arrayBodegasSistemas):
-        
-        for bodega in arrayBodegasSistemas:
-            if bodega.nombre == bodegaSeleccionada[0]:
-                return bodega
+def buscarBodegaSeleccionada(arrayBodegaSeleccionada, arrayBodegasSistemas):
+        bodegasSeleccionadas = []
+        for bodegaSeleccionada in arrayBodegaSeleccionada:
+            for bodega in arrayBodegasSistemas:
+                if bodega.nombre == bodegaSeleccionada[0]:
+                    return bodegasSeleccionadas.append(bodega)
         
        
-                
-    
-
-
 #=================================================================================================================================
 
 #=================================================================================================================================
 #Paso 6
 
+def actualizarVinosDeBodegas(arrayDeBodegasSeleccionadas):
+    for bodegaSeleccionada in arrayDeBodegasSeleccionadas:
+        vinosApi = bodegaSeleccionada.vinosAPI
+        actualizarVinosBodega(bodegaSeleccionada, vinosApi)
 
 def actualizarVinosBodega(bodega,arrayVinosApi):   #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodegade nuestro sistema, si no lo encuentra lo crea y le hace un append.
     hoy = getFechaActual()
@@ -79,21 +79,9 @@ def actualizarVinosBodega(bodega,arrayVinosApi):   #Recorre los vinos api buscan
 
     bodega.setFechaActualizacion(hoy)
 
-
-'''# ESTO AL FINAL LO HACEMOS EN LA BODEGA, EN LA FUN CREAR VINO
-def buscarTipoUva(VinoAPI, tiposDeUvaSistema):
-    tipoUvaNuevoVino = []
-    for varietal in VinoAPI.varietales:
-        for uvaSistema in tiposDeUvaSistema:
-            if varietal.tipoUva == uvaSistema.nombre:
-                tipoUvaNuevoVino.append(uvaSistema)
-    
-    return tipoUvaNuevoVino
-''' 
-
 def buscarMaridaje(vinoApi, arrayMaridajesSistemas):
     maridajesNuevoVino = []
-    for maridajeApi in vinoApi.maridajes: #(maridaje1, 2 , 3)
+    for maridajeApi in vinoApi[5]: #(maridaje1, 2 , 3)
         for maridaje in arrayMaridajesSistemas:      #(1, 2, 3, 4, 5)
             if maridaje.sosMaridaje(maridajeApi):
                 maridajesNuevoVino.append(maridaje)
@@ -102,13 +90,15 @@ def buscarMaridaje(vinoApi, arrayMaridajesSistemas):
     return maridajesNuevoVino
     
 def sosElMismoVino(vinoBodegaApi, vinoBodegaSeleccionada):
-    return (vinoBodegaApi.nombre == vinoBodegaSeleccionada.nombre)
+    return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
 
 # FALTARIA LO DE CREAR UN RESUMEN DE LAS NOVEDADES
 def generarResumen():
     pass
 
 #=================================================================================================================================
+
+''''
 #Paso 7
 
 #arrayEnofilosSistemas -> serian todos lo enofilos del sistema
@@ -125,7 +115,7 @@ def notificarSuscripciones(bodega):
             nombresUsuariosSuscriptosABodega.append(nombreEnofilo)
 
     notificacionPush.actualizarNovedadBodega(bodega, nombresUsuariosSuscriptosABodega, resumen)
-
+'''
 
 
 
@@ -140,7 +130,7 @@ def notificarSuscripciones(bodega):
 
 #-------------------------------------------------------------------------------------------------------
 #reinicio de variables
-bodegaApi1 = None
+arrayVinosApi = []
 bodega1 = None
 bodega2 = None
 bodega3 = None
@@ -154,36 +144,55 @@ vinoac4API = None
 fecha = datetime.datetime(2024,1,17)
 fecha2 = datetime.datetime(2024,1,15)
 fecha3 = datetime.datetime(2021,4,20)
+fechaHoy = datetime.datetime.now()
 
+#bodegaApi1  = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
 
-bodegaApi1 = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
 bodega1 = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
 bodega2 = Bodega(None, None,None, 'holex', 2, fecha2 )
 bodega3 = Bodega(None, None,None, 'holaa', 2, fecha3 )
 
-vinoac1API = Vino("blue label de yoni caminante","img1", "Nota1", 3441, "añada",fecha )
-vinoac2API = Vino("Gordasa","img2", "Nota2", 34241, "añada2",fecha2  )
-vinoac3API = Vino("El desempleo","img1333", "Nota1", 3441, "añada", fecha )
-vinoac4API = Vino("la pobrezA","img45", "Nota45", 9241, "dsadsa", fecha2  )
+#                   0       1       2       3      4    5           6           7
+#               nombre, imagen, notaCata,precio,añada, maridajes, varietales, fecha
+vinoac1API = ["blue label de yoni caminante","img1", "Nota1", "3441","añada",['hamburguesa'],[["descripcion 1", "50%", "uva1"],["descripcon 6", "50%", "uva3"]],  fecha ]
+vinoac2API = ["Gordasa","img2", "Nota2", "34241", "añada2",['salamazo'],["descripcon 3", "30%", "uva3"], fecha2  ]
+vinoac3API = ["El desempleo","img1333", "Nota1", "3441", "añada",[ 'oooo'], ["descripcon 4", "55%", "uva4"], fecha ]
+vinoac4API = ["la pobrezA","img45", "Nota45", "9241", "dsadsa", ['quesaso'],["descripcon 6", "10%", "uva3"],fecha2  ]
+vinoac5API = ["malvec","img60", "Nota45", "9241", "añada5", ["pizza", "quesaso"],[["descripcion 2","20%","uva2"], ["descripcion 8 ","14%","uva5"]], fecha2  ]
+vinoac6API = ["malvecBodega2","img60", "Nota45", "9241", "añada5", ["pizza", "quesaso"],[["descripcion 2","20%","uva2"], ["descripcion 8 ","14%","uva5"]], fecha2  ]
+vinos7API = ["Las perdices","img60", "Nota45", "9241", "añada5", ["marquiños", "quesaso"],[["descripcion 3","330%","uva2"], ["descripcion 8 ","14%","uva5"]], fechaHoy  ]
+
 
 vinoac1 = Vino("blue label de yoni caminante","img", "notas de cereza con acentuaciones graves de jamon", 3441, "30009", fecha )
 vinoac2 = Vino("Gordasa","fotoDelValen", "Nota2", 34241, "añada2", fecha2  )
 vinoac3 = Vino("El desempleo","img1333", "Nota1", 3441, "añada", fecha )
+vinoac4 = Vino("vino El loco","img", "notas de cereza con acentuaciones graves de jamon", 3441, "30009", fecha )
+vinoac5 = Vino("Lebron","fotoDelValen", "Nota2", 34241, "añada2", fecha2  )
+vinoac6 = Vino("el pinto","img1333", "Nota1", 3441, "añada", fecha )
 #####
-bodegaApi1.agregar_vino(vinoac1API)
-bodegaApi1.agregar_vino(vinoac2API)
-bodegaApi1.agregar_vino(vinoac3API)
-bodegaApi1.agregar_vino(vinoac4API)
+
+
+arrayVinosApi = [vinoac1API, vinoac2API, vinoac3API, vinoac4API, vinoac5API]
+arrayVinosApi2 = [vinoac1API, vinoac2API, vinoac3API, vinoac4API, vinos7API]
+
+bodega1.agregarVinosApi(arrayVinosApi)
+bodega2.agregarVinosApi(arrayVinosApi2)
+
 
 bodega1.agregar_vino(vinoac1)
 bodega1.agregar_vino(vinoac2)
 bodega1.agregar_vino(vinoac3)
+
+bodega2.agregar_vino(vinoac1)
+bodega2.agregar_vino(vinoac2)
+bodega2.agregar_vino(vinoac3)
+
 arrayBodega = [bodega1, bodega2, bodega3]
-#================================================================================
-#####-------------------------------VINOS SISTEMA---------------------------#####
-#================================================================================
-#---------------------------------uvas-------------------------------------------
-#-------------------------------------------------------------------------------# 
+#======================================================================================================================================================================
+#####-------------------------------VINOS SISTEMA-----------------------------------------------------------------------------------------------------------------#####
+#======================================================================================================================================================================
+#---------------------------------uvas---------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------# 
 
 uva1 = TipoUva("Una uva bastante buena", "uva1")
 uva2 = TipoUva("Una uva  buena", "uva2")
@@ -191,9 +200,9 @@ uva3 = TipoUva("Una uva mala", "uva3")
 uva4 = TipoUva("Una uvita chica", "uva4")
 uva5 = TipoUva("una pasita", "uva5")
 arrayTiposDeUvaSistema = [uva1, uva2, uva3, uva4, uva5]
-#--------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 #varietales de nuestro sistema
-#--------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 varietal1 = Varietal("descripcion 1", "50%", uva1)
 varietal2 = Varietal("descripcion 2","20%",uva2)
 varietal3 = Varietal("descripcon 3", "30%", uva3) 
@@ -218,19 +227,19 @@ print("-"*50)
 
 #Apends de varietales propios
 for varietal in arrayvarietalVino1:
-    vinoac1.agregarVarietAlVino(varietal)
+    vinoac1.agregarVarietal(varietal)
 for varietal in arrayvarietalVino2:
-    vinoac2.agregarVarietAlVino(varietal)
+    vinoac2.agregarVarietal(varietal)
 for varietal in arrayvarietalVino3:
-    vinoac3.agregarVarietAlVino(varietal)
+    vinoac3.agregarVarietal(varietal)
 for varietal in vinoac1.varietales:
     print("varietal vin1: ", varietal)
         
 print("estos fueron los varietales despues de cargar")
 print("-"*50)
-#--------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 #MARIDAJES SISTEMA
-#--------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 maridaje1 = Maridaje('aaa','pizza')
 maridaje2 = Maridaje('bbb','hamburguesa')
 maridaje3 = Maridaje('ccc','quesaso')
@@ -253,10 +262,10 @@ for maridaje in vinoac1.maridajes:
 
 
 for maridaje in arrayMaridaje1:
-    vinoac1.agregar_maridaje(maridaje)
+    vinoac1.agregarMaridaje(maridaje)
 
 for maridaje in arrayMaridaje2:
-    vinoac2.agregarVarietAlVino(maridaje)
+    vinoac2.agregarVarietal(maridaje)
 
 for maridaje in vinoac1.maridajes:
     print("maridaje Nuestro 1: ", maridaje)
@@ -265,77 +274,43 @@ print("maridaje sistema despues de cargar")
 print("-"*50)
 #vinoac3 no tiene maridaje (relacion de 0..*)
 
-#=========================================================================================================================#
-#####-----------------------API------------------------------------#####
+#============================================================================================================================================================#
+#####-----------------------API--------------------------------------------------------------------------------------------------------------------------#####
 #VARIETALES
-#-------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-varietalAPI4 = Varietal("descripcion4", "20%", "uva4")
-varietalAPI5 =  Varietal("dporonga", "80%", "uva3")
 
-arrayVarietalAPI1 = [varietal1, varietal2, varietal3]
-arrayVarietalAPI2 = [varietal4, varietal5, varietal6]
-arrayVarietalAPI3 = [varietal7, varietal8, varietal9]
-arrayVarietalAPI4 = [varietalAPI5,varietalAPI4]
-
-for varietal in vinoac1API.varietales:
-    print("varietal API 1: ", varietal)    
-print("estos fueron los varietales antes de cargar")
-print("-"*50)
-
-for varietal in arrayVarietalAPI1:
-    vinoac1API.agregarVarietAlVino(varietal)
-for varietal in arrayVarietalAPI2:
-    vinoac2API.agregarVarietAlVino(varietal)
-for varietal in arrayVarietalAPI3:
-    vinoac3API.agregarVarietAlVino(varietal)
-for varietal in arrayVarietalAPI4:
-    vinoac4API.agregarVarietAlVino(varietal)
-
-for varietal in vinoac1API.varietales:
-    print("varietal API 1: ", varietal)    
-print("estos fueron los varietales despues de cargar")
-print("-"*50)
-#-------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------------------------------------------#
 #MARIDAJES
-#-------------------------------------------------------------------#
-arrayMaridajeAPI1 = ['pizza', 'salamazo','pinchilazo'] 
-arrayMaridajeAPI2 = ['salamazo','quesaso','salamazo']
-arrayMaridajeAPI3 = ['pizza','hamburguesa']
-arrayMaridajeAPI4 = [] #no tiene maridaje
+#---------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-for maridaje in vinoac1API.maridajes:
-    print("maridaje API 1: ", maridaje)   
-print("maridaje API antes de cargar")  
-print("-"*50)
-for maridajeAPI in arrayMaridajeAPI1:
-    vinoac1API.agregar_maridaje(maridajeAPI)
-
-for maridajeAPI in arrayMaridajeAPI2:
-    vinoac2API.agregar_maridaje(maridajeAPI)
-    
-for maridaje in arrayMaridajeAPI3:
-    vinoac3API.agregar_maridaje(maridajeAPI)
-#despues de cargar
-for maridaje in vinoac1API.maridajes:
-    print("maridaje API 1: ", maridaje)  
-print("maridaje API despues de cargar")
- 
-print("-"*50)
-#-------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------------------------------------------#
 #### metodos probando 
 
 def agregar_bodega(self, bodega): #  METHOD DE PRUEBA
         self.bodegasDisponibles.append(bodega)
 
-vinosAPI = buscarVinosAPI(bodegaApi1)
+vinosAPI = buscarVinosAPI(arrayVinosApi)
 #nuestrosVinos= buscarVinosBodegaSeleccionada(bodega1)      # ?? -> aca tendria que pasar por parametro el nombre de la bodega
 
 
 bodega1.mostrarVinos()
-print('-------------')
-actualizarVinosBodega(bodega1, vinosAPI)
-bodega1.mostrarVinos()
+print('-'*50)
+print('-'*50)
+print('-'*50)
+bodega2.mostrarVinos()
+print('-'*100)
+
+arrayBodegasPrueba = [bodega1, bodega2]
+actualizarVinosDeBodegas(arrayBodegasPrueba)
+
+print('-'*100)
+
+bodega2.mostrarVinos()
+print('-'*50)
+print('-'*50)
+print('-'*50)
+bodega2.mostrarVinos()
 
 
 '''#

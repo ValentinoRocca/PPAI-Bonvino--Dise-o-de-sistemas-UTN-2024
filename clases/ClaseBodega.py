@@ -1,6 +1,6 @@
 import datetime
-from .Vino import *
-from gestor import *
+from clases.Vino import *
+
 
 class Bodega:
     def __init__(self, coordenadaUbicacion , descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
@@ -10,7 +10,9 @@ class Bodega:
         self.nombre = nombre
         self.periodoAct = periodoActualizacion
         self.vinos = []
+        self.vinosAPI = []
         self.ultimaActualizacion = ultimaActualizacion  ## ULTIMA VEZ QUE SE ACTUALIZO
+        
          
     def agregar_vino(self, vino):
         self.vinos.append(vino)
@@ -27,6 +29,10 @@ class Bodega:
         else:  
             return False
     
+    def agregarVinosApi(self, listaDeVinos):
+        for arrayDeVino in listaDeVinos:
+            self.vinosAPI.append(arrayDeVino)
+
     def getCordenadasUbicacion(self):
         return self.coordenadas
 
@@ -41,9 +47,9 @@ class Bodega:
 
 
     def actualizarVino(self,vinoPropio, vinoApi, fechaActual):
-        vinoPropio.setPrecio(vinoApi.precio)
-        vinoPropio.setImagenEtiqueta(vinoApi.imagenEtiqueta)
-        vinoPropio.setNotaCata(vinoApi.notaCataVino)
+        vinoPropio.setPrecio(vinoApi[3])
+        vinoPropio.setImagenEtiqueta(vinoApi[1])
+        vinoPropio.setNotaCata(vinoApi[2])
         vinoPropio.setFechaActualizacion(fechaActual)
 
     def getDatosVinoBodegaSeleccionada(self):
@@ -51,11 +57,11 @@ class Bodega:
 
     def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
 
-        varietalesAPI = vinoAPI.varietales
+        varietalesAPI = vinoAPI[6]
         
-        nuevoVino = Vino(vinoAPI.nombre, vinoAPI.imagenEtiqueta, vinoAPI.notaCataVino, vinoAPI.precio, vinoAPI.añada, fechaAct)
+        nuevoVino = Vino(vinoAPI[0], vinoAPI[1], vinoAPI[2], vinoAPI[3], vinoAPI[4], fechaAct)
         for maridaje in maridajes:
-            nuevoVino.agregar_maridaje(maridaje)
+            nuevoVino.agregarMaridaje(maridaje)
                                                             
         nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
