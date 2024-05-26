@@ -6,16 +6,48 @@ import datetime
 from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
+
+
 class GestorActualizarVinos:
     def __init__(self):
         pass
+
     
 
-
+    
     #================================================================================================================================  
     #Paso 1
-    def nuevaActualizacionVino(self):
-        pass
+    def nuevaActualizacionVino(self, interfaz, arregloBodegasSistema, btn_imp_click):
+
+        btn_imp_click.set(True)
+
+
+        self.arreglobodegasDisponibles = []
+        self.arregloBodegasDisponibles = self.buscarBodegasAActualizar(arregloBodegasSistema)
+
+        print(self.arregloBodegasDisponibles)
+
+        self.arregloBodegasSeleccionadas = []
+        interfaz.mostrarBodegasActDisponibles(self.arregloBodegasDisponibles)
+        self.arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
+
+        print(self.arregloBodegasSeleccionadas)
+
+        self.arregloBodegasParaActualizar = []
+        self.arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(self.arregloBodegasSeleccionadas, arregloBodegasSistema)
+
+        print(self.arregloBodegasParaActualizar)
+
+        self.arregloBodegasActualizadas = []
+        self.arregloBodegasActualizadas = self.actualizarVinosDeBodegas(self.arregloBodegasParaActualizar)
+
+        interfaz.mostrarResumenActualizacion(self.arregloBodegasActualizadas)
+        
+        
+        
+
+
+
 
     #================================================================================================================================        
     #================================================================================================================================
@@ -60,9 +92,9 @@ class GestorActualizarVinos:
     #=================================================================================================================================
     #Paso 6
 
-    def actualizarVinosDeBodegas(self, arrayDeBodegasSeleccionadas):
+    def actualizarVinosDeBodegas(self, arregloBodegasParaActualizar):
         self.bodegasActualizadas = []
-        for bodegaSeleccionada in arrayDeBodegasSeleccionadas:
+        for bodegaSeleccionada in arregloBodegasParaActualizar:
             vinosApi = bodegaSeleccionada.vinosAPI
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
             self.bodegasActualizadas.append(bodegaSeleccionada)
@@ -99,7 +131,7 @@ class GestorActualizarVinos:
         return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
 
     # FALTARIA LO DE CREAR UN RESUMEN DE LAS NOVEDADES
-    def generarResumen():
+    def generarResumen(self):
         pass
 
     #=================================================================================================================================
@@ -137,9 +169,7 @@ def notificarSuscripciones(bodega):
 #-------------------------------------------------------------------------------------------------------
 #reinicio de variables
 arrayVinosApi = []
-bodega1 = None
-bodega2 = None
-bodega3 = None
+
 
 vinoac1API = None
 vinoac2API = None
@@ -178,8 +208,8 @@ vinoac6 = Vino("el pinto","img1333", "Nota1", 3441, "añada", fecha )
 #####
 
 
-arrayVinosApi = [vinoac1API, vinoac2API, vinoac3API, vinoac4API, vinoac5API]
-arrayVinosApi2 = [vinoac1API, vinoac2API, vinoac3API, vinoac4API, vinos7API]
+arrayVinosApi = [vinoac1API,vinoac2API, vinoac3API, vinoac4API, vinoac5API]
+arrayVinosApi2 = [vinoac1API,vinoac2API, vinoac3API, vinoac4API, vinos7API]
 
 bodega1.agregarVinosApi(arrayVinosApi)
 bodega2.agregarVinosApi(arrayVinosApi2)
@@ -191,7 +221,7 @@ bodega1.agregar_vino(vinoac3)
 
 bodega2.agregar_vino(vinoac1)
 bodega2.agregar_vino(vinoac2)
-bodega2.agregar_vino(vinoac3)
+bodega2.agregar_vino(vinoac6)
 
 arrayBodega = [bodega1, bodega2, bodega3]
 #======================================================================================================================================================================
@@ -297,25 +327,25 @@ print("-"*50)
 vinosAPI = GestorActualizarVinos.buscarVinosAPI(arrayVinosApi)
 #nuestrosVinos= buscarVinosBodegaSeleccionada(bodega1)      # ?? -> aca tendria que pasar por parametro el nombre de la bodega
 
-''' 
-bodega1.mostrarVinos()
-print('-'*50)
-print('-'*50)
-print('-'*50)
-bodega2.mostrarVinos()
-print('-'*100)
-'''
-arrayBodegasPrueba = [bodega1, bodega2]
-#actualizarVinosDeBodegas(arrayBodegasPrueba)
-'''
-print('-'*100)
+#print("--------------PRUEBA DEL GESTOR--------------")
+#bodega1.mostrarVinos()
+#print('-'*100)
+#bodega2.mostrarVinos()
+#print('-'*100)
+bodegaNoActualizacion = Bodega(None, None,None, 'Bodega Malbec', 2, fechaHoy)
 
-bodega2.mostrarVinos()
-print('-'*50)
-print('-'*50)
-print('-'*50)
-bodega2.mostrarVinos()
-'''
+arrayBodegasPrueba = [bodega1, bodega2, bodegaNoActualizacion]
+arregloDePrueba = []
+gestorPrueba = GestorActualizarVinos()
+#arregloPrueba = gestorPrueba.actualizarVinosDeBodegas(arrayBodegasPrueba)
+
+#print('-'*100)
+
+#bodega2.mostrarVinos()
+#print('-'*100)
+#bodega2.mostrarVinos()
+
+
 
 '''#
 if __name__ == "__main__":
@@ -326,7 +356,7 @@ if __name__ == "__main__":
     buscarBodegasAActualizar(arrayBodega) 
 '''
 
-print(arrayBodegasPrueba)
+
 
 #DespuesLoVemos
 

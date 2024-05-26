@@ -24,12 +24,9 @@ usuario3 = Usuario("Juan Ricciardo", "juan@example.com", "clave789")
 '''
 #---INSTANCIAS DE BODEGA---#
 
-bodega = Bodega(None, None,None, 'BODEGA 1', 2, fecha )
-bodega2 = Bodega(None, None,None, 'BODEGA 2', 2, fecha2 )
-bodega3 = Bodega(None, None,None, 'BODEGA 3', 2, fecha3 )
 
 
-arregloBodegas = [bodega, bodega2, bodega3]
+
 
 arregloBodegasDisp = gestor.arrayBodegasPrueba
 
@@ -94,27 +91,71 @@ print(vinoprueba.notaCataVino)
 
 # Inicializar interfaz
 
+def mostrarVinos(arreglo):
+    c = 1
+    for bodega in arreglo:
+        print("Bodega ", c)
+        bodega.mostrarVinos()
+        c+=1
 
 
+
+
+def main(arregloBodegasDisp):
+    interfaz = Interfaz()
+    interfaz.iniciar_interfaz() 
+   
+    
+    interfaz.opImportarActBodegas(arregloBodegasDisp)
+
+  
+    
+    interfaz.root.mainloop()
+
+
+
+'''
 def main(arregloBodegas):
     interfaz = Interfaz()
     interfaz.iniciar_interfaz()
     gestor = GestorActualizarVinos()
-    arregloBodegasDisp = gestor.buscarBodegasAActualizar(arregloBodegas)
+    arregloBodegasDisp = gestor.nuevaActualizacionVino(arregloBodegas)
     arrayBodegasSeleccionadas = interfaz.opImportarActBodegas(arregloBodegasDisp)
     arrayBodegasParaActualizar = gestor.buscarBodegaSeleccionada(arrayBodegasSeleccionadas, arregloBodegas)
     arrayBodegasActualizadas = gestor.actualizarVinosDeBodegas(arrayBodegasParaActualizar)
     interfaz.mostrarResumenActualizacion(arrayBodegasActualizadas)
 
-
-    interfaz.root.mainloop()
+'''
+    #Interfaz.root.mainloop()
 
 
 #buscarBodega(tupla, arregloBodegasAct)
 
+#mostrarVinos(arregloBodegasDisp)
+
+'''
+print("ANTES DE LAS ACTUALIZACIONES")
+bodega.mostrarVinos()
+print('-'*100)
+bodega2.mostrarVinos()
+print('-'*100)
+'''
+print("-------ANTES DE ENTRAR AL MAIN-----------")
+mostrarVinos(arregloBodegasDisp)
+
 main(arregloBodegasDisp)
 
+print('ya se actualizo')
+print('')
+mostrarVinos(arregloBodegasDisp)
 
+'''
+print("DESPUES DE LAS ACTUALIZACIONES")
+bodega.mostrarVinos()
+print('-'*100)
+bodega2.mostrarVinos()
+print('-'*100)
+'''
 
 
 

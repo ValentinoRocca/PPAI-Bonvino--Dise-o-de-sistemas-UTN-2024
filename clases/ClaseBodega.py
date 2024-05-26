@@ -10,9 +10,10 @@ class Bodega:
         self.nombre = nombre
         self.periodoAct = periodoActualizacion
         self.vinos = []
-        self.vinosAPI = []
+        self.vinosAPI = [] 
         self.ultimaActualizacion = ultimaActualizacion  ## ULTIMA VEZ QUE SE ACTUALIZO
         
+
          
     def agregar_vino(self, vino):
         self.vinos.append(vino)
@@ -87,7 +88,7 @@ class Bodega:
             añada = vino.añada
             fechaActNuevo = vino.fechaAct
             
-            print(nombre, ' ,', precioNuevo,' ,', notaCataVinoNuevo, ' ,',imagenEtiquetaNuevo, ' ,',fechaActNuevo,' ,', añada)
+            print('| Nombre del vino:', nombre, '|Precio Vino: ', precioNuevo,' |Notas de la cata: ', notaCataVinoNuevo, ' | Imagen de la etiqueta:',imagenEtiquetaNuevo, '|Fecha de Actualizacion:',fechaActNuevo,'|Añada: ', añada, " |")
 
 
 #PRUEBA

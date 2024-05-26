@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter as tk
 from PIL import ImageTk, Image
+from gestor import GestorActualizarVinos
+import datetime
 
 class Interfaz:
     def __init__(self):
@@ -8,15 +10,23 @@ class Interfaz:
         self.label = None
         self.listbox = None
         self.etiqueta_resultado = None
-        self.bodegas_seleccionadas = None
+        self.bodegas_seleccionadas = []
         self.btn_confirmar = None
         
 
+    def cerrar_ventana(self):
+        self.root.destroy()
+
+    
+
     def opImportarActBodegas(self, arregloBodegasDisp):
+        
+        self.gestor = GestorActualizarVinos()
+    
         if self.listbox is not None:
             self.label.pack(pady=30)
 
-            self.btn_importar = tk.Button(self.root, text='Importar Actualizaciones', command=lambda:self.mostrarBodegasActDisponibles(arregloBodegasDisp))
+            self.btn_importar = tk.Button(self.root, text='Importar Actualizaciones', command=lambda:self.gestor.nuevaActualizacionVino(self, arregloBodegasDisp, self.btn_imp_click))
             self.btn_importar.pack()
 
             self.root.wait_variable(self.btn_imp_click)
@@ -43,16 +53,22 @@ class Interfaz:
             self.etiqueta_resultado.pack_forget()
 
             # Agregar los productos de la bodega al Listbox
-            for tupla in arregloBodegasDisp:
-                self.listbox.insert(tk.END, tupla[0])
+            if arregloBodegasDisp == []:
+                self.listbox.insert(tk.END, 'NO HAY BODEGAS A ACTUALIZAR')  
+                boton_cerrar = tk.Button(self.root, text="Cerrar", command=lambda: self.cerrar_ventana())
+                boton_cerrar.pack(pady=20)
+            
+            else:
+                for tupla in arregloBodegasDisp:
+                    self.listbox.insert(tk.END, tupla[0])
 
             # Botón para confirmar la selección
-            if self.btn_confirmar is None:
-                self.btn_confirmar = tk.Button(self.root, text="Confirmar selección", command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp))
-            else:
-                self.btn_confirmar.config(command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp))
-            
-            self.btn_confirmar.pack(pady=10)
+                if self.btn_confirmar is None:
+                    self.btn_confirmar = tk.Button(self.root, text="Confirmar selección", command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp))
+                else:
+                    self.btn_confirmar.config(command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp))
+                
+                self.btn_confirmar.pack(pady=10)
 
             #self.load_image("img/bonvino.jpg")
 
@@ -72,7 +88,7 @@ class Interfaz:
         self.etiqueta_resultado.pack()
         seleccion = self.listbox.curselection()
 
-        self.bodegas_seleccionadas = []
+        print('entro a tomar seleccion')
         if seleccion:
             for indice in seleccion:
                 #indice_seleccion = seleccion[0]
@@ -92,7 +108,7 @@ class Interfaz:
                     self.btn_conf_click.set(True)
                     self.btn_confirmar.pack_forget()
 
-                #return self.bodegas_seleccionadas
+            print('entro aca', self.bodegas_seleccionadas)
 
             
 
@@ -101,11 +117,20 @@ class Interfaz:
         if self.listbox is not None:
             self.listbox.delete(0, tk.END) 
 
+            hoy = datetime.datetime.now()
             
-            for bodega in arreglobodegaActualizadas:
-                for vino in bodega.vinos:
-                    self.listbox.insert(tk.END, (bodega.nombre, vino))
+            if arreglobodegaActualizadas == []:
+                self.listbox.insert(tk.END, ('NO SE SELECCIONO NINGUNA BODEGA'))
+            
+            else:
+                for bodega in arreglobodegaActualizadas:
+                    for vino in bodega.vinos:
+                        if vino.fechaAct == hoy:
+                            self.listbox.insert(tk.END, (f'{bodega.nombre}', f'{vino}'))
 
+    
+    
+    
     '''
     def load_image(self, path):
         image = Image.open(path)
@@ -138,7 +163,6 @@ class Interfaz:
         self.listbox = tk.Listbox(self.root, selectmode=tk.MULTIPLE, height=20, width=60, font=("Helvetica", 12))
         self.etiqueta_resultado = tk.Label(self.root, text="")
          
-        
-
+    
         self.btn_conf_click = tk.BooleanVar(value=False)
         self.btn_imp_click = tk.BooleanVar(value=False)
