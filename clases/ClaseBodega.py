@@ -68,7 +68,8 @@ class Bodega:
 
         # varietalAPI [nombre, descripcion, porcentaje, tipoDeUva]
         
-    
+    def __str__(self):
+        return f"{self.nombre}"
     
 
     def agregarVinos(self, vino):

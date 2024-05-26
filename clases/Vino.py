@@ -67,6 +67,9 @@ class Vino:
          for tipoDeUva in arrayTipoDeUvaSistema:
               if tipoDeUva.nombre == stringTipoDeUva:
                    return tipoDeUva
+              
+    def __str__(self):
+        return f"{self.nombre} - {self.precio} - ${self.fechaAct}"
         
         
 

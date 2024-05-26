@@ -7,96 +7,102 @@ from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
 class GestorActualizarVinos:
-    def __init__(self, fechaActual):
-        self.fechaActual = fechaActual
-        self.bodegasDisponibles = []
-
-
-#================================================================================================================================  
-#Paso 1
-def nuevaActualizacionVino(self):
-    pass
-
-#================================================================================================================================        
-#================================================================================================================================
-#Paso 2
-
-def getFechaActual():
-    return datetime.datetime.now()
-
-def buscarBodegasAActualizar(arrayBodega): # VER EN EL DIAG DE SECUENCIA bellisimo
-    arregloBodegasDisp = []
-    fecha_actual = getFechaActual()
-    for bodega in arrayBodega:
-        if bodega.estaDisponible(fecha_actual):
-            arregloBodegasDisp.append([bodega.nombre,bodega.coordenadaUbicacion])
+    def __init__(self):
+        pass
     
-    return arregloBodegasDisp
 
 
+    #================================================================================================================================  
+    #Paso 1
+    def nuevaActualizacionVino(self):
+        pass
 
+    #================================================================================================================================        
+    #================================================================================================================================
+    #Paso 2
 
-#=====================================================================================================================================
-#=====================================================================================================================================
-#Paso 5
-def buscarVinosAPI(bodegaApi):   #Obtiene los vinos actualizados y los nuevos vinos en la api
-    return bodegaApi
+    def getFechaActual(self):
+        return datetime.datetime.now()
 
- #SERIAN LAS BODEGAS DEL SISTEMA
-# STRING         BODEGAS
-
-def buscarBodegaSeleccionada(arrayBodegaSeleccionada, arrayBodegasSistemas):
-        bodegasSeleccionadas = []
-        for bodegaSeleccionada in arrayBodegaSeleccionada:
-            for bodega in arrayBodegasSistemas:
-                if bodega.nombre == bodegaSeleccionada[0]:
-                    return bodegasSeleccionadas.append(bodega)
+    def buscarBodegasAActualizar(self, arrayBodega): # VER EN EL DIAG DE SECUENCIA bellisimo
+        self.arregloBodegasDisp = []
+        fecha_actual = self.getFechaActual()
+        for bodega in arrayBodega:
+            if bodega.estaDisponible(fecha_actual):
+                self.arregloBodegasDisp.append((bodega.nombre, bodega.coordenadas))
         
-       
-#=================================================================================================================================
+        return self.arregloBodegasDisp
 
-#=================================================================================================================================
-#Paso 6
 
-def actualizarVinosDeBodegas(arrayDeBodegasSeleccionadas):
-    for bodegaSeleccionada in arrayDeBodegasSeleccionadas:
-        vinosApi = bodegaSeleccionada.vinosAPI
-        actualizarVinosBodega(bodegaSeleccionada, vinosApi)
 
-def actualizarVinosBodega(bodega,arrayVinosApi):   #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodegade nuestro sistema, si no lo encuentra lo crea y le hace un append.
-    hoy = getFechaActual()
-    for vinoApi in arrayVinosApi:#  (vino1, vino2, vino3)
-        existe = False
-        for vino in bodega.vinos:#    (vino40, vin1, vino3)
-            if sosElMismoVino(vinoApi, vino):
-                bodega.actualizarVino(vino, vinoApi, hoy) 
-                existe = True     
-                break
-        
-        if not existe:
-            maridajeAPI = buscarMaridaje(vinoApi, arrayMaridajesSistemas) 
-            bodega.crearVino(vinoApi, hoy, maridajeAPI, arrayTiposDeUvaSistema)
 
-    bodega.setFechaActualizacion(hoy)
+    #=====================================================================================================================================
+    #=====================================================================================================================================
+    #Paso 5
+    def buscarVinosAPI(bodegaApi):   #Obtiene los vinos actualizados y los nuevos vinos en la api
+        return bodegaApi
 
-def buscarMaridaje(vinoApi, arrayMaridajesSistemas):
-    maridajesNuevoVino = []
-    for maridajeApi in vinoApi[5]: #(maridaje1, 2 , 3)
-        for maridaje in arrayMaridajesSistemas:      #(1, 2, 3, 4, 5)
-            if maridaje.sosMaridaje(maridajeApi):
-                maridajesNuevoVino.append(maridaje)
+    #SERIAN LAS BODEGAS DEL SISTEMA
+    # STRING         BODEGAS
+
+    def buscarBodegaSeleccionada(self, arrayBodegaSeleccionada, arrayBodegasSistemas):
+            self.bodegasSeleccionadas = []
+            for bodegaSeleccionada in arrayBodegaSeleccionada:
+                for bodega in arrayBodegasSistemas:
+                    if bodega.nombre == bodegaSeleccionada[0]:
+                        self.bodegasSeleccionadas.append(bodega)
+
+            return self.bodegasSeleccionadas
             
-    
-    return maridajesNuevoVino
-    
-def sosElMismoVino(vinoBodegaApi, vinoBodegaSeleccionada):
-    return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
+        
+    #=================================================================================================================================
 
-# FALTARIA LO DE CREAR UN RESUMEN DE LAS NOVEDADES
-def generarResumen():
-    pass
+    #=================================================================================================================================
+    #Paso 6
 
-#=================================================================================================================================
+    def actualizarVinosDeBodegas(self, arrayDeBodegasSeleccionadas):
+        self.bodegasActualizadas = []
+        for bodegaSeleccionada in arrayDeBodegasSeleccionadas:
+            vinosApi = bodegaSeleccionada.vinosAPI
+            self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
+            self.bodegasActualizadas.append(bodegaSeleccionada)
+
+        return self.bodegasActualizadas
+
+    def actualizarVinosBodega(self, bodega, arrayVinosApi):   #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodegade nuestro sistema, si no lo encuentra lo crea y le hace un append.
+        hoy = self.getFechaActual()
+        for vinoApi in arrayVinosApi:#  (vino1, vino2, vino3)
+            existe = False
+            for vino in bodega.vinos:#    (vino40, vin1, vino3)
+                if self.sosElMismoVino(vinoApi, vino):
+                    bodega.actualizarVino(vino, vinoApi, hoy) 
+                    existe = True     
+                    break
+            
+            if not existe:
+                maridajeAPI = self.buscarMaridaje(vinoApi, arrayMaridajesSistemas) 
+                bodega.crearVino(vinoApi, hoy, maridajeAPI, arrayTiposDeUvaSistema)
+
+        bodega.setFechaActualizacion(hoy)
+
+    def buscarMaridaje(self, vinoApi, arrayMaridajesSistemas):
+        maridajesNuevoVino = []
+        for maridajeApi in vinoApi[5]: #(maridaje1, 2 , 3)
+            for maridaje in arrayMaridajesSistemas:      #(1, 2, 3, 4, 5)
+                if maridaje.sosMaridaje(maridajeApi):
+                    maridajesNuevoVino.append(maridaje)
+                
+        
+        return maridajesNuevoVino
+        
+    def sosElMismoVino(self, vinoBodegaApi, vinoBodegaSeleccionada):
+        return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
+
+    # FALTARIA LO DE CREAR UN RESUMEN DE LAS NOVEDADES
+    def generarResumen():
+        pass
+
+    #=================================================================================================================================
 
 ''''
 #Paso 7
@@ -148,9 +154,9 @@ fechaHoy = datetime.datetime.now()
 
 #bodegaApi1  = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
 
-bodega1 = Bodega(None, None,None, 'BodegaMalbec', 2, fecha )
-bodega2 = Bodega(None, None,None, 'holex', 2, fecha2 )
-bodega3 = Bodega(None, None,None, 'holaa', 2, fecha3 )
+bodega1 = Bodega(None, None,None, 'Bodega Malbec', 2, fecha )
+bodega2 = Bodega(None, None,None, 'Bodega Toro Viejo', 2, fecha2 )
+bodega3 = Bodega(None, None,None, 'Bodega Otro Loco', 2, fecha3 )
 
 #                   0       1       2       3      4    5           6           7
 #               nombre, imagen, notaCata,precio,añada, maridajes, varietales, fecha
@@ -287,23 +293,21 @@ print("-"*50)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------#
 #### metodos probando 
 
-def agregar_bodega(self, bodega): #  METHOD DE PRUEBA
-        self.bodegasDisponibles.append(bodega)
 
-vinosAPI = buscarVinosAPI(arrayVinosApi)
+vinosAPI = GestorActualizarVinos.buscarVinosAPI(arrayVinosApi)
 #nuestrosVinos= buscarVinosBodegaSeleccionada(bodega1)      # ?? -> aca tendria que pasar por parametro el nombre de la bodega
 
-
+''' 
 bodega1.mostrarVinos()
 print('-'*50)
 print('-'*50)
 print('-'*50)
 bodega2.mostrarVinos()
 print('-'*100)
-
+'''
 arrayBodegasPrueba = [bodega1, bodega2]
-actualizarVinosDeBodegas(arrayBodegasPrueba)
-
+#actualizarVinosDeBodegas(arrayBodegasPrueba)
+'''
 print('-'*100)
 
 bodega2.mostrarVinos()
@@ -311,7 +315,7 @@ print('-'*50)
 print('-'*50)
 print('-'*50)
 bodega2.mostrarVinos()
-
+'''
 
 '''#
 if __name__ == "__main__":
@@ -322,6 +326,7 @@ if __name__ == "__main__":
     buscarBodegasAActualizar(arrayBodega) 
 '''
 
+print(arrayBodegasPrueba)
 
 #DespuesLoVemos
 
