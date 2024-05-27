@@ -1,4 +1,4 @@
-import datetime
+from datetime import *
 from clases.Vino import *
 
 
@@ -24,7 +24,10 @@ class Bodega:
     
     def estaDisponible(self, fechaActual):
         ##                          1/1/2024                                    2      *    30
-        fecha_limite = self.ultimaActualizacion + datetime.timedelta(days=self.periodoAct * 30)
+        print(fechaActual)
+        fecha_limite = self.ultimaActualizacion + timedelta(days=self.periodoAct * 30)
+        print(fecha_limite)
+        print(self.ultimaActualizacion)
         if fechaActual > fecha_limite:
             return True
         else:  
@@ -40,8 +43,7 @@ class Bodega:
     def getNombre(self):
         return self.nombre
     
-    def actualizarVinos(self):
-        pass
+    
     
     def setFechaActualizacion(self, nuevaActualizacion):
         self.ultimaActualizacion = nuevaActualizacion
@@ -92,9 +94,9 @@ class Bodega:
 
 
 #PRUEBA
-fecha1 = datetime.datetime(2024,1,1)
-fecha2 = datetime.datetime(2024,5,5)
-fechaAct = datetime.datetime.now()
+fecha1 = datetime(2024,1,1)
+fecha2 = datetime(2024,5,5)
+fechaAct = datetime.now()
 
 bodega1 = Bodega(None, None, None, 'bodega1', 1, fecha1)
 bodega2 = Bodega(None, None, None, 'bodega2', 2, fecha2 )

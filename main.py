@@ -10,26 +10,19 @@ import datetime
 from gestor import GestorActualizarVinos
 import gestor
 from interfaz import Interfaz
+from declaracionesLocal import bodegasSistema
+from declaracionesLocal import maridajesSistemas
+from declaracionesLocal import uvasSistemas
 
 #fecha = datetime.datetime(2020,5,17)
 fecha = datetime.datetime(2024,1,17)
 
 fecha2 = datetime.datetime(2024,1,15)
 fecha3 = datetime.datetime(2021,4,20)
-#---INSTANCIAS DE USUARIO---
-''''
-usuario1 = Usuario("Carlos Gomez", "carlos@example.com", "contraseña123")
-usuario2 = Usuario("Marcos Diaz", "Marcos@example.com", "segura456")
-usuario3 = Usuario("Juan Ricciardo", "juan@example.com", "clave789")
-'''
+
 #---INSTANCIAS DE BODEGA---#
 
-
-
-
-
 arregloBodegasDisp = gestor.arrayBodegasPrueba
-
 
 #print(bodega.nombre)
 
@@ -100,32 +93,32 @@ def mostrarVinos(arreglo):
 
 
 
+gestor = GestorActualizarVinos()
 
-def main(arregloBodegasDisp):
-    gestor = GestorActualizarVinos()
-    gestor.cargarBodegasAlSistema(arregloBodegasDisp)
-    interfaz = Interfaz(gestor)
-    interfaz.iniciar_interfaz() 
-    interfaz.opImportarActBodegas()
-
-  
+def main(gestor, arregloBodegasDisp, arregloMaridajes, arregloUvas):
     
-    interfaz.root.mainloop()
+        gestor.cargarDatosAlSistema(arregloBodegasDisp, arregloMaridajes, arregloUvas)
+        interfaz = Interfaz(gestor)
+        interfaz.iniciar_interfaz() 
+
+
+        interfaz.opImportarActBodegas()
+
+        interfaz.root.mainloop()
+             
 
 
 
-'''
-def main(arregloBodegas):
-    interfaz = Interfaz()
-    interfaz.iniciar_interfaz()
-    gestor = GestorActualizarVinos()
-    arregloBodegasDisp = gestor.nuevaActualizacionVino(arregloBodegas)
-    arrayBodegasSeleccionadas = interfaz.opImportarActBodegas(arregloBodegasDisp)
-    arrayBodegasParaActualizar = gestor.buscarBodegaSeleccionada(arrayBodegasSeleccionadas, arregloBodegas)
-    arrayBodegasActualizadas = gestor.actualizarVinosDeBodegas(arrayBodegasParaActualizar)
-    interfaz.mostrarResumenActualizacion(arrayBodegasActualizadas)
 
-'''
+
+
+
+    
+
+
+
+
+
     #Interfaz.root.mainloop()
 
 
@@ -141,13 +134,20 @@ bodega2.mostrarVinos()
 print('-'*100)
 '''
 print("-------ANTES DE ENTRAR AL MAIN-----------")
-mostrarVinos(arregloBodegasDisp)
+mostrarVinos(bodegasSistema)
 
-main(arregloBodegasDisp)
+
+main(gestor, bodegasSistema, maridajesSistemas, uvasSistemas)
+
+
+
 
 print('ya se actualizo')
 print('')
-mostrarVinos(arregloBodegasDisp)
+
+
+print(len(gestor.arregloBodegasSistema))
+mostrarVinos(gestor.arregloBodegasSistema)
 
 '''
 print("DESPUES DE LAS ACTUALIZACIONES")

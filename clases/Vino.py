@@ -68,9 +68,24 @@ class Vino:
               if tipoDeUva.nombre == stringTipoDeUva:
                    return tipoDeUva
               
-    def __str__(self):
-        return f"{self.nombre} - {self.precio} - ${self.fechaAct}"
+    def mostrarM(self):
+        var = ''
+        for maridaje in self.maridajes:
+            var += maridaje.__str__()
         
+        return var
+    
+    def mostrarV(self):
+        var = ''
+        for varietal in self.varietales:
+            var += varietal.__str__()
+        
+        return var
+    
+    def __str__(self):
+        return f"{self.nombre} - Precio: ${self.precio} - Nota Cata: {self.notaCataVino} -{self.fechaAct} - Maridajes: {self.mostrarM()} - Varietales: {self.mostrarV()} "
+        
+
         
 
 

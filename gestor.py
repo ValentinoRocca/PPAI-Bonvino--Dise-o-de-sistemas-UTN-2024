@@ -2,6 +2,7 @@
 from clases.Maridaje import *
 from clases.ClaseBodega import *
 import datetime
+
 #from clases.Vino import *
 from clases.Maridaje import *
 from clases.TipoUva import *
@@ -13,14 +14,23 @@ from clases.Varietal import *
 
 class GestorActualizarVinos:
     def __init__(self):
-        self.arregloBodegasSistema = [] 
+        self.arregloBodegasSistema = []
+        self.arregloMaridajes = []
+        self.arregloUvas = []
+        self.primer_inicio = False
 
     
     #================================================================================================================================  
     #Paso 1
-    def cargarBodegasAlSistema(self, arregloBodegas):
+    def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):
         for bodega in arregloBodegas:
             self.arregloBodegasSistema.append(bodega)
+
+        for maridaje in arregloMaridajes:
+            self.arregloMaridajes.append(maridaje)
+
+        for uva in arregloUva:
+            self.arregloUvas.append(uva)
 
 
 
@@ -42,12 +52,16 @@ class GestorActualizarVinos:
             print(self.arregloBodegasSeleccionadas)
 
             self.arregloBodegasParaActualizar = []
-            self.arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(self.arregloBodegasSeleccionadas, self.arregloBodegasSistema)
+            self.arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(self.arregloBodegasSeleccionadas)
 
-            print(self.arregloBodegasParaActualizar)
+            print('bodegas para actualizar')
+            print(self.arregloBodegasParaActualizar[0].nombre)
 
             self.arregloBodegasActualizadas = []
             self.arregloBodegasActualizadas = self.actualizarVinosDeBodegas(self.arregloBodegasParaActualizar)
+
+            print('bodegas ACTUALIZADAS')
+            print(self.arregloBodegasActualizadas[0].nombre)
 
             interfaz.mostrarResumenActualizacion(self.arregloBodegasActualizadas)
         else:
@@ -64,12 +78,12 @@ class GestorActualizarVinos:
     #Paso 2
 
     def getFechaActual(self):
-        return datetime.datetime.now()
+        return date.today()
 
-    def buscarBodegasAActualizar(self, arrayBodega): # VER EN EL DIAG DE SECUENCIA bellisimo
+    def buscarBodegasAActualizar(self, arregloBodegasSeleccionadas): # VER EN EL DIAG DE SECUENCIA bellisimo
         self.arregloBodegasDisp = []
         fecha_actual = self.getFechaActual()
-        for bodega in arrayBodega:
+        for bodega in arregloBodegasSeleccionadas:
             if bodega.estaDisponible(fecha_actual):
                 self.arregloBodegasDisp.append((bodega.nombre, bodega.coordenadas))
         
@@ -87,14 +101,19 @@ class GestorActualizarVinos:
     #SERIAN LAS BODEGAS DEL SISTEMA
     # STRING         BODEGAS
 
-    def buscarBodegaSeleccionada(self, arrayBodegaSeleccionada, arrayBodegasSistemas):
-            self.bodegasSeleccionadas = []
-            for bodegaSeleccionada in arrayBodegaSeleccionada:
-                for bodega in arrayBodegasSistemas:
-                    if bodega.nombre == bodegaSeleccionada[0]:
-                        self.bodegasSeleccionadas.append(bodega)
+    def buscarBodegaSeleccionada(self, arrayBodegaSeleccionada):
+            
+            if len(self.arregloBodegasSistema) != 0:
+                bodegasSeleccionadas = []
+                for bodegaSeleccionada in arrayBodegaSeleccionada:
+                    for bodega in self.arregloBodegasSistema:
+                        if bodega.nombre == bodegaSeleccionada[0]:
+                            bodegasSeleccionadas.append(bodega)
 
-            return self.bodegasSeleccionadas
+                return bodegasSeleccionadas
+            
+            else:
+                print('no se cargaron las bodegas en el sistema')
             
         
     #=================================================================================================================================
@@ -103,13 +122,13 @@ class GestorActualizarVinos:
     #Paso 6
 
     def actualizarVinosDeBodegas(self, arregloBodegasParaActualizar):
-        self.bodegasActualizadas = []
+        bodegasActualizadas = []
         for bodegaSeleccionada in arregloBodegasParaActualizar:
             vinosApi = bodegaSeleccionada.vinosAPI
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
-            self.bodegasActualizadas.append(bodegaSeleccionada)
+            bodegasActualizadas.append(bodegaSeleccionada)
 
-        return self.bodegasActualizadas
+        return bodegasActualizadas
 
     def actualizarVinosBodega(self, bodega, arrayVinosApi):   #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodegade nuestro sistema, si no lo encuentra lo crea y le hace un append.
         hoy = self.getFechaActual()
@@ -122,15 +141,16 @@ class GestorActualizarVinos:
                     break
             
             if not existe:
-                maridajeAPI = self.buscarMaridaje(vinoApi, arrayMaridajesSistemas) 
-                bodega.crearVino(vinoApi, hoy, maridajeAPI, arrayTiposDeUvaSistema)
+                
+                maridajeAPI = self.buscarMaridaje(vinoApi) 
+                bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
 
         bodega.setFechaActualizacion(hoy)
 
-    def buscarMaridaje(self, vinoApi, arrayMaridajesSistemas):
+    def buscarMaridaje(self, vinoApi):
         maridajesNuevoVino = []
         for maridajeApi in vinoApi[5]: #(maridaje1, 2 , 3)
-            for maridaje in arrayMaridajesSistemas:      #(1, 2, 3, 4, 5)
+            for maridaje in self.arregloMaridajes:      #(1, 2, 3, 4, 5)
                 if maridaje.sosMaridaje(maridajeApi):
                     maridajesNuevoVino.append(maridaje)
                 

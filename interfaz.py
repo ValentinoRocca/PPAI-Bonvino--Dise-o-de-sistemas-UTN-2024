@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter as tk
 from PIL import ImageTk, Image
 from gestor import GestorActualizarVinos
-import datetime
+import datetime 
 
 class Interfaz:
     def __init__(self, gestor):
@@ -25,6 +25,7 @@ class Interfaz:
     def opImportarActBodegas(self):
         if self.listbox is not None:
 
+            self.listbox.delete(0, tk.END)
             #self.label.config(self.root, text="BonVino Bodegas", font=("Helvetica", 20), )
 
             if self.btn_volver is not None:
@@ -112,29 +113,31 @@ class Interfaz:
             # Función para mostrar la selección en la etiqueta
     def tomarSeleccionBodega(self, arregloBodegasDisp):
 
-        self.btn_conf_click.set(True)
-        self.etiqueta_resultado.pack()
-        seleccion = self.listbox.curselection()
-
-        print('entro a tomar seleccion')
-        if seleccion:
-            for indice in seleccion:
-                #indice_seleccion = seleccion[0]
-                nombre_bodega_seleccionada = self.listbox.get(indice)
-                self.etiqueta_resultado.config(text=nombre_bodega_seleccionada)
-
-                for tupla in arregloBodegasDisp:
-                    if (nombre_bodega_seleccionada == tupla[0]):
-                        self.bodegas_seleccionadas.append(tupla)
-                        break
+        if self.listbox is not None:
+            self.btn_conf_click.set(True)
+            self.etiqueta_resultado.pack()
+            seleccion = self.listbox.curselection()
 
 
-            if (len(self.bodegas_seleccionadas) != 0):
-                for bodega in self.bodegas_seleccionadas:
-                    self.btn_conf_click.set(True)
-                    self.btn_confirmar.pack_forget()
+            print('entro a tomar seleccion')
+            if seleccion:
+                for indice in seleccion:
+                    #indice_seleccion = seleccion[0]
+                    nombre_bodega_seleccionada = self.listbox.get(indice)
+                    self.etiqueta_resultado.config(text=nombre_bodega_seleccionada)
 
-            print('entro aca', self.bodegas_seleccionadas)
+                    for tupla in arregloBodegasDisp:
+                        if (nombre_bodega_seleccionada == tupla[0]):
+                            self.bodegas_seleccionadas.append(tupla)
+                            break
+
+
+                if (len(self.bodegas_seleccionadas) != 0):
+                    for bodega in self.bodegas_seleccionadas:
+                        self.btn_conf_click.set(True)
+                        self.btn_confirmar.pack_forget()
+
+                print('entro aca', self.bodegas_seleccionadas)
 
             
 
@@ -147,7 +150,7 @@ class Interfaz:
 
             self.label.config(text='Bodegas Actualizadas')
             self.label.pack()
-            hoy = datetime.datetime.now()
+            fecha_actual = datetime.datetime.now().date()
             
             if arreglobodegaActualizadas == []:
 
@@ -161,10 +164,25 @@ class Interfaz:
 
 
             else:
+
                 for bodega in arreglobodegaActualizadas:
+                    self.listbox.insert(tk.END, ('----------'))
+                    self.listbox.insert(tk.END, (f'{bodega.nombre}'))
+                    self.listbox.insert(tk.END, ('----------'))
                     for vino in bodega.vinos:
-                        if vino.fechaAct == hoy:
-                            self.listbox.insert(tk.END, (f'{bodega.nombre}', f'{vino}'))
+                        if vino.fechaAct == fecha_actual:
+                            
+                            self.listbox.insert(tk.END, ( f'{vino}'))
+
+            if self.btn_volver is not None:
+                self.btn_volver.config(text='Volver', command=lambda:self.opImportarActBodegas())
+                self.btn_volver.pack()
+            else:
+                self.btn_volver = tk.Button(self.root, text='Volver', command=lambda:self.opImportarActBodegas())
+                self.btn_volver.pack()
+
+
+
 
             if self.btn_cerrar is not None:
                 self.btn_cerrar.pack()
