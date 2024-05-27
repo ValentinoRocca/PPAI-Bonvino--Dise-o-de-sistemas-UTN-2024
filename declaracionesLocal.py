@@ -1,4 +1,3 @@
-from clases.Maridaje import *
 from clases.ClaseBodega import *
 import datetime
 from clases.Maridaje import *
@@ -23,7 +22,7 @@ bodega2 = Bodega(
     descripcion="Bodega con una larga tradición en la elaboración de vinos de calidad, ubicada en Luján de Cuyo.",
     historia="Desde su fundación en 1895, ha sido pionera en la viticultura argentina.",
     nombre="Bodega Norton",
-    periodoActualizacion=3,
+    periodoActualizacion=6,
     ultimaActualizacion=datetime.datetime(2024, 2, 1)
 )
 
@@ -41,8 +40,8 @@ bodega4 = Bodega(
     descripcion="Especializada en la producción de vinos de alta gama, con un enfoque en terroir y sostenibilidad.",
     historia="Establecida en 1997, ha ganado numerosos premios internacionales.",
     nombre="Bodega Luigi Bosca",
-    periodoActualizacion=4,
-    ultimaActualizacion=datetime.datetime(2024, 1, 27)
+    periodoActualizacion=5,
+    ultimaActualizacion=datetime.datetime(2024, 2, 27)
 )
 
 bodega5 = Bodega(
@@ -50,54 +49,10 @@ bodega5 = Bodega(
     descripcion="Una bodega boutique que produce vinos artesanales en pequeñas cantidades.",
     historia="Desde 1999, ha sido reconocida por su enfoque en la calidad y la atención al detalle.",
     nombre="Bodega Achaval Ferrer",
-    periodoActualizacion=5,
+    periodoActualizacion=3,
     ultimaActualizacion=datetime.datetime(2024, 2, 27)
 )
 
-bodega6 = Bodega(
-    coordenadaUbicacion=(-32.8228, -68.8593),
-    descripcion="Conocida por sus Malbecs y su enfoque en la viticultura biodinámica.",
-    historia="Fundada en 1998, ha sido pionera en prácticas agrícolas sostenibles.",
-    nombre="Bodega Domaine Bousquet",
-    periodoActualizacion=2,
-    ultimaActualizacion=datetime.datetime(2024, 1, 20)
-)
-
-bodega7 = Bodega(
-    coordenadaUbicacion=(-33.0385, -68.8449),
-    descripcion="Una de las bodegas más grandes y reconocidas de Argentina, con una amplia gama de vinos.",
-    historia="Con más de 100 años de historia, ha sido un líder en la industria vinícola argentina.",
-    nombre="Bodega Navarro Correas",
-    periodoActualizacion=3,
-    ultimaActualizacion=datetime.datetime(2024, 1, 25)
-)
-
-bodega8 = Bodega(
-    coordenadaUbicacion=(-32.9138, -68.8226),
-    descripcion="Especializada en la producción de vinos espumosos y tranquilos de alta calidad.",
-    historia="Desde 1959, ha sido conocida por su innovación y calidad constante.",
-    nombre="Bodega Chandon Argentina",
-    periodoActualizacion=1,
-    ultimaActualizacion=datetime.datetime(2024, 1, 10)
-)
-
-bodega9 = Bodega(
-    coordenadaUbicacion=(-32.9791, -68.7979),
-    descripcion="Famosa por sus vinos de alta gama y su enfoque en la viticultura de precisión.",
-    historia="Establecida en 1932, ha sido un referente en la producción de vinos premium.",
-    nombre="Bodega Pulenta Estate",
-    periodoActualizacion=4,
-    ultimaActualizacion=datetime.datetime(2024, 1, 5)
-)
-
-bodega10 = Bodega(
-    coordenadaUbicacion=(-32.9452, -68.8567),
-    descripcion="Conocida por su excelencia en la producción de Malbec y otras variedades tintas.",
-    historia="Desde su fundación en 1998, ha sido aclamada por la calidad de sus vinos.",
-    nombre="Bodega Ruca Malen",
-    periodoActualizacion=6,
-    ultimaActualizacion=datetime.datetime(2024, 1, 18)
-    )
 
 #VinosDeBodegas
 
@@ -107,7 +62,7 @@ bodega10 = Bodega(
 vino1_catena = Vino("Catena Alta Malbec", "catena_alta_malbec.jpg", "Notas de ciruela, higos y un toque de especias.", 1500, 2018, datetime.datetime(2024, 1, 1))
 vino2_catena = Vino("Catena Zapata Adrianna Vineyard", "catena_adrianna_vineyard.jpg", "Aromas de violetas y frutos negros con un final largo.", 3500, 2016, datetime.datetime(2024, 1, 1))
 vino3_catena = Vino("Catena Chardonnay", "catena_chardonnay.jpg", "Fresco, con notas cítricas y un toque de vainilla.", 1200, 2019, datetime.datetime(2024, 1, 1))
-vino4_catena = Vino("Catena Malbec", "catena_malbec.jpg", "Frutal y especiado con taninos suaves.", 1100, 2020, datetime.datetime(2024, 1, 1))
+vino4_catena = Vino("Catena Malbec", "catena_malbec.jpg", "Frutal y especiado con taninos suaves.", 25000, 2020, datetime.datetime(2024, 1, 1))
 
 # Agregando vinos a la bodega
 bodega1.agregar_vino(vino1_catena)
@@ -159,66 +114,10 @@ bodega5.agregar_vino(vino2_achaval)
 bodega5.agregar_vino(vino3_achaval)
 bodega5.agregar_vino(vino4_achaval)
 
-# Vinos para Bodega Domaine Bous
-
-
-vino1_domaine = Vino("Domaine Bousquet Malbec", "domaine_bousquet_malbec.jpg", "Notas de frutas rojas y un toque de roble.", 900, 2019, datetime.datetime(2024, 1, 20))
-vino2_domaine = Vino("Domaine Bousquet Reserve Cabernet Sauvignon", "domaine_bousquet_reserve_cabernet.jpg", "Aromas de frutos negros y especias.", 1100, 2018, datetime.datetime(2024, 1, 20))
-vino3_domaine = Vino("Domaine Bousquet Chardonnay", "domaine_bousquet_chardonnay.jpg", "Fresco con notas cítricas y tropicales.", 850, 2020, datetime.datetime(2024, 1, 20))
-vino4_domaine = Vino("Domaine Bousquet Gran Malbec", "domaine_bousquet_gran_malbec.jpg", "Intenso con notas de ciruela y chocolate.", 1300, 2017, datetime.datetime(2024, 1, 20))
-
-bodega6.agregar_vino(vino1_domaine)
-bodega6.agregar_vino(vino2_domaine)
-bodega6.agregar_vino(vino3_domaine)
-bodega6.agregar_vino(vino4_domaine)
-
-# Vinos para Bodega Navarro Correas
-vino1_navarro = Vino("Navarro Correas Malbec", "navarro_correas_malbec.jpg", "Aromas de frutas rojas y negras con un toque de especias.", 850, 2019, datetime.datetime(2024, 1, 25))
-vino2_navarro = Vino("Navarro Correas Reserva Cabernet Sauvignon", "navarro_correas_reserva_cabernet.jpg", "Complejo con notas de pimiento y frutos negros.", 950, 2018, datetime.datetime(2024, 1, 25))
-vino3_navarro = Vino("Navarro Correas Chardonnay", "navarro_correas_chardonnay.jpg", "Fresco y equilibrado con notas cítricas.", 700, 2019, datetime.datetime(2024, 1, 25))
-vino4_navarro = Vino("Navarro Correas Reserva Malbec", "navarro_correas_reserva_malbec.jpg", "Intenso y frutal con taninos suaves.", 1000, 2017, datetime.datetime(2024, 1, 25))
-
-bodega7.agregar_vino(vino1_navarro)
-bodega7.agregar_vino(vino2_navarro)
-bodega7.agregar_vino(vino3_navarro)
-bodega7.agregar_vino(vino4_navarro)
-
-# Vinos para Bodega Chandon Argentina
-vino1_chandon = Vino("Chandon Extra Brut", "chandon_extra_brut.jpg", "Fresco y burbujeante con notas cítricas.", 1200, 2020, datetime.datetime(2024, 1, 10))
-vino2_chandon = Vino("Chandon Brut Nature", "chandon_brut_nature.jpg", "Elegante con notas de frutas y un toque de levadura.", 1400, 2019, datetime.datetime(2024, 1, 10))
-vino3_chandon = Vino("Chandon Demi Sec", "chandon_demi_sec.jpg", "Dulce y afrutado con notas de miel y manzana.", 1100, 2020, datetime.datetime(2024, 1, 10))
-vino4_chandon = Vino("Chandon Rosé", "chandon_rose.jpg", "Fresco y frutal con notas de frutos rojos.", 1300, 2019, datetime.datetime(2024, 1, 10))
-
-bodega8.agregar_vino(vino1_chandon)
-bodega8.agregar_vino(vino2_chandon)
-bodega8.agregar_vino(vino3_chandon)
-bodega8.agregar_vino(vino4_chandon)
-
-# Vinos para Bodega Pulenta Estate
-vino1_pulenta = Vino("Pulenta Estate Malbec", "pulenta_estate_malbec.jpg", "Notas de frutas rojas maduras y especias.", 1800, 2019, datetime.datetime(2024, 1, 5))
-vino2_pulenta = Vino("Pulenta Estate Gran Cabernet Franc", "pulenta_gran_cabernet_franc.jpg", "Aromas de pimiento y frutos negros.", 2000, 2018, datetime.datetime(2024, 1, 5))
-vino3_pulenta = Vino("Pulenta Estate Chardonnay", "pulenta_chardonnay.jpg", "Fresco y equilibrado con notas cítricas.", 1500, 2020, datetime.datetime(2024, 1, 5))
-vino4_pulenta = Vino("Pulenta Estate Gran Malbec", "pulenta_gran_malbec.jpg", "Intenso con notas de ciruela y chocolate.", 2200, 2017, datetime.datetime(2024, 1, 5))
-
-bodega9.agregar_vino(vino1_pulenta)
-bodega9.agregar_vino(vino2_pulenta)
-bodega9.agregar_vino(vino3_pulenta)
-bodega9.agregar_vino(vino4_pulenta)
-
-# Vinos para Bodega Ruca Malen
-vino1_ruca = Vino("Ruca Malen Malbec", "ruca_malen_malbec.jpg", "Aromas de frutas rojas y negras con un toque de especias.", 900, 2019, datetime.datetime(2024, 1, 18))
-vino2_ruca = Vino("Ruca Malen Reserva Cabernet Sauvignon", "ruca_malen_reserva_cabernet.jpg", "Complejo con notas de pimiento y frutos negros.", 1100, 2018, datetime.datetime(2024, 1, 18))
-vino3_ruca = Vino("Ruca Malen Chardonnay", "ruca_malen_chardonnay.jpg", "Fresco y equilibrado con notas cítricas.", 800, 2019, datetime.datetime(2024, 1, 18))
-vino4_ruca = Vino("Ruca Malen Reserva Malbec", "ruca_malen_reserva_malbec.jpg", "Intenso y frutal con taninos suaves.", 1000, 2017, datetime.datetime(2024, 1, 18))
-
-bodega10.agregar_vino(vino1_ruca)
-bodega10.agregar_vino(vino2_ruca)
-bodega10.agregar_vino(vino3_ruca)
-bodega10.agregar_vino(vino4_ruca)
 
 
 # bodegas del sistema_: 
-bodegasSistema = [bodega1, bodega2, bodega3, bodega4, bodega5, bodega6, bodega7, bodega8, bodega9, bodega10]
+bodegasSistema = [bodega1, bodega2, bodega3, bodega4, bodega5]
 
 for bodega in bodegasSistema:
     print("Bodega: ",bodega.nombre)
@@ -238,14 +137,14 @@ uva8 = TipoUva("Uva blanca considerada la uva insignia de Argentina.", "Torront�
 uva9 = TipoUva("Uva tinta de origen español, conocida por su versatilidad.", "Tempranillo")
 uva10 = TipoUva("Uva tinta de origen italiano, ampliamente cultivada en Argentina.", "Bonarda")
 
-
+uvasSistemas = [uva1,uva2,uva3,uva4,uva5,uva6,uva7,uva8,uva9,uva10]
 # Creación de varietales y asignación a los vinos
 
 # Bodega Catena Zapata
-vino1_catena.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
-vino2_catena.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 80, uva1))
-vino2_catena.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 20, uva2))
-vino3_catena.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3))
+vino1_catena.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1)) #hechoenApi
+vino2_catena.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 80, uva1)) #hechoenApi
+vino2_catena.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 20, uva2)) #hechoenApi
+vino3_catena.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3)) #hechoenApi
 vino4_catena.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
 
 # Bodega Norton
@@ -275,41 +174,6 @@ vino2_achaval.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 2
 vino3_achaval.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 90, uva1))
 vino3_achaval.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 10, uva2))
 vino4_achaval.agregarVarietal(Varietal("Vino 100% Cabernet Sauvignon", 100, uva2))
-
-# Bodega Domaine Bousquet
-vino1_domaine.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
-vino2_domaine.agregarVarietal(Varietal("Vino 100% Cabernet Sauvignon", 100, uva2))
-vino3_domaine.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3))
-vino4_domaine.agregarVarietal(Varietal("Blend de Malbec y Merlot", 90, uva1))
-vino4_domaine.agregarVarietal(Varietal("Blend de Malbec y Merlot", 10, uva4))
-
-# Bodega Navarro Correas
-vino1_navarro.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
-vino2_navarro.agregarVarietal(Varietal("Vino 100% Cabernet Sauvignon", 100, uva2))
-vino3_navarro.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3))
-vino4_navarro.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 80, uva1))
-vino4_navarro.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 20, uva2))
-
-# Bodega Chandon Argentina
-vino1_chandon.agregarVarietal(Varietal("Vino 100% Sauvignon Blanc", 100, uva7))
-vino2_chandon.agregarVarietal(Varietal("Blend de Sauvignon Blanc y Chardonnay", 80, uva7))
-vino2_chandon.agregarVarietal(Varietal("Blend de Sauvignon Blanc y Chardonnay", 20, uva3))
-vino3_chandon.agregarVarietal(Varietal("Vino 100% Torrontés", 100, uva8))
-vino4_chandon.agregarVarietal(Varietal("Vino 100% Pinot Noir", 100, uva6))
-
-# Bodega Pulenta Estate
-vino1_pulenta.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
-vino2_pulenta.agregarVarietal(Varietal("Vino 100% Cabernet Sauvignon", 100, uva2))
-vino3_pulenta.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3))
-vino4_pulenta.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 70, uva1))
-vino4_pulenta.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 30, uva2))
-
-# Bodega Ruca Malen
-vino1_ruca.agregarVarietal(Varietal("Vino 100% Malbec", 100, uva1))
-vino2_ruca.agregarVarietal(Varietal("Vino 100% Cabernet Sauvignon", 100, uva2))
-vino3_ruca.agregarVarietal(Varietal("Vino 100% Chardonnay", 100, uva3))
-vino4_ruca.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 80, uva1))
-vino4_ruca.agregarVarietal(Varietal("Blend de Malbec y Cabernet Sauvignon", 20, uva2))
 
 
 # Definición de maridajes
@@ -380,51 +244,6 @@ vino3_achaval.agregarMaridaje(maridaje3)
 vino4_achaval.agregarMaridaje(maridaje1)
 vino4_achaval.agregarMaridaje(maridaje2)
 
-# Bodega Domaine Bousquet
-vino1_domaine.agregarMaridaje(maridaje1)
-vino1_domaine.agregarMaridaje(maridaje12)
-vino2_domaine.agregarMaridaje(maridaje2)
-vino3_domaine.agregarMaridaje(maridaje5)
-vino3_domaine.agregarMaridaje(maridaje15)
-vino4_domaine.agregarMaridaje(maridaje1)
-vino4_domaine.agregarMaridaje(maridaje9)
-
-# Bodega Navarro Correas
-vino1_navarro.agregarMaridaje(maridaje1)
-vino1_navarro.agregarMaridaje(maridaje11)
-vino2_navarro.agregarMaridaje(maridaje2)
-vino2_navarro.agregarMaridaje(maridaje9)
-vino3_navarro.agregarMaridaje(maridaje5)
-vino3_navarro.agregarMaridaje(maridaje6)
-vino4_navarro.agregarMaridaje(maridaje1)
-vino4_navarro.agregarMaridaje(maridaje8)
-
-# Bodega Chandon Argentina
-vino1_chandon.agregarMaridaje(maridaje5)
-vino2_chandon.agregarMaridaje(maridaje10)
-vino2_chandon.agregarMaridaje(maridaje15)
-vino3_chandon.agregarMaridaje(maridaje6)
-vino3_chandon.agregarMaridaje(maridaje13)
-vino4_chandon.agregarMaridaje(maridaje7)
-vino4_chandon.agregarMaridaje(maridaje16)
-
-# Bodega Pulenta Estate
-vino1_pulenta.agregarMaridaje(maridaje1)
-vino1_pulenta.agregarMaridaje(maridaje12)
-vino2_pulenta.agregarMaridaje(maridaje2)
-vino3_pulenta.agregarMaridaje(maridaje5)
-vino3_pulenta.agregarMaridaje(maridaje13)
-vino4_pulenta.agregarMaridaje(maridaje1)
-vino4_pulenta.agregarMaridaje(maridaje9)
-
-# Bodega Ruca Malen
-vino1_ruca.agregarMaridaje(maridaje1)
-vino2_ruca.agregarMaridaje(maridaje2)
-vino2_ruca.agregarMaridaje(maridaje14)
-vino3_ruca.agregarMaridaje(maridaje5)
-vino3_ruca.agregarMaridaje(maridaje6)
-vino4_ruca.agregarMaridaje(maridaje1)
-vino4_ruca.agregarMaridaje(maridaje9)
 
 #Maridajes  del sistema: 
 maridajesSistemas = [maridaje1,maridaje2,maridaje3,maridaje4,maridaje5,maridaje6,maridaje7,maridaje8,maridaje9,maridaje10,maridaje11,maridaje12,maridaje13,maridaje14,maridaje15,maridaje16]
@@ -432,3 +251,49 @@ maridajesSistemas = [maridaje1,maridaje2,maridaje3,maridaje4,maridaje5,maridaje6
 for maridaje in maridajesSistemas:
     print(maridaje.nombre)
     print("-"*50)
+
+#-------------------------------------------------------------------------------------------------------------------------------#
+###---------------API---------------------------###
+
+
+
+##------------------------------- VINOS API --------------------------------##
+#vinos Bodega catena
+vinoAPI1_catena = ["Catena Alta Malbec", "catena_alta_malbec.jpg", "Notas de ciruela higos y un toque de especias.",1500,1800,["Carne Asada","Queso Duro"], [["Vino 100% Malbec", 100, "Malbec"]],datetime.datetime(2024, 1, 1)]
+vinoAPI2_catena = ["Catena Zapata Adrianna Vineyard", "catena_adrianna_vineyard.jpg", "Aromas de violetas y frutos negros con un final largo.", 3500, 2016,["Caza","Aves y Cordero"], [["Blend de Malbec y Cabernet Sauvignon", 80, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 20, "Cabernet Sauvignon"]], datetime.datetime(2024, 1, 1)]
+vinoAPI3_catena = ["Catena Chardonnay", "catena_chardonnay.jpg", "Fresco, con notas cítricas y un toque de vainilla.", 1200, 2019,["Ensalada y Pescado", "Mariscos"], [["Vino 100% Chardonnay", 100, "Chardonnay"]], datetime.datetime(2024, 1, 1)]
+vinoAPI4_catena = ["Catena Malbec", "catena_malbec.jpg", "Frutal y especiado con taninos suaves.", 1100, 2020, ["Carne Asada","Comida Picante"],[["Vino 100% Malbec", 100, "Malbec"]],datetime.datetime(2024, 1, 1)]
+vinosApiCatena = [vinoAPI1_catena,vinoAPI2_catena,vinoAPI3_catena,vinoAPI4_catena]
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#Vinos Bodega Norton
+vinoAPI1_norton = ["Norton Malbec", "norton_malbec.jpg", "Aromas de frutas rojas maduras y especias.", 800, 2020,["Carne Asada","Hamburguesa Gourmet"],[["Vino 100% Malbec", 100, "Malbec"]], datetime.datetime(2024, 2, 1)]
+vinoAPI2_norton = ["Norton Reserva Cabernet Sauvignon", "norton_reserva_cabernet.jpg", "Complejo con notas de pimiento y frutos negros.", 950, 2018,["Caza","Platos Mediterráneos"], [["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], datetime.datetime(2024, 2, 1)]
+vinoAPI3_norton = ["Norton Chardonnay", "norton_chardonnay.jpg", "Fresco y equilibrado con notas cítricas.", 700, 2019,["Ensalada y Pescado","Pizza"],[["Vino 100% Chardonnay", 100, "Chardonnay"]], datetime.datetime(2024, 2, 1)]
+vinoAPI4_norton = ["Norton Reserva Malbec", "norton_reserva_malbec.jpg", "Intenso y frutal con taninos suaves.", 1000, 2017,["Carne Asada","Aves y Cordero"], [["Blend de Malbec y Cabernet Sauvignon", 90, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 10, "Cabernet Sauvignon"]],datetime.datetime(2024, 2, 1)]
+vinosApiNorton = [vinoAPI1_norton,vinoAPI2_norton,vinoAPI3_norton,vinoAPI4_norton]
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#Vinos Bodega Trapiche
+vinoAPI1_trapiche = ["Trapiche Malbec", "trapiche_malbec.jpg", "Notas de frutas rojas y negras con un toque de especias.", 1850, 2019, ["Carne Asada","Pasta con Salsa de Tomate"],[["Vino 100% Malbec", 100, "Malbec"]],datetime.datetime(2024, 2, 3)]
+vinoAPI2_trapiche = ["Trapiche Reserva Cabernet Sauvignon", "trapiche_reserva_cabernet.jpg", "Aromas de frutos negros y especias.", 900, 2018,["Caza"],[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], datetime.datetime(2024, 3, 15)]
+vinoAPI3_trapiche = ["Trapiche Chardonnay", "trapiche_chardonnay.jpg", "Fresco con notas cítricas y tropicales.", 2750, 2020, ["Ensalada y Pescado","Mariscos"],[["Vino 100% Chardonnay", 100, "Chardonnay"]],datetime.datetime(2024, 2, 30)]
+vinoAPI4_trapiche = ["Trapiche Broquel Malbec", "trapiche_broquel_malbec.jpg", "Intenso con notas de ciruela y chocolate.", 15000, 2017,["Carne Asada"] ,[["Blend de Malbec y Cabernet Sauvignon", 70, "Malbec"], ["Blend de Malbec y Cabernet Sauvignon", 30, "Cabernet Sauvignon"]],datetime.datetime(2024, 1, 15)]
+vinosApiTrapiche = [vinoAPI1_trapiche,vinoAPI2_trapiche,vinoAPI3_trapiche,vinoAPI4_trapiche]
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#Vinos Bodega Luigi
+vinoAPI1_luigi = ["Luigi Bosca Malbec", "luigi_bosca_malbec.jpg", "Aromas de frutas rojas maduras y especias.", 2500, 2019,["Carne Asada", "Aves y Cordero", "Ensalada y Pescado"], [["Vino 100% Malbec", 100, "Malbec"]], datetime.datetime(2024, 1, 30)]
+vinoAPI2_luigi = ["Luigi Bosca Cabernet Sauvignon", "luigi_bosca_cabernet.jpg", "Notas de frutos negros y pimientos.", 1500, 2018, ["Caza","Queso Duro"] ,[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]],datetime.datetime(2024, 1, 30)]
+vinoAPI3_luigi = ["Luigi Bosca Chardonnay", "luigi_bosca_chardonnay.jpg", "Fresco y equilibrado con un toque de vainilla.", 3500, 2020,["Ensalada y Pescado","Mariscos"] ,[["Vino 100% Chardonnay", 100, "Chardonnay"]],datetime.datetime(2024, 1, 30)]
+vinoAPI4_luigi = ["Luigi Bosca Syrah", "luigi_bosca_syrah.jpg", "Intenso y especiado con taninos suaves.", 1600, 2017,["Carne Asada","Comida Picante"],[["Vino 100% Syrah", 100, "Syrah"]] ,datetime.datetime(2024, 1, 30)]
+vinoAPI5_luigi = ["Luigi Bosca Faker", "luigi_bosca_FAKER.jpg", "Aromas cautivadores de frutos rojos maduros, notas de vainilla y sutiles toques de cacao..", 5200, 2013,["Mariscos"],[["Vino 100% Syrah", 100, "Syrah"]] ,datetime.datetime(2024, 4, 25)]
+
+vinosApiLuigi = [vinoAPI1_luigi,vinoAPI2_luigi,vinoAPI3_luigi,vinoAPI4_luigi,vinoAPI5_luigi]
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#Vinos para Bodega Achaval Ferre 
+vinoAPI1_achaval = ["Achaval Ferrer Malbec", "achaval_ferrer_malbec.jpg", "Notas de frutos rojos y negros con un toque de roble.", 2000, 2018,["Carne Asada"], [["Vino 100% Malbec", 100, "Malbec"]], datetime.datetime(2024, 2, 5)]
+vinoAPI2_achaval = ["Achaval Ferrer Quimera", "achaval_ferrer_quimera.jpg", "Complejo con notas de frutas negras y especias.", 2500, 2017,["Caza","Aves y Cordero"],[["Blend de Malbec y Cabernet Sauvignon", 80, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 20, "Cabernet Sauvignon"]], datetime.datetime(2024, 2, 5)]
+vinoAPI3_achaval = ["Achaval Ferrer Finca Bella Vista", "achaval_ferrer_bella_vista.jpg", "Intenso y elegante con notas de ciruela y chocolate.", 3000, 2016,["Carne Asada","Pasta con Salsa de Tomate" ],[["Blend de Malbec y Cabernet Sauvignon", 90, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 10, "Cabernet Sauvignon"]], datetime.datetime(2024, 2, 5)]
+vinoAPI4_achaval = ["Achaval Ferrer Cabernet Franc", "achaval_ferrer_cabernet_franc.jpg", "Aromas de pimiento y frutos negros.", 9000, 2018,["Carne Asada", "Caza" ],[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], datetime.datetime(2024, 3, 15)]
+vinoAPI5_achaval = ["Achaval Ferrer Finca Altamira Malbec", "achaval_ferrer _finca_Altamira.jpg", "Intensos aromas a frutas negras maduras como ciruelas y moras.", 3500, 2010,["Sushi", "Risotto" ],[["Vino 100% Merlot", 100, "Merlot"]], datetime.datetime(2024, 3, 15)]
+vinoAPI6_achaval = ["Achaval Ferrer Al que madruga Dios Lo Ayuda", "achaval_ferrer _diosAyuda.jpg", "Aromas a frutos oscuros y especias, que invitan a explorar cada sorbo con expectación", 3500, 2010,["Postres"],[["Vino 100% Tempranillo", 100, "Tempranillo"]], datetime.datetime(2024, 4, 20)]
+
+vinosApiAchaval = [vinoAPI1_achaval,vinoAPI2_achaval,vinoAPI3_achaval,vinoAPI4_achaval,vinoAPI5_achaval,vinoAPI6_achaval]
