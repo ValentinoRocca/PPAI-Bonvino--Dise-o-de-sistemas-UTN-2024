@@ -102,11 +102,11 @@ def mostrarVinos(arreglo):
 
 
 def main(arregloBodegasDisp):
-    interfaz = Interfaz()
+    gestor = GestorActualizarVinos()
+    gestor.cargarBodegasAlSistema(arregloBodegasDisp)
+    interfaz = Interfaz(gestor)
     interfaz.iniciar_interfaz() 
-   
-    
-    interfaz.opImportarActBodegas(arregloBodegasDisp)
+    interfaz.opImportarActBodegas()
 
   
     

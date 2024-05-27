@@ -8,40 +8,50 @@ from clases.TipoUva import *
 from clases.Varietal import *
 
 
+
+
+
 class GestorActualizarVinos:
     def __init__(self):
-        pass
-
-    
+        self.arregloBodegasSistema = [] 
 
     
     #================================================================================================================================  
     #Paso 1
-    def nuevaActualizacionVino(self, interfaz, arregloBodegasSistema, btn_imp_click):
+    def cargarBodegasAlSistema(self, arregloBodegas):
+        for bodega in arregloBodegas:
+            self.arregloBodegasSistema.append(bodega)
 
-        btn_imp_click.set(True)
 
 
-        self.arreglobodegasDisponibles = []
-        self.arregloBodegasDisponibles = self.buscarBodegasAActualizar(arregloBodegasSistema)
+    def nuevaActualizacionVino(self, interfaz, btn_imp_click):
 
-        print(self.arregloBodegasDisponibles)
+        if len(self.arregloBodegasSistema) != 0: 
+            btn_imp_click.set(True)
 
-        self.arregloBodegasSeleccionadas = []
-        interfaz.mostrarBodegasActDisponibles(self.arregloBodegasDisponibles)
-        self.arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
 
-        print(self.arregloBodegasSeleccionadas)
+            self.arreglobodegasDisponibles = []
+            self.arregloBodegasDisponibles = self.buscarBodegasAActualizar(self.arregloBodegasSistema)
 
-        self.arregloBodegasParaActualizar = []
-        self.arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(self.arregloBodegasSeleccionadas, arregloBodegasSistema)
+            print(self.arregloBodegasDisponibles)
 
-        print(self.arregloBodegasParaActualizar)
+            self.arregloBodegasSeleccionadas = []
+            interfaz.mostrarBodegasActDisponibles(self.arregloBodegasDisponibles)
+            self.arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
 
-        self.arregloBodegasActualizadas = []
-        self.arregloBodegasActualizadas = self.actualizarVinosDeBodegas(self.arregloBodegasParaActualizar)
+            print(self.arregloBodegasSeleccionadas)
 
-        interfaz.mostrarResumenActualizacion(self.arregloBodegasActualizadas)
+            self.arregloBodegasParaActualizar = []
+            self.arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(self.arregloBodegasSeleccionadas, self.arregloBodegasSistema)
+
+            print(self.arregloBodegasParaActualizar)
+
+            self.arregloBodegasActualizadas = []
+            self.arregloBodegasActualizadas = self.actualizarVinosDeBodegas(self.arregloBodegasParaActualizar)
+
+            interfaz.mostrarResumenActualizacion(self.arregloBodegasActualizadas)
+        else:
+            return 'Las bodegas no se cargaron al sistema correctamente'
         
         
         

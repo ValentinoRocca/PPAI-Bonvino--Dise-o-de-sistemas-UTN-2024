@@ -5,13 +5,16 @@ from gestor import GestorActualizarVinos
 import datetime
 
 class Interfaz:
-    def __init__(self):
+    def __init__(self, gestor):
         self.root = None
         self.label = None
         self.listbox = None
         self.etiqueta_resultado = None
         self.bodegas_seleccionadas = []
         self.btn_confirmar = None
+        self.btn_volver = None
+        self.btn_cerrar = None
+        self.gestor = gestor
         
 
     def cerrar_ventana(self):
@@ -19,15 +22,34 @@ class Interfaz:
 
     
 
-    def opImportarActBodegas(self, arregloBodegasDisp):
-        
-        self.gestor = GestorActualizarVinos()
-    
+    def opImportarActBodegas(self):
         if self.listbox is not None:
+
+            #self.label.config(self.root, text="BonVino Bodegas", font=("Helvetica", 20), )
+
+            if self.btn_volver is not None:
+                self.btn_volver.pack_forget()
+                
+            if self.btn_cerrar is not None:
+                print('el cerrar fue creado')
+                self.btn_cerrar.pack_forget()    
+
+            if self.btn_confirmar is not None:
+                self.btn_confirmar.pack_forget()
+                #self.btn_cerrar.pack_forget()
+                self.etiqueta_resultado.pack_forget()
+
+            self.listbox.pack_forget()
+            self.etiqueta_resultado.pack_forget()
+            
+            self.root
             self.label.pack(pady=30)
 
-            self.btn_importar = tk.Button(self.root, text='Importar Actualizaciones', command=lambda:self.gestor.nuevaActualizacionVino(self, arregloBodegasDisp, self.btn_imp_click))
+            
+
+            self.btn_importar = tk.Button(self.root, text='Importar Actualizaciones', command=lambda:self.gestor.nuevaActualizacionVino(self, self.btn_imp_click))
             self.btn_importar.pack()
+
 
             self.root.wait_variable(self.btn_imp_click)
 
@@ -40,23 +62,28 @@ class Interfaz:
     def mostrarBodegasActDisponibles(self, arregloBodegasDisp):
         if self.listbox is not None:
 
+            self.label.config(text='Bonvino Bodegas')
+            self.label.pack()
+
             self.btn_imp_click.set(True)
             self.listbox.pack()
             self.btn_importar.pack_forget()
 
-            self.label.config(text='Selecciones las bodegas')
+            self.label.config(text='Seleccione las bodegas')
             self.label.pack()
             # Limpiar la lista actual antes de agregar nuevas entradas
             self.listbox.delete(0, tk.END)
-            self.mostrarTupla = tk.Label(self.root)
 
             self.etiqueta_resultado.pack_forget()
 
             # Agregar los productos de la bodega al Listbox
             if arregloBodegasDisp == []:
-                self.listbox.insert(tk.END, 'NO HAY BODEGAS A ACTUALIZAR')  
-                boton_cerrar = tk.Button(self.root, text="Cerrar", command=lambda: self.cerrar_ventana())
-                boton_cerrar.pack(pady=20)
+                self.btn_confirmar.pack_forget()
+                self.listbox.insert(tk.END, 'NO HAY BODEGAS A ACTUALIZAR')
+                print('mostro esto')
+                self.btn_cerrar = tk.Button(self.root, text="Cerrar", command=lambda: self.cerrar_ventana())
+                self.btn_cerrar.pack(pady=20)
+
             
             else:
                 for tupla in arregloBodegasDisp:
@@ -69,6 +96,7 @@ class Interfaz:
                     self.btn_confirmar.config(command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp))
                 
                 self.btn_confirmar.pack(pady=10)
+
 
             #self.load_image("img/bonvino.jpg")
 
@@ -103,8 +131,6 @@ class Interfaz:
 
             if (len(self.bodegas_seleccionadas) != 0):
                 for bodega in self.bodegas_seleccionadas:
-                    self.mostrarTupla.config(text=f'{bodega[0]}, {bodega[1]}')
-                    self.mostrarTupla.pack(pady=20)
                     self.btn_conf_click.set(True)
                     self.btn_confirmar.pack_forget()
 
@@ -117,16 +143,34 @@ class Interfaz:
         if self.listbox is not None:
             self.listbox.delete(0, tk.END) 
 
+            self.etiqueta_resultado.pack_forget()
+
+            self.label.config(text='Bodegas Actualizadas')
+            self.label.pack()
             hoy = datetime.datetime.now()
             
             if arreglobodegaActualizadas == []:
-                self.listbox.insert(tk.END, ('NO SE SELECCIONO NINGUNA BODEGA'))
-            
+
+                self.etiqueta_resultado.config(text='NO SE SELECCIONARON BODEGAS', font=(20))
+                self.etiqueta_resultado.pack(pady=20)
+                self.listbox.pack_forget()
+                self.btn_confirmar.pack_forget()
+
+                self.btn_volver = tk.Button(self.root, text='Volver', command=lambda:self.opImportarActBodegas())
+                self.btn_volver.pack()
+
+
             else:
                 for bodega in arreglobodegaActualizadas:
                     for vino in bodega.vinos:
                         if vino.fechaAct == hoy:
                             self.listbox.insert(tk.END, (f'{bodega.nombre}', f'{vino}'))
+
+            if self.btn_cerrar is not None:
+                self.btn_cerrar.pack()
+            else:
+                self.btn_cerrar = tk.Button(self.root, text="Cerrar", command=lambda: self.cerrar_ventana())
+                self.btn_cerrar.pack(pady=20)
 
     
     
