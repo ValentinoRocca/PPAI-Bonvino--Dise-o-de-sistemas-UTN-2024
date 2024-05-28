@@ -30,10 +30,11 @@ class GestorActualizarVinos:
             
             #Aca buscamos y guardamos todas las bodegas que se puedan Actualizar
             arregloBodegasDisponibles = []
-            arregloBodegasDisponibles = self.buscarBodegasAActualizar(self.arregloBodegasSistema)
+            arregloBodegasDisponibles = self.buscarBodegasAActualizar()
 
-            #Aca guardamos las bodegas que selec el user
+            #Aca guardamos las bodegas que selec el user. Es un arreglo de tupla
             arregloBodegasSeleccionadas = []
+            #Aca mostramos las Bodegas Disponibles al user
             interfaz.mostrarBodegasActDisponibles(arregloBodegasDisponibles)
             arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
 
@@ -56,10 +57,10 @@ class GestorActualizarVinos:
 
     #   Aca buscamos de todas las bodegas del sistema, las que estan disponibles, 
     #   le guardamos en un array de tuplas, el nombre y las coordenadas y lo retornamos
-    def buscarBodegasAActualizar(self, arregloBodegasSeleccionadas):
+    def buscarBodegasAActualizar(self):
         self.arregloBodegasDisp = []
         fecha_actual = self.getFechaActual()
-        for bodega in arregloBodegasSeleccionadas:
+        for bodega in self.arregloBodegasSistema:
             if bodega.estaDisponible(fecha_actual):
                 self.arregloBodegasDisp.append((bodega.nombre, bodega.coordenadas))
         
@@ -95,7 +96,7 @@ class GestorActualizarVinos:
         return bodegasActualizadas
 
 
-    #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodegade nuestro sistema, si no lo encuentra lo crea y le hace un append.
+    #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
     def actualizarVinosBodega(self, bodega, arrayVinosApi):   
         hoy = self.getFechaActual()
         for vinoApi in arrayVinosApi:#  (vino1, vino2, vino3)
