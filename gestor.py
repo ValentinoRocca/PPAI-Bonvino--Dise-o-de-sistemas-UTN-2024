@@ -27,20 +27,26 @@ class GestorActualizarVinos:
     def nuevaActualizacionVino(self, interfaz, btn_imp_click):
         if len(self.arregloBodegasSistema) != 0: 
             btn_imp_click.set(True)
-
+            
+            #Aca buscamos y guardamos todas las bodegas que se puedan Actualizar
             arregloBodegasDisponibles = []
             arregloBodegasDisponibles = self.buscarBodegasAActualizar(self.arregloBodegasSistema)
 
+            #Aca guardamos las bodegas que selec el user
             arregloBodegasSeleccionadas = []
             interfaz.mostrarBodegasActDisponibles(arregloBodegasDisponibles)
             arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
 
+
+            #Aca guardamos en un array los objetos Bodega que el user selec (Antes teniamos los nombres de las Bodegas no los obj)
             arregloBodegasParaActualizar = []
             arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(arregloBodegasSeleccionadas)
 
+            #Aca Actualizamos las bodegas Selec y las guardamos  
             arregloBodegasActualizadas = []
             arregloBodegasActualizadas = self.buscarVinosBodegaSeleccionada(arregloBodegasParaActualizar)
 
+            #Los obj de las bodegas Act se lo pasamos a la interfaz para que las muestre
             interfaz.mostrarResumenActualizacion(arregloBodegasActualizadas)
         else:
             return 'Las bodegas no se cargaron al sistema correctamente'
@@ -48,7 +54,8 @@ class GestorActualizarVinos:
     def getFechaActual(self):
         return date.today()
 
-
+    #   Aca buscamos de todas las bodegas del sistema, las que estan disponibles, 
+    #   le guardamos en un array de tuplas, el nombre y las coordenadas y lo retornamos
     def buscarBodegasAActualizar(self, arregloBodegasSeleccionadas):
         self.arregloBodegasDisp = []
         fecha_actual = self.getFechaActual()
@@ -62,7 +69,8 @@ class GestorActualizarVinos:
     def buscarVinosAPI(bodegaApi):
         return bodegaApi
 
-
+    #Funcion que le pasas un array de Strings de los nombres de las bodegas selec por el user y
+    # y retorna un array de los objetos de esas bodegas en cuestion 
     def buscarBodegaSeleccionada(self, arrayBodegaSeleccionada):
         if len(self.arregloBodegasSistema) != 0:
             bodegasSeleccionadas = []
@@ -76,7 +84,7 @@ class GestorActualizarVinos:
         else:
             print('no se cargaron las bodegas en el sistema')
             
-
+    #esta funcion es un for que por cada bodega que selec el user realice la func ActualizarVinosBodega
     def buscarVinosBodegaSeleccionada(self, arregloBodegasParaActualizar):
         bodegasActualizadas = []
         for bodegaSeleccionada in arregloBodegasParaActualizar:
@@ -105,7 +113,7 @@ class GestorActualizarVinos:
 
         bodega.setFechaActualizacion(hoy)
 
-
+    # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):
         maridajesNuevoVino = []
         for maridajeApi in vinoApi[5]:
@@ -115,6 +123,6 @@ class GestorActualizarVinos:
                 
         return maridajesNuevoVino
         
-
+    # Le pasa por parametro el string nombre vino y un objeto vino, valida si sus nombres son el mismo
     def sosElMismoVino(self, vinoBodegaApi, vinoBodegaSeleccionada):
         return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
