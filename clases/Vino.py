@@ -9,9 +9,8 @@ class Vino:
         self.precio = precio
         self.añada = añada
         self.maridajes= []
-        self.varietales = []#VER px es un array
+        self.varietales = []
         self.reseñas = []
-       # self.bodega = bodega => VINO NO TIENE BODEGA
         self.fechaAct = fechaAct
 
     
@@ -25,35 +24,29 @@ class Vino:
                 print("El vino ", self.nombre, "no esta disponible para actualizar")
                 return False
 
-#    def sosVinoAActualizar(self, vinosAActualizar):
-#        for i in vinosAActualizar:
-#            if i.nombre == self.nombre:
-#                return True
-#            else:  
-#                return False ## ====> crear vino directamente
-
     def setPrecio(self, nuevoPrecio):
         self.precio = nuevoPrecio
-        #return ("El precio ha sido actualizado, el nuevo precio del vino es: ", nuevoPrecio)
+
 
     def setNotaCata(self, nuevaNotaCata):
         self.notaCataVino = nuevaNotaCata
-        #print("Se han actualizado las notas de cata del vino")
 
     def setImagenEtiqueta(self, nuevaImagenEtiqueta):
         self.imagenEtiqueta = nuevaImagenEtiqueta
         
+
     def setFechaActualizacion(self, fechaActualizacion):
         self.fechaAct = fechaActualizacion
-        #print("Se ha actualizado la fecha de actualizacion del vino")
+
 
     def agregarVarietal(self, newVarietal):
             self.varietales.append(newVarietal)
-            
+
+
     def agregarMaridaje(self, newMaridaje):
             self.maridajes.append(newMaridaje)
-            
-    
+
+
      # varietalAPI [descripcion, porcentaje, tipoDeUva]
     def crearVarietales(self,varietales, arrayDeTipoDeUva):
         for varietal in varietales:
@@ -62,28 +55,28 @@ class Vino:
             nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
             self.agregarVarietal(nuevoVarietal)
     
-##falta buscarTipoUva... (respecto al nombre)
+
+    # funcion buscar en el arreglo de uvas del sistema y compara si el string del tipo de uva corresponde a alguno del sistema
     def buscarTipoUva( self, arrayTipoDeUvaSistema, stringTipoDeUva):
          for tipoDeUva in arrayTipoDeUvaSistema:
               if tipoDeUva.nombre == stringTipoDeUva:
                    return tipoDeUva
               
-    def mostrarM(self):
+              
+    def mostrarMaridaje(self):
         var = ''
         for maridaje in self.maridajes:
             var += maridaje.__str__()
-        
         return var
     
-    def mostrarV(self):
+    def mostrarVarietal(self):
         var = ''
         for varietal in self.varietales:
             var += varietal.__str__()
-        
         return var
     
     def __str__(self):
-        return f"{self.nombre} - Precio: ${self.precio} - Nota Cata: {self.notaCataVino} -{self.fechaAct} - Maridajes: {self.mostrarM()} - Varietales: {self.mostrarV()} "
+        return f"{self.nombre} - Precio: ${self.precio} - Nota Cata: {self.notaCataVino} -{self.fechaAct} - Maridajes: {self.mostrarMaridaje()} - Varietales: {self.mostrarVarietal()} "
         
 
         

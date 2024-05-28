@@ -11,9 +11,8 @@ class Bodega:
         self.periodoAct = periodoActualizacion
         self.vinos = []
         self.vinosAPI = [] 
-        self.ultimaActualizacion = ultimaActualizacion  ## ULTIMA VEZ QUE SE ACTUALIZO
+        self.ultimaActualizacion = ultimaActualizacion
         
-
          
     def agregar_vino(self, vino):
         self.vinos.append(vino)
@@ -23,7 +22,6 @@ class Bodega:
             self.vinos.append(vino)
     
     def estaDisponible(self, fechaActual):
-        ##                          1/1/2024                                    2      *    30
         print(fechaActual)
         fecha_limite = self.ultimaActualizacion + timedelta(days=self.periodoAct * 30)
         print(fecha_limite)
@@ -44,7 +42,6 @@ class Bodega:
         return self.nombre
     
     
-    
     def setFechaActualizacion(self, nuevaActualizacion):
         self.ultimaActualizacion = nuevaActualizacion
 
@@ -55,8 +52,6 @@ class Bodega:
         vinoPropio.setNotaCata(vinoApi[2])
         vinoPropio.setFechaActualizacion(fechaActual)
 
-    def getDatosVinoBodegaSeleccionada(self):
-        return self.vinos
 
     def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
 
@@ -69,16 +64,12 @@ class Bodega:
         nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
 
-        # varietalAPI [nombre, descripcion, porcentaje, tipoDeUva]
         
     def __str__(self):
         return f"{self.nombre}"
     
 
-    def agregarVinos(self, vino):
-        self.vinos.append(vino)
-
-    def getVinosBodega(self):
+    def getDatosVinosBodega(self):
         return self.vinos
 
     def mostrarVinos(self):
@@ -93,17 +84,3 @@ class Bodega:
             print('| Nombre del vino:', nombre, '|Precio Vino: ', precioNuevo,' |Notas de la cata: ', notaCataVinoNuevo, ' | Imagen de la etiqueta:',imagenEtiquetaNuevo, '|Fecha de Actualizacion:',fechaActNuevo,'|Añada: ', añada, " |")
 
 
-#PRUEBA
-fecha1 = datetime(2024,1,1)
-fecha2 = datetime(2024,5,5)
-fechaAct = datetime.now()
-
-bodega1 = Bodega(None, None, None, 'bodega1', 1, fecha1)
-bodega2 = Bodega(None, None, None, 'bodega2', 2, fecha2 )
-
-
-hola = bodega1.estaDisponible(fechaAct)
-hola2 = bodega2.estaDisponible(fechaAct)
-
-#print(hola)
-#print(hola2)

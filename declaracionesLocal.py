@@ -269,7 +269,7 @@ vinoAPI1_norton = ["Norton Malbec", "norton_malbec.jpg", "Aromas de frutas rojas
 vinoAPI2_norton = ["Norton Reserva Cabernet Sauvignon", "norton_reserva_cabernet.jpg", "Complejo con notas de pimiento y frutos negros.", 950, 2018,["Caza","Platos Mediterráneos"], [["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], date(2024, 2, 1)]
 vinoAPI3_norton = ["Norton Chardonnay", "norton_chardonnay.jpg", "Fresco y equilibrado con notas cítricas.", 700, 2019,["Ensalada y Pescado","Pizza"],[["Vino 100% Chardonnay", 100, "Chardonnay"]], date(2024, 2, 1)]
 vinoAPI4_norton = ["Norton Reserva Malbec", "norton_reserva_malbec.jpg", "Intenso y frutal con taninos suaves.", 1000, 2017,["Carne Asada","Aves y Cordero"], [["Blend de Malbec y Cabernet Sauvignon", 90, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 10, "Cabernet Sauvignon"]],date(2024, 2, 1)]
-vinoAPI5_norton = ["Norton Uncle Grandpa", "norton_reserva_cn.jpg", "Tigresa voladora gigante realista.", 2600, 2014,["Pizza"], [["Blend de Malbec y Cabernet Sauvignon", 50, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 50, "Cabernet Sauvignon"]],date(2024, 4, 3)]
+vinoAPI5_norton = ["Norton Uncle Grandpa", "norton_reserva_cn.jpg", "Frescura alimonada con sason conquistador.", 2600, 2014,["Pizza"], [["Blend de Malbec y Cabernet Sauvignon", 50, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 50, "Cabernet Sauvignon"]],date(2024, 4, 3)]
 vinoAPI6_norton = ["Norton KFPanda", "norton_reserva_poo.jpg", "Notas de dumplings con arroz y fideos chinos.", 3560, 2012,["Aves y Cordero", "Ensalada y Pescado" ], [["Vino 100% Bonarda", 100, "Bonarda"]],date(2024, 4, 3)]
 
 vinosApiNorton = [vinoAPI1_norton,vinoAPI2_norton,vinoAPI3_norton,vinoAPI4_norton,vinoAPI5_norton, vinoAPI6_norton]
@@ -290,7 +290,7 @@ vinoAPI1_luigi = ["Luigi Bosca Malbec", "luigi_bosca_malbec.jpg", "Aromas de fru
 vinoAPI2_luigi = ["Luigi Bosca Cabernet Sauvignon", "luigi_bosca_cabernet.jpg", "Notas de frutos negros y pimientos.", 1500, 2018, ["Caza","Queso Duro"] ,[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]],date(2024, 1, 30)]
 vinoAPI3_luigi = ["Luigi Bosca Chardonnay", "luigi_bosca_chardonnay.jpg", "Fresco y equilibrado con un toque de vainilla.", 3500, 2020,["Ensalada y Pescado","Mariscos"] ,[["Vino 100% Chardonnay", 100, "Chardonnay"]],date(2024, 1, 30)]
 vinoAPI4_luigi = ["Luigi Bosca Syrah", "luigi_bosca_syrah.jpg", "Intenso y especiado con taninos suaves.", 1600, 2017,["Carne Asada","Comida Picante"],[["Vino 100% Syrah", 100, "Syrah"]] ,date(2024, 1, 30)]
-vinoAPI5_luigi = ["Luigi Bosca Faker", "luigi_bosca_FAKER.jpg", "Aromas cautivadores de frutos rojos maduros, notas de vainilla y sutiles toques de cacao..", 5200, 2013,["Mariscos"],[["Vino 100% Syrah", 100, "Syrah"]] ,date(2024, 4, 25)]
+vinoAPI5_luigi = ["Luigi Bosca Intensidad", "luigi_bosca_FAKER.jpg", "Aromas cautivadores de frutos rojos maduros, notas de vainilla y sutiles toques de cacao..", 5200, 2013,["Mariscos"],[["Vino 100% Syrah", 100, "Syrah"]] ,date(2024, 4, 25)]
 
 vinosApiLuigi = [vinoAPI1_luigi,vinoAPI2_luigi,vinoAPI3_luigi,vinoAPI4_luigi,vinoAPI5_luigi]
 bodega4.agregarVinosApi(vinosApiLuigi)
