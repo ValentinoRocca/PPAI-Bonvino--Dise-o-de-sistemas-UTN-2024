@@ -55,6 +55,10 @@ class Vino:
             nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
             self.agregarVarietal(nuevoVarietal)
     
+    def agregarVarietales(self, varietales):
+         for varietal in varietales:
+              self.agregarVarietal(varietal)
+    
 
     # funcion buscar en el arreglo de uvas del sistema y compara si el string del tipo de uva corresponde a alguno del sistema
     def buscarTipoUva( self, arrayTipoDeUvaSistema, stringTipoDeUva):

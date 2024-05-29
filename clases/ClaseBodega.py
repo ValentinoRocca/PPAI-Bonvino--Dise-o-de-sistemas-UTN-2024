@@ -53,15 +53,15 @@ class Bodega:
         vinoPropio.setFechaActualizacion(fechaActual)
 
 
-    def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
+    def crearVino(self, vinoAPI, fechaAct, maridajes, varietalesDelVino):
 
-        varietalesAPI = vinoAPI[6]
+        #varietalesAPI = vinoAPI[6]
         
         nuevoVino = Vino(vinoAPI[0], vinoAPI[1], vinoAPI[2], vinoAPI[3], vinoAPI[4], fechaAct)
         for maridaje in maridajes:
             nuevoVino.agregarMaridaje(maridaje)
                                                             
-        nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
+        nuevoVino.agregarVarietales(varietalesDelVino)
         self.agregar_vino(nuevoVino)
 
         

@@ -110,9 +110,25 @@ class GestorActualizarVinos:
             # si no existe el vino lo crea
             if not existe:
                 maridajeAPI = self.buscarMaridaje(vinoApi) 
-                bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                varietalesDelVino = self.crearVarietales(vinoApi[6])
+                bodega.crearVino(vinoApi, hoy, maridajeAPI, varietalesDelVino)
 
         bodega.setFechaActualizacion(hoy)
+
+    def crearVarietales(self,varietales):
+        varietalesDelVino = []
+        for varietal in varietales:
+            tipo_Uva = varietal[2]
+            tipoDeUvaObjeto = self.buscarTipoUva(tipo_Uva)  
+            nuevoVarietal = Varietal(varietal[0], varietal[1], tipoDeUvaObjeto)
+            varietalesDelVino.append(nuevoVarietal)
+            #self.agregarVarietal(nuevoVarietal)
+        return varietalesDelVino
+
+    def buscarTipoUva(self, stringTipoDeUva):
+         for tipoDeUva in self.arregloUvas:
+              if tipoDeUva.nombre == stringTipoDeUva:
+                   return tipoDeUva
 
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):
