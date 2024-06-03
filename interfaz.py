@@ -3,7 +3,7 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from gestor import GestorActualizarVinos
 from datetime import * 
-class Interfaz:
+class PantallaActualizacionVinos:
     # definicion de elementos que se van a usar en la clase
     def __init__(self, gestor):
         self.root = None
@@ -27,7 +27,7 @@ class Interfaz:
     # funcion que incializa todo el proceso de importacion de info nueva para cada bodega
     def opImportarActualizacionVinoBodegas(self):
         if self.listbox is not None:
-            self.label.config(text='Bonvino Bodegas')
+            self.label.config(text='BonVino Bodegas')
             self.label.pack()
             self.listbox.delete(0, tk.END)
             if self.btn_volver is not None:
@@ -66,10 +66,9 @@ class Interfaz:
                 self.btn_confirmar.pack_forget()
                 self.label.config(text='NO HAY BODEGAS PARA ACTUALIZAR')
                 self.label.pack(pady=20)
-                self.listbox.delete(0, tk.END)
                 self.listbox.pack_forget()
                 if self.btn_cerrar is not None:
-                    self.btn_cerrar.pack(pady=20)
+                    self.btn_cerrar.pack(pady=20)            
                 else:
                     self.btn_cerrar = tk.Button(self.root, text="Cerrar", command=lambda: self.cerrar_ventana())
                     self.btn_cerrar.pack(pady=20)

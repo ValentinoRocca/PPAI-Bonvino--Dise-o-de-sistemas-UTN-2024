@@ -1,27 +1,22 @@
-from clases import Bodega
-from clases import Enofilo
-from clases import Vino
-from clases import Varietal
-from clases import TipoUva
-from clases import Maridaje
+from clases.InterfazBodega import InterfazBodega
 from gestor import GestorActualizarVinos
-import gestor
-from interfaz import Interfaz
+from interfaz import PantallaActualizacionVinos
 from declaracionesLocal import bodegasSistema
-from declaracionesLocal import maridajesSistemas
+from declaracionesLocal import maridajesSistema
 from declaracionesLocal import uvasSistemas
 
-gestor = GestorActualizarVinos()
+interfazApi = InterfazBodega()
+gestor = GestorActualizarVinos(interfazApi)
 
 def main(gestor, arregloBodegasDisp, arregloMaridajes, arregloUvas):
         gestor.cargarDatosAlSistema(arregloBodegasDisp, arregloMaridajes, arregloUvas)
-        interfaz = Interfaz(gestor)
+        interfaz = PantallaActualizacionVinos(gestor)
         interfaz.habilitar_ventana() 
         interfaz.opImportarActualizacionVinoBodegas()
         interfaz.root.mainloop()
 
 
-main(gestor, bodegasSistema, maridajesSistemas, uvasSistemas)
+main(gestor, bodegasSistema, maridajesSistema, uvasSistemas)
 
 
 

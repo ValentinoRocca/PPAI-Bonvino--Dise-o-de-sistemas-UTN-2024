@@ -31,3 +31,4 @@ class Enofilo:
 
     def obtenerNombreUsuario(self):
         return self.usuario.getNombre()
+

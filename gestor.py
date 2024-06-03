@@ -3,13 +3,16 @@ from clases.ClaseBodega import *
 from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
+from datetime import date
+#from clases import InterfazBodega
 
 class GestorActualizarVinos:
-    def __init__(self):
+    def __init__(self, interfaz):
         self.arregloBodegasSistema = []
         self.arregloMaridajes = []
         self.arregloUvas = []
         self.primer_inicio = False
+        self.interfazBodega = interfaz
 
     
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
@@ -24,7 +27,7 @@ class GestorActualizarVinos:
 
 
     # funcion del gestor que incia el procesamiento del codigo
-    def nuevaActualizacionVino(self, interfaz, btn_imp_click):
+    def nuevaActualizacionVino(self, pantalla, btn_imp_click):
         if len(self.arregloBodegasSistema) != 0: 
             btn_imp_click.set(True)
             
@@ -35,8 +38,8 @@ class GestorActualizarVinos:
             #Aca guardamos las bodegas que selec el user. Es un arreglo de tupla
             arregloBodegasSeleccionadas = []
             #Aca mostramos las Bodegas Disponibles al user
-            interfaz.mostrarBodegasActDisponibles(arregloBodegasDisponibles)
-            arregloBodegasSeleccionadas = interfaz.bodegas_seleccionadas
+            pantalla.mostrarBodegasActDisponibles(arregloBodegasDisponibles)
+            arregloBodegasSeleccionadas = pantalla.bodegas_seleccionadas
 
 
             #Aca guardamos en un array los objetos Bodega que el user selec (Antes teniamos los nombres de las Bodegas no los obj)
@@ -48,7 +51,7 @@ class GestorActualizarVinos:
             arregloBodegasActualizadas = self.buscarVinosBodegaSeleccionada(arregloBodegasParaActualizar)
 
             #Los obj de las bodegas Act se lo pasamos a la interfaz para que las muestre
-            interfaz.mostrarResumenActualizacion(arregloBodegasActualizadas)
+            pantalla.mostrarResumenActualizacion(arregloBodegasActualizadas)
         else:
             return 'Las bodegas no se cargaron al sistema correctamente'
 
@@ -67,8 +70,6 @@ class GestorActualizarVinos:
         return self.arregloBodegasDisp
 
 
-    def buscarVinosAPI(bodegaApi):
-        return bodegaApi
 
     #Funcion que le pasas un array de Strings de los nombres de las bodegas selec por el user y
     # y retorna un array de los objetos de esas bodegas en cuestion 
@@ -89,11 +90,18 @@ class GestorActualizarVinos:
     def buscarVinosBodegaSeleccionada(self, arregloBodegasParaActualizar):
         bodegasActualizadas = []
         for bodegaSeleccionada in arregloBodegasParaActualizar:
-            vinosApi = bodegaSeleccionada.vinosAPI
+            #vinosApi = bodegaSeleccionada.vinosAPI
+            #self.interfazBodega.buscarVinosApi(Bogdega)
+            vinosApi = self.buscarVinosApi(bodegaSeleccionada)
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
             bodegasActualizadas.append(bodegaSeleccionada)
 
         return bodegasActualizadas
+    
+    def buscarVinosApi(self,bodegaSeleccionada):
+        vinosApi = self.interfazBodega.getDatosVinoApi(bodegaSeleccionada)
+        return vinosApi
+
 
 
     #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
