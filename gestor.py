@@ -18,6 +18,7 @@ class GestorActualizarVinos:
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
         for bodega in arregloBodegas:
             self.arregloBodegasSistema.append(bodega)
+            bodega.add
 
         for maridaje in arregloMaridajes:
             self.arregloMaridajes.append(maridaje)
@@ -68,7 +69,6 @@ class GestorActualizarVinos:
                 self.arregloBodegasDisp.append((bodega.nombre, bodega.coordenadas))
         
         return self.arregloBodegasDisp
-
 
 
     #Funcion que le pasas un array de Strings de los nombres de las bodegas selec por el user y

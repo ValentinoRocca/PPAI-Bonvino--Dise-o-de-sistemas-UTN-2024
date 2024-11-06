@@ -1,5 +1,5 @@
 from peewee import SqliteDatabase, Model, CharField, TextField, DateField, IntegerField
-from persistencias import PersistenciaBase
+from persistencias.PersistenciaBase import PersistenciaBase
 
 # Configuración de la base de datos
 db = SqliteDatabase('bodegas.db')
@@ -29,7 +29,7 @@ class PersistenciaBodega(PersistenciaBase):
             descripcion=bodega_obj.descripcion,
             historia=bodega_obj.historia,
             nombre=bodega_obj.nombre,
-            periodoActualizacion=bodega_obj.periodoActualizacion,
+            periodoActualizacion=0,
             ultimaActualizacion=bodega_obj.ultimaActualizacion
         )
         return bodega

@@ -1,5 +1,6 @@
 from datetime import *
 from clases.Vino import *
+from persistencias.PersistenciaBodega import PersistenciaBodega
 
 
 class Bodega:
@@ -12,6 +13,7 @@ class Bodega:
         self.vinos = []
         self.vinosAPI = [] 
         self.ultimaActualizacion = ultimaActualizacion
+        self.persistencia_bodega = PersistenciaBodega()
         
          
     def agregar_vino(self, vino):
@@ -82,5 +84,9 @@ class Bodega:
             fechaActNuevo = vino.fechaAct
             
             print('| Nombre del vino:', nombre, '|Precio Vino: ', precioNuevo,' |Notas de la cata: ', notaCataVinoNuevo, ' | Imagen de la etiqueta:',imagenEtiquetaNuevo, '|Fecha de Actualizacion:',fechaActNuevo,'|Añada: ', añada, " |")
+
+    def addBodega(self):
+        # Aquí llamamos al método `agregar` y pasamos los atributos necesarios
+        self.persistencia_bodega.agregar(self)
 
 
