@@ -1,4 +1,4 @@
-from clases.ClaseBodega import *
+from clases.Bodega import *
 from datetime import date
 from clases.Maridaje import *
 from clases.TipoUva import *

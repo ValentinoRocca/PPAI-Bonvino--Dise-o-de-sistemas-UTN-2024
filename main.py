@@ -5,6 +5,7 @@ from declaracionesLocal import bodegasSistema
 from declaracionesLocal import maridajesSistema
 from declaracionesLocal import uvasSistemas
 
+
 interfazApi = InterfazBodega()
 gestor = GestorActualizarVinos(interfazApi)
 

@@ -1,5 +1,5 @@
 from clases.Maridaje import *
-from clases.ClaseBodega import *
+from clases.Bodega import *
 from clases.Maridaje import *
 from clases.TipoUva import *
 from clases.Varietal import *
