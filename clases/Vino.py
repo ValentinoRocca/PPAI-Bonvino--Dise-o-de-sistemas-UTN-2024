@@ -1,5 +1,6 @@
 from .Varietal import *
 from .Maridaje import *
+from persistencias.PersistenciaVino import PersistenciaVino
 
 class Vino:
     def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
@@ -12,6 +13,7 @@ class Vino:
         self.varietales = []
         self.reseñas = []
         self.fechaAct = fechaAct
+        self.persistenciaVino = PersistenciaVino()
 
     
        
@@ -74,6 +76,10 @@ class Vino:
         for varietal in self.varietales:
             var += varietal.__str__()
         return var
+    
+    def addVino(self, bodega_obj):
+        self.persistenciaVino.agregar(self, bodega_obj)
+        
     
     def __str__(self):
         return f"{self.nombre} - Precio: ${self.precio} - Nota Cata: {self.notaCataVino} -{self.fechaAct} - Maridajes: {self.mostrarMaridaje()} - Varietales: {self.mostrarVarietal()} "

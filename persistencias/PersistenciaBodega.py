@@ -23,16 +23,25 @@ db.create_tables([Bodega], safe=True)
 # Clase de persistencia para Bodega
 class PersistenciaBodega(PersistenciaBase):
     def agregar(self, bodega_obj):
-        # Asegurarse de que bodega_obj es un objeto que contiene los atributos necesarios
-        bodega = Bodega.create(
-            coordenadas=bodega_obj.coordenadas,
-            descripcion=bodega_obj.descripcion,
-            historia=bodega_obj.historia,
-            nombre=bodega_obj.nombre,
-            periodoActualizacion=0,
-            ultimaActualizacion=bodega_obj.ultimaActualizacion
-        )
-        return bodega
+        # Verificar si ya existe una bodega con el mismo nombre
+        if Bodega.select().where(Bodega.nombre == bodega_obj.nombre).exists():
+            print("La bodega ya existe en la base de datos.")
+            return None
+
+        try:
+            # Crear la bodega si no existe
+            bodega = Bodega.create(
+                coordenadas=bodega_obj.coordenadas,
+                descripcion=bodega_obj.descripcion,
+                historia=bodega_obj.historia,
+                nombre=bodega_obj.nombre,
+                periodoActualizacion=bodega_obj.periodoAct,
+                ultimaActualizacion=bodega_obj.ultimaActualizacion
+            )
+            return bodega
+        except IntegrityError as e:
+            print(f"Error al agregar la bodega: {e}")
+            return None
 
     def obtener_por_id(self, bodega_id):
         try:

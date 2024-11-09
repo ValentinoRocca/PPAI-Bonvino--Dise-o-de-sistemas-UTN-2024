@@ -48,7 +48,7 @@ class Bodega:
         self.ultimaActualizacion = nuevaActualizacion
 
 
-    def actualizarVino(self,vinoPropio, vinoApi, fechaActual):
+    def actualizarVino(self, vinoPropio, vinoApi, fechaActual):
         vinoPropio.setPrecio(vinoApi[3])
         vinoPropio.setImagenEtiqueta(vinoApi[1])
         vinoPropio.setNotaCata(vinoApi[2])
@@ -65,6 +65,9 @@ class Bodega:
                                                             
         nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
+
+        return nuevoVino
+
 
         
     def __str__(self):

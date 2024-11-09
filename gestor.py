@@ -18,7 +18,8 @@ class GestorActualizarVinos:
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
         for bodega in arregloBodegas:
             self.arregloBodegasSistema.append(bodega)
-            bodega.add
+            bodega.addBodega()
+            
 
         for maridaje in arregloMaridajes:
             self.arregloMaridajes.append(maridaje)
@@ -118,7 +119,8 @@ class GestorActualizarVinos:
             # si no existe el vino lo crea
             if not existe:
                 maridajeAPI = self.buscarMaridaje(vinoApi) 
-                bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                vinoNuevo = bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                vinoNuevo.addVino(bodega)
 
         bodega.setFechaActualizacion(hoy)
 
