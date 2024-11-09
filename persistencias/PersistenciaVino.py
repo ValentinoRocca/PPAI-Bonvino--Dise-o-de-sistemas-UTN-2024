@@ -1,4 +1,4 @@
-from peewee import SqliteDatabase, Model, CharField, TextField, FloatField, DateField, ForeignKeyField, IntegerField
+from peewee import SqliteDatabase, Model, CharField, TextField, FloatField, DateField, ForeignKeyField, IntegerField, IntegrityError
 from persistencias.PersistenciaBase import PersistenciaBase
 from persistencias.PersistenciaBodega import Bodega
 
@@ -26,6 +26,7 @@ db.create_tables([Vino], safe=True)
 class PersistenciaVino(PersistenciaBase):
     def agregar(self, vino_obj, bodega_obj):
         # Verificar si ya existe una bodega con el mismo nombre
+        print("id bodega", bodega_obj.id)
 
         try:
             # Crear la bodega si no existe

@@ -51,6 +51,12 @@ class PersistenciaBodega(PersistenciaBase):
 
     def obtener_todos(self):
         return list(Bodega.select())
+    
+    def obtener_por_nombre(self, nombre):
+        try:
+            return Bodega.get(Bodega.nombre == nombre)
+        except Bodega.DoesNotExist:
+            return None
 
     def actualizar(self, bodega_id, **campos):
         # Actualizar solo los campos que han sido proporcionados
