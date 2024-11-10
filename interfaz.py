@@ -339,3 +339,5 @@ class PantallaActualizacionVinos:
 
         self.btn_conf_click = ttk.BooleanVar(value=False)
         self.btn_imp_click = ttk.BooleanVar(value=False)
+
+        
