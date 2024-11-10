@@ -6,6 +6,7 @@ from clases.Varietal import *
 from datetime import date
 from persistencias.PersistenciaBodega import PersistenciaBodega
 from clases import Bodega
+from clases.Iterators import *
 #from clases import InterfazBodega
 
 class GestorActualizarVinos:
@@ -144,24 +145,37 @@ class GestorActualizarVinos:
 
     #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
     def actualizarVinosBodega(self, Bodega, arrayVinosApi):   
-        hoy = self.getFechaActual()        
+        hoy = self.getFechaActual()
+        
+        # Crear iterador para los vinos de la API
+        api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
 
-        for vinoApi in arrayVinosApi:#  (vino1, vino2, vino3)
+        while api_iterator.tieneSiguiente():
+            vinoApi = api_iterator.actual()
             existe = False
-            for vino in Bodega.vinos:#    (vino40, vin1, vino3)
+
+            # Crear iterador para los vinos de la bodega
+            bodega_iterator = IteradorVinosBodega(Bodega.vinos)
+            
+            while bodega_iterator.tieneSiguiente():
+                vino = bodega_iterator.actual()
                 if self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
                     print("vino actualizado", vinoActualizado)
                     vinoActualizado.actualizarPersistencia()
-                    existe = True     
+                    existe = True
                     break
+
+            # Si no existe el vino, lo crea
+                if not existe:
+                    maridajeAPI = self.buscarMaridaje(vinoApi)
+                    vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                    print("bodega antes de persistir", Bodega)
+                    vinoNuevo.persistirVino(Bodega)
+
+                bodega_iterator.siguiente()
             
-            # si no existe el vino lo crea
-            if not existe:
-                maridajeAPI = self.buscarMaridaje(vinoApi) 
-                vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
-                print("bodega antes de persistir", Bodega)
-                vinoNuevo.persistirVino(Bodega)
+            api_iterator.siguiente()
 
         Bodega.setFechaActualizacion(hoy)
 
