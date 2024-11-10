@@ -1,4 +1,4 @@
-from peewee import SqliteDatabase, Model, CharField, TextField, DateField, IntegerField
+from peewee import SqliteDatabase, Model, CharField, TextField, DateField, IntegerField, IntegrityError
 from persistencias.PersistenciaBase import PersistenciaBase
 
 # Configuración de la base de datos

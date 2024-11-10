@@ -71,9 +71,12 @@ class GestorActualizarVinos:
             arregloBodegasSeleccionadas = []
             #Aca mostramos las Bodegas Disponibles al user
             pantalla.mostrarBodegasActDisponibles(arregloBodegasDisponibles)
+
+
             arregloBodegasSeleccionadas = pantalla.bodegas_seleccionadas
 
 
+            print("arreglo de bodegas selecionadas", arregloBodegasSeleccionadas)
             #Aca guardamos en un array los objetos Bodega que el user selec (Antes teniamos los nombres de las Bodegas no los obj)
             arregloBodegasParaActualizar = []
             arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(arregloBodegasSeleccionadas)
