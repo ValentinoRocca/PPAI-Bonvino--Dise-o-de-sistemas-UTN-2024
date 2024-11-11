@@ -242,7 +242,7 @@ vinosApiLuigi = [vinoAPI1_luigi,vinoAPI2_luigi,vinoAPI3_luigi,vinoAPI4_luigi,vin
 bodega4.agregarVinosApi(vinosApiLuigi)
 
 
-#------------------------------------------------------------------BODEGA 5--------------------------------#
+#------------------------------------------------------------------BODEGA 5--------------------------------------------------------------------#
 bodega5 = Bodega(
     coordenadaUbicacion=(-32.9295, -68.8018),
     descripcion="Una bodega boutique que produce vinos artesanales en pequeñas cantidades.",
@@ -282,10 +282,15 @@ bodega5.agregar_vino(vino4_achaval)
 
 #api
 vinoAPI1_achaval = ["Achaval Ferrer Malbec", "achaval_ferrer_malbec.jpg", "Notas de frutos rojos y negros con un toque de roble.", 2000, 2018,["Carne Asada"], [["Vino 100% Malbec", 100, "Malbec"]], date(2024, 2, 5)]
+
 vinoAPI2_achaval = ["Achaval Ferrer Quimera", "achaval_ferrer_quimera.jpg", "Complejo con notas de frutas negras y especias.", 2500, 2017,["Caza","Aves y Cordero"],[["Blend de Malbec y Cabernet Sauvignon", 80, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 20, "Cabernet Sauvignon"]], date(2024, 2, 5)]
+
 vinoAPI3_achaval = ["Achaval Ferrer Finca Bella Vista", "achaval_ferrer_bella_vista.jpg", "Intenso y elegante con notas de ciruela y chocolate.", 3000, 2016,["Carne Asada","Pasta con Salsa de Tomate" ],[["Blend de Malbec y Cabernet Sauvignon", 90, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 10, "Cabernet Sauvignon"]], date(2024, 2, 5)]
+
 vinoAPI4_achaval = ["Achaval Ferrer Cabernet Franc", "achaval_ferrer_cabernet_franc.jpg", "Aromas de pimiento y frutos negros.", 9000, 2018,["Carne Asada", "Caza" ],[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], date(2024, 3, 15)]
+
 vinoAPI5_achaval = ["Achaval Ferrer Finca Altamira Malbec", "achaval_ferrer _finca_Altamira.jpg", "Intensos aromas a frutas negras maduras como ciruelas y moras.", 3500, 2010,["Sushi", "Risotto" ],[["Vino 100% Merlot", 100, "Merlot"]], date(2024, 3, 15)]
+
 vinoAPI6_achaval = ["Achaval Ferrer Al que madruga Dios Lo Ayuda", "achaval_ferrer _diosAyuda.jpg", "Aromas a frutos oscuros y especias, que invitan a explorar cada sorbo con expectación", 3500, 2010,["Postres"],[["Vino 100% Tempranillo", 100, "Tempranillo"]], date(2024, 4, 20)]
 
 vinosApiAchaval = [vinoAPI1_achaval,vinoAPI2_achaval,vinoAPI3_achaval,vinoAPI4_achaval,vinoAPI5_achaval,vinoAPI6_achaval]
