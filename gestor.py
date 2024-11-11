@@ -6,6 +6,7 @@ from clases.Varietal import *
 from datetime import date
 from persistencias.PersistenciaBodega import PersistenciaBodega
 from clases import Bodega
+from clases import Vino
 from clases.Iterators import *
 #from clases import InterfazBodega
 
@@ -17,23 +18,37 @@ class GestorActualizarVinos:
         self.primer_inicio = False
         self.interfazBodega = interfaz
         self.persistenciaBodega = PersistenciaBodega()
+        self.persistenciaVino = PersistenciaVino()
 
+
+    def obtener_vinos_de_bodega(self, nombre_bodega):
+    # Buscar la bodega en el arreglo de bodegas cargadas en el sistema
+        for bodega_sistema in self.arregloBodegasSistema:
+            if bodega_sistema.nombre == nombre_bodega:  # Comparar el nombre directamente con el string
+                return bodega_sistema.vinos  # Devolver los vinos de esa bodega
+        return []  # Si no se encuentra la bodega, retornar lista vacía
     
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
+        
         """
         for bodega in arregloBodegas:
-           self.arregloBodegasSistema.append(bodega)
            bodega.persistirBodega()
         """
            
         listaBodegasBaseDatos = self.persistenciaBodega.obtener_todos()
-        print(listaBodegasBaseDatos[0].coordenadas)
-        self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)  
-        
+        self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)
 
+        """
+        for bodega1 in self.arregloBodegasSistema:
+            for bodega2 in arregloBodegas:
+                for vino in bodega2.vinos:
+                    vino.persistirVino(bodega1)
+        """            
+        
+        
         for maridaje in arregloMaridajes:
             self.arregloMaridajes.append(maridaje)
-            maridaje.persistirMaridaje()
+            
 
         for uva in arregloUva:
             self.arregloUvas.append(uva)
@@ -46,6 +61,11 @@ class GestorActualizarVinos:
             coordenadas = coordenadas_str.split(",")  # Separar las coordenadas por coma
             coordenadas_tupla = (float(coordenadas[0].strip()), float(coordenadas[1].strip()))
 
+            listaVinos = self.persistenciaVino.obtener_por_id_bodega(bodega.id)
+            vinosParseados = self.convertirVinos(listaVinos)    
+
+
+
             periodoAct = int(bodega.periodoActualizacion)
 
             bodegaObtenida = Bodega(
@@ -57,10 +77,34 @@ class GestorActualizarVinos:
                 ultimaActualizacion=bodega.ultimaActualizacion,
                 id = bodega.id
             )
+
+            bodegaObtenida.agregar_vinos(vinosParseados)
+
             bodegasConvertidas.append(bodegaObtenida)
+
 
             print("bodega creada", bodegaObtenida)
         return bodegasConvertidas
+
+    def convertirVinos(self, listaVinos):
+        vinosConvertidos = []
+        for vino in listaVinos:
+
+            precioInt = int(vino.precio)
+            añadaInt = int(vino.añada)
+
+            vinoObtenido = Vino(
+                nombre=vino.nombre,
+                imagenEtiqueta=vino.imagenEtiqueta,
+                notaCataVino=vino.notaCataVino,
+                precio=precioInt,
+                añada=añadaInt,
+                fechaAct=vino.fechaAct
+            )
+            vinosConvertidos.append(vinoObtenido)
+        return vinosConvertidos
+
+
 
     # funcion del gestor que incia el procesamiento del codigo
     def nuevaActualizacionVino(self, pantalla, btn_imp_click):
@@ -181,6 +225,7 @@ class GestorActualizarVinos:
                 if not existe:
                     maridajeAPI = self.buscarMaridaje(vinoApi)
                     vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                    #crear tabla intermedia vinos y maridajes 
                     vinoNuevo.persistirVino(Bodega)
                     
 

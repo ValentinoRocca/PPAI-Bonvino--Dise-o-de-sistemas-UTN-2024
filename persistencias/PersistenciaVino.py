@@ -50,6 +50,14 @@ class PersistenciaVino(PersistenciaBase):
         except Vino.DoesNotExist:
             return None
 
+    def obtener_por_id_bodega(self, bodega_id):
+        try:
+            # Usar select() para obtener todos los vinos asociados a la bodega
+            return list(Vino.select().where(Vino.bodega == bodega_id))
+        except Vino.DoesNotExist:
+            return []  # Retorna una lista vacía si no hay vinos asociados a la bodega
+
+
     def obtener_todos(self):
         return list(Vino.select())
 

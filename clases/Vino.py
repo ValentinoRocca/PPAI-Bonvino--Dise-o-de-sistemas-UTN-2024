@@ -86,7 +86,7 @@ class Vino:
             print("Error al persistir")
 
     def actualizarPersistencia(self):
-        self.persistenciaVino.actualizar(self, self.id, self.precio, self.imagenEtiqueta, self.notaCataVino, self.fechaAct)
+        self.persistenciaVino.actualizar(self.id, precio=self.precio, imagenEtiqueta=self.imagenEtiqueta, notaCataVino=self.notaCataVino, fechaAct=self.fechaAct)
         
     
     def __str__(self):
