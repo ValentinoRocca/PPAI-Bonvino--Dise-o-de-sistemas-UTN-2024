@@ -30,25 +30,25 @@ class GestorActualizarVinos:
     
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
         
-        """
+        
         for bodega in arregloBodegas:
            bodega.persistirBodega()
-        """
-           
+        
         listaBodegasBaseDatos = self.persistenciaBodega.obtener_todos()
         self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)
 
-        """
+        
         for bodega1 in self.arregloBodegasSistema:
             for bodega2 in arregloBodegas:
-                for vino in bodega2.vinos:
-                    vino.persistirVino(bodega1)
-        """            
+                if bodega1.nombre == bodega2.nombre:    
+                    for vino in bodega2.vinos:
+                        vino.persistirVino(bodega1)
+            
         
         
         for maridaje in arregloMaridajes:
             self.arregloMaridajes.append(maridaje)
-            
+            maridaje.persistirMaridaje()
 
         for uva in arregloUva:
             self.arregloUvas.append(uva)
@@ -179,6 +179,7 @@ class GestorActualizarVinos:
             #self.interfazBodega.buscarVinosApi(Bogdega)
             vinosApi = self.buscarVinosApi(bodegaSeleccionada)
             print("vinos obtenidos de la api", vinosApi)
+            
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
             bodegasActualizadas.append(bodegaSeleccionada)
 
@@ -194,27 +195,23 @@ class GestorActualizarVinos:
     def actualizarVinosBodega(self, Bodega, arrayVinosApi):   
         hoy = self.getFechaActual()
         
+        
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
-        print("array vinos bodega", Bodega.vinos)
 
+        
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
-
-            print("vino api1", vinoApi)
+            print('Vino API Rey: ', vinoApi)
 
             # Crear iterador para los vinos de la bodega
-            bodega_iterator = IteradorVinosBodega(Bodega.vinos)
-
-            
+            bodega_iterator = VinoBodegaIterator(Bodega.vinos)
             
             while bodega_iterator.tieneSiguiente():
-
-                vino = bodega_iterator.actual()
-
-                print("vino api2", vino)
-                if vino and self.sosElMismoVino(vinoApi, vino):
+                vino = bodega_iterator.siguiente()
+                print('Vino Rey: ', vino)
+                if self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
                     print("vino actualizado", vinoActualizado)
                     vinoActualizado.actualizarPersistencia()
@@ -222,17 +219,14 @@ class GestorActualizarVinos:
                     break
 
             # Si no existe el vino, lo crea
-                if not existe:
-                    maridajeAPI = self.buscarMaridaje(vinoApi)
-                    vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
-                    #crear tabla intermedia vinos y maridajes 
-                    vinoNuevo.persistirVino(Bodega)
-                    
+            if not existe:
+                maridajeAPI = self.buscarMaridaje(vinoApi)
+                vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
+                print("bodega antes de persistir", Bodega)
+                vinoNuevo.persistirVino(Bodega)
 
-                bodega_iterator.siguiente()
-            
             api_iterator.siguiente()
-
+        
         Bodega.setFechaActualizacion(hoy)
 
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo

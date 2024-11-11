@@ -84,7 +84,7 @@ bodega1.agregar_vino(vino3_catena)
 bodega1.agregar_vino(vino4_catena)
 
 #vinos API Bodega catena
-vinoAPI1_catena = ["Catena Alta Malbec", "catena_alta_malbec.jpg", "Notas de ciruela higos y un toque de especias.",9999999,1800,[], [["Vino 100% Malbec", 100, "Malbec"]],date(2024, 3, 25)]
+vinoAPI1_catena = ["Catena Alta Malbec", "catena_alta_malbec.jpg", "Notas de ciruela higos y un toque de especias.",9999999,1800,["Carne Asada"], [["Vino 100% Malbec", 100, "Malbec"]],date(2024, 3, 25)]
 vinoAPI2_catena = ["Catena Zapata Adrianna Vineyard", "catena_adrianna_vineyard.jpg", "Aromas de violetas y frutos negros con un final largo.", 3500, 2016,["Caza","Mariscos"], [["Blend de Malbec y Cabernet Sauvignon", 80, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 20, "Cabernet Sauvignon"]], date(2024, 4, 25)]
 vinoAPI3_catena = ["Catena Chardonnay", "catena_chardonnay.jpg", "Fresco, con notas cítricas y un toque de vainilla.", 1200, 2019,["Ensalada y Pescado", "Mariscos","Carne Asada"], [["Vino 100% Chardonnay", 100, "Chardonnay"]], date(2024, 4, 25)]
 vinoAPI4_catena = ["Catena Malbec", "catena_malbec.jpg", "Frutal y especiado con taninos suaves.", 1100, 2020, ["Comida Picante"],[["Vino 100% Malbec", 100, "Malbec"]],date(2024, 4, 25)]

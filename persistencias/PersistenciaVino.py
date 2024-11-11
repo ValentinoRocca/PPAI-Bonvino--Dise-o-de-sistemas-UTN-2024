@@ -25,9 +25,14 @@ db.create_tables([Vino], safe=True)
 # Clase de persistencia para Vino
 class PersistenciaVino(PersistenciaBase):
     def agregar(self, vino_obj, bodega_obj):
-        # Verificar si ya existe una bodega con el mismo nombre
-        print("id bodega", bodega_obj.id)
-
+        vino_existente = Vino.select().where(
+            Vino.nombre == vino_obj.nombre,
+            Vino.bodega == bodega_obj.id
+            ).first()
+        if vino_existente:
+            print(f"El vino '{vino_obj.nombre}' ya existe en la bodega '{bodega_obj.nombre}'. No se ha agregado.")
+            return vino_existente
+       
         try:
             # Crear la bodega si no existe
             vino = Vino.create(

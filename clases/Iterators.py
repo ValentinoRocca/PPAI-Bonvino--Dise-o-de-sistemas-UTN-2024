@@ -15,22 +15,20 @@ class IteradorVinosBodegaApi:
         self.index += 1
 
 
-class IteradorVinosBodega:
+class VinoBodegaIterator:
     def __init__(self, vinos_bodega):
         self.vinos_bodega = vinos_bodega
         self.index = 0
 
     def tieneSiguiente(self):
-        return self.index < len(self.vinos_bodega) or len(self.vinos_bodega) == 0
+        return self.index < len(self.vinos_bodega)
 
-    def actual(self):
-            if len(self.vinos_bodega) == 0:
-                 return False
-            else:
-                vino = self.vinos_bodega[self.index]
-                return vino
-        
     def siguiente(self):
-        if len(self.vinos_bodega) != 0:
+        if self.tieneSiguiente():
+            vino = self.vinos_bodega[self.index]
             self.index += 1
+            return vino
+        else:
+            raise StopIteration
+
             
