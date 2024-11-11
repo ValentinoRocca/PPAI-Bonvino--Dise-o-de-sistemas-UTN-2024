@@ -192,14 +192,13 @@ class GestorActualizarVinos:
 
 
     #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
-    def actualizarVinosBodega(self, Bodega, arrayVinosApi):   
+    def actualizarVinosBodega(self, Bodega, arrayVinosApi):
         hoy = self.getFechaActual()
-        
         
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
 
-        
+        # Iterar sobre todos los vinos en la API
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
@@ -208,9 +207,12 @@ class GestorActualizarVinos:
             # Crear iterador para los vinos de la bodega
             bodega_iterator = VinoBodegaIterator(Bodega.vinos)
             
+            # Buscar si el vino ya existe en la bodega
             while bodega_iterator.tieneSiguiente():
                 vino = bodega_iterator.siguiente()
                 print('Vino Rey: ', vino)
+                
+                # Si el vino existe, actualizarlo
                 if self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
                     print("vino actualizado", vinoActualizado)
@@ -218,16 +220,19 @@ class GestorActualizarVinos:
                     existe = True
                     break
 
-            # Si no existe el vino, lo crea
+            # Si no existe el vino, crearlo después de iterar sobre todos los vinos de la bodega
             if not existe:
                 maridajeAPI = self.buscarMaridaje(vinoApi)
                 vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
                 print("bodega antes de persistir", Bodega)
                 vinoNuevo.persistirVino(Bodega)
 
+            # Avanzar al siguiente vino de la API
             api_iterator.siguiente()
         
+        # Actualizar la fecha de la última actualización de la bodega
         Bodega.setFechaActualizacion(hoy)
+
 
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):
