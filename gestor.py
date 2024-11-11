@@ -30,20 +30,20 @@ class GestorActualizarVinos:
     
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
         
-        """
+        
         for bodega in arregloBodegas:
            bodega.persistirBodega()
-        """
+        
            
         listaBodegasBaseDatos = self.persistenciaBodega.obtener_todos()
         self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)
 
-        """
+        
         for bodega1 in self.arregloBodegasSistema:
             for bodega2 in arregloBodegas:
                 for vino in bodega2.vinos:
                     vino.persistirVino(bodega1)
-        """            
+                    
         
         
         for maridaje in arregloMaridajes:
@@ -83,7 +83,6 @@ class GestorActualizarVinos:
             bodegasConvertidas.append(bodegaObtenida)
 
 
-            print("bodega creada", bodegaObtenida)
         return bodegasConvertidas
 
     def convertirVinos(self, listaVinos):
@@ -124,7 +123,6 @@ class GestorActualizarVinos:
             arregloBodegasSeleccionadas = pantalla.bodegas_seleccionadas
 
 
-            print("arreglo de bodegas selecionadas", arregloBodegasSeleccionadas)
             #Aca guardamos en un array los objetos Bodega que el user selec (Antes teniamos los nombres de las Bodegas no los obj)
             arregloBodegasParaActualizar = []
             arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(arregloBodegasSeleccionadas)
@@ -171,14 +169,11 @@ class GestorActualizarVinos:
     #esta funcion es un for que por cada bodega que selec el user realice la func ActualizarVinosBodega
     def buscarVinosBodegaSeleccionada(self, arregloBodegasParaActualizar):
         bodegasActualizadas = []
-        print("arreglo de bodeas para act", arregloBodegasParaActualizar[0])
         
         for bodegaSeleccionada in arregloBodegasParaActualizar:
-            print("id de la bodega a actualizar", bodegaSeleccionada.id)
             #vinosApi = bodegaSeleccionada.vinosAPI
             #self.interfazBodega.buscarVinosApi(Bogdega)
             vinosApi = self.buscarVinosApi(bodegaSeleccionada)
-            print("vinos obtenidos de la api", vinosApi)
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
             bodegasActualizadas.append(bodegaSeleccionada)
 
@@ -196,27 +191,27 @@ class GestorActualizarVinos:
         
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
-        print("array vinos bodega", Bodega.vinos)
+
+        for vino in Bodega.vinos:
+                print("vino ya cargado", vino)
 
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
 
-            print("vino api1", vinoApi)
+            
 
             # Crear iterador para los vinos de la bodega
             bodega_iterator = IteradorVinosBodega(Bodega.vinos)
-
             
+
             
             while bodega_iterator.tieneSiguiente():
 
                 vino = bodega_iterator.actual()
 
-                print("vino api2", vino)
                 if vino and self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
-                    print("vino actualizado", vinoActualizado)
                     vinoActualizado.actualizarPersistencia()
                     existe = True
                     break
