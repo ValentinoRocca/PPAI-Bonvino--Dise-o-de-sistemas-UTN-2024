@@ -29,9 +29,11 @@ class GestorActualizarVinos:
         listaBodegasBaseDatos = self.persistenciaBodega.obtener_todos()
         print(listaBodegasBaseDatos[0].coordenadas)
         self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)  
+        
 
         for maridaje in arregloMaridajes:
             self.arregloMaridajes.append(maridaje)
+            maridaje.persistirMaridaje()
 
         for uva in arregloUva:
             self.arregloUvas.append(uva)
@@ -150,17 +152,25 @@ class GestorActualizarVinos:
         
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
+        print("array vinos bodega", Bodega.vinos)
 
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
 
+            print("vino api1", vinoApi)
+
             # Crear iterador para los vinos de la bodega
             bodega_iterator = IteradorVinosBodega(Bodega.vinos)
+
+            
             
             while bodega_iterator.tieneSiguiente():
+
                 vino = bodega_iterator.actual()
-                if self.sosElMismoVino(vinoApi, vino):
+
+                print("vino api2", vino)
+                if vino and self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
                     print("vino actualizado", vinoActualizado)
                     vinoActualizado.actualizarPersistencia()
@@ -171,8 +181,8 @@ class GestorActualizarVinos:
                 if not existe:
                     maridajeAPI = self.buscarMaridaje(vinoApi)
                     vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
-                    print("bodega antes de persistir", Bodega)
                     vinoNuevo.persistirVino(Bodega)
+                    
 
                 bodega_iterator.siguiente()
             

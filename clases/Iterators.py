@@ -21,11 +21,16 @@ class IteradorVinosBodega:
         self.index = 0
 
     def tieneSiguiente(self):
-        return self.index < len(self.vinos_bodega)
+        return self.index < len(self.vinos_bodega) or len(self.vinos_bodega) == 0
 
     def actual(self):
-            vino = self.vinos_bodega[self.index]
-            return vino
+            if len(self.vinos_bodega) == 0:
+                 return False
+            else:
+                vino = self.vinos_bodega[self.index]
+                return vino
         
     def siguiente(self):
-        self.index += 1
+        if len(self.vinos_bodega) != 0:
+            self.index += 1
+            

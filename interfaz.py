@@ -1,5 +1,3 @@
-"""
-
 import tkinter as tk
 import tkinter as tk
 from PIL import ImageTk, Image
@@ -173,8 +171,9 @@ class PantallaActualizacionVinos:
         self.etiqueta_resultado = tk.Label(self.root, text="")
         self.btn_conf_click = tk.BooleanVar(value=False)
         self.btn_imp_click = tk.BooleanVar(value=False)
+
+
 """
-        
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import tkinter as tk
@@ -339,5 +338,5 @@ class PantallaActualizacionVinos:
 
         self.btn_conf_click = ttk.BooleanVar(value=False)
         self.btn_imp_click = ttk.BooleanVar(value=False)
-
+"""
         
