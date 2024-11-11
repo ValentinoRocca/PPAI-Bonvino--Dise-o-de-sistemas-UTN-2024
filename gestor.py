@@ -18,6 +18,13 @@ class GestorActualizarVinos:
         self.interfazBodega = interfaz
         self.persistenciaBodega = PersistenciaBodega()
 
+
+    def obtener_vinos_de_bodega(self, nombre_bodega):
+    # Buscar la bodega en el arreglo de bodegas cargadas en el sistema
+        for bodega_sistema in self.arregloBodegasSistema:
+            if bodega_sistema.nombre == nombre_bodega:  # Comparar el nombre directamente con el string
+                return bodega_sistema.vinos  # Devolver los vinos de esa bodega
+        return []  # Si no se encuentra la bodega, retornar lista vacía
     
     def cargarDatosAlSistema(self, arregloBodegas, arregloMaridajes, arregloUva):  
         """
@@ -25,7 +32,8 @@ class GestorActualizarVinos:
            self.arregloBodegasSistema.append(bodega)
            bodega.persistirBodega()
         """
-           
+        for bodega in self.arregloBodegasSistema:
+            print(f"Bodega: {bodega.nombre}, Vinos: {[vino.nombre for vino in bodega.vinos]}")   
         listaBodegasBaseDatos = self.persistenciaBodega.obtener_todos()
         print(listaBodegasBaseDatos[0].coordenadas)
         self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)  
