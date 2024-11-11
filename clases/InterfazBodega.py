@@ -14,7 +14,7 @@ class InterfazBodega:
         self.bodega2api=["Bodega Norton", vinosApiNorton]
         self.bodega3api=["Bodega Trapiche", vinosApiTrapiche]
         self.bodega4api=["Bodega Luigi Bosca", vinosApiLuigi]
-        self.bodega5Api = ["Bodega Achaval", vinosApiAchaval]    
+        self.bodega5Api = ["Bodega Achaval Ferrer", vinosApiAchaval]    
         
         
         self.bodegasApi=[self.bodega1api, self.bodega2api, self.bodega3api, self.bodega4api, self.bodega4api, self.bodega5Api]

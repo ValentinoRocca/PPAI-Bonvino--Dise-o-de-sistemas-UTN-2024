@@ -288,14 +288,12 @@ vinoAPI2_achaval = ["Achaval Ferrer Quimera", "achaval_ferrer_quimera.jpg", "Com
 vinoAPI3_achaval = ["Achaval Ferrer Finca Bella Vista", "achaval_ferrer_bella_vista.jpg", "Intenso y elegante con notas de ciruela y chocolate.", 3000, 2016,["Carne Asada","Pasta con Salsa de Tomate" ],[["Blend de Malbec y Cabernet Sauvignon", 90, "Malbec"],["Blend de Malbec y Cabernet Sauvignon", 10, "Cabernet Sauvignon"]], date(2024, 2, 5)]
 
 vinoAPI4_achaval = ["Achaval Ferrer Cabernet Franc", "achaval_ferrer_cabernet_franc.jpg", "Aromas de pimiento y frutos negros.", 9000, 2018,["Carne Asada", "Caza" ],[["Vino 100% Cabernet Sauvignon", 100, "Cabernet Sauvignon"]], date(2024, 3, 15)]
-
-vinoAPI5_achaval = ["Achaval Ferrer Finca Altamira Malbec", "achaval_ferrer _finca_Altamira.jpg", "Intensos aromas a frutas negras maduras como ciruelas y moras.", 3500, 2010,["Sushi", "Risotto" ],[["Vino 100% Merlot", 100, "Merlot"]], date(2024, 3, 15)]
-
+vinoAPI5_achaval = ["Achaval Ferrer Finca Altamira Malbec", "achaval_ferrer _finca_Altamira.jpg", "Intensos aromas a frutas negras maduras como ciruelas y moras.", 9999, 2010,["Sushi", "Risotto" ],[["Vino 100% Merlot", 100, "Merlot"]], date(2024, 3, 15)]
 vinoAPI6_achaval = ["Achaval Ferrer Al que madruga Dios Lo Ayuda", "achaval_ferrer _diosAyuda.jpg", "Aromas a frutos oscuros y especias, que invitan a explorar cada sorbo con expectación", 3500, 2010,["Postres"],[["Vino 100% Tempranillo", 100, "Tempranillo"]], date(2024, 4, 20)]
 
 vinosApiAchaval = [vinoAPI1_achaval,vinoAPI2_achaval,vinoAPI3_achaval,vinoAPI4_achaval,vinoAPI5_achaval,vinoAPI6_achaval]
 
-bodega5.agregarVinosApi(vinosApiTrapiche)
+bodega5.agregarVinosApi(vinosApiAchaval)
 
 #_----------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -4,7 +4,8 @@ from persistencias.PersistenciaBodega import PersistenciaBodega
 
 
 class Bodega:
-    def __init__(self, coordenadaUbicacion , descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion):
+    def __init__(self, coordenadaUbicacion, descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion, id=None):
+        self.id = id
         self.coordenadas = coordenadaUbicacion
         self.descripcion = descripcion
         self.historia = historia
@@ -46,13 +47,16 @@ class Bodega:
     
     def setFechaActualizacion(self, nuevaActualizacion):
         self.ultimaActualizacion = nuevaActualizacion
+        self.persistencia_bodega.actualizar(self.id, ultimaActualizacion=self.ultimaActualizacion)
 
 
-    def actualizarVino(self,vinoPropio, vinoApi, fechaActual):
+    def actualizarVino(self, vinoPropio, vinoApi, fechaActual):
         vinoPropio.setPrecio(vinoApi[3])
         vinoPropio.setImagenEtiqueta(vinoApi[1])
         vinoPropio.setNotaCata(vinoApi[2])
         vinoPropio.setFechaActualizacion(fechaActual)
+
+        return vinoPropio
 
 
     def crearVino(self, vinoAPI, fechaAct, maridajes, arrayDeTipoDeUva):
@@ -66,9 +70,12 @@ class Bodega:
         nuevoVino.crearVarietales(varietalesAPI, arrayDeTipoDeUva)
         self.agregar_vino(nuevoVino)
 
+        return nuevoVino
+
+
         
     def __str__(self):
-        return f"{self.nombre}"
+        return f"{self.nombre}, {self.descripcion}"
     
 
     def getDatosVinosBodega(self):
@@ -85,8 +92,13 @@ class Bodega:
             
             print('| Nombre del vino:', nombre, '|Precio Vino: ', precioNuevo,' |Notas de la cata: ', notaCataVinoNuevo, ' | Imagen de la etiqueta:',imagenEtiquetaNuevo, '|Fecha de Actualizacion:',fechaActNuevo,'|Añada: ', añada, " |")
 
-    def addBodega(self):
-        # Aquí llamamos al método `agregar` y pasamos los atributos necesarios
-        self.persistencia_bodega.agregar(self)
+    def persistirBodega(self):
+        # Si no se ha asignado un `id`, intenta agregar la bodega
+        bodega_db = self.persistencia_bodega.agregar(self)
+        if bodega_db:
+            self.id = bodega_db.id  # Asigna el id generado en la base de datos
+        else:
+            print("Esta bodega ya existe en la base de datos.")
+            print("entro aca")
 
 
