@@ -1,6 +1,9 @@
 from peewee import SqliteDatabase, Model, ForeignKeyField, IntegrityError
 from persistencias.PersistenciaVino import Vino
 from persistencias.PersistenciaMaridaje import Maridaje  # Suponiendo que ya tienes un modelo Maridaje
+from persistencias.PersistenciaBase import PersistenciaBase
+
+db = SqliteDatabase('bodegas.db')
 
 # Definir el modelo VinoMaridaje
 class VinoMaridaje(Model):

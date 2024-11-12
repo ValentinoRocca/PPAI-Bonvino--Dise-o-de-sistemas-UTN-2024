@@ -1,6 +1,7 @@
 from .Varietal import *
 from .Maridaje import *
 from persistencias.PersistenciaVino import PersistenciaVino
+from persistencias.PersistenciaVinoMaridaje import PersistenciaVinoMaridaje
 
 class Vino:
     def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct, id=None):
@@ -84,6 +85,11 @@ class Vino:
             self.id = vino_obj.id  # Asigna el id generado en la base de datos
         else:
             print("Error al persistir")
+
+    """
+    def persistirVinoMaridaje(self, maridaje_obj):
+        vino_maridaje_obj = self.persistenciaVinoMaridaje.agregar(self, maridaje_obj)
+    """
 
     def actualizarPersistencia(self):
         print('esta es la fecha actual: ', self.fechaAct)
