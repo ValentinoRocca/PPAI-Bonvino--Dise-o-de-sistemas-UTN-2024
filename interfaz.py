@@ -214,7 +214,7 @@ class PantallaActualizacionVinos:
         self.root.geometry("800x600")
         self.root.state('zoomed')
         self.root.configure(bg='#f5f5f5')
-        self.cargar_imagen_de_fondo("./img/bonvino.jpg")
+        self.cargar_imagen_de_fondo("./img/bonvino_3.png")
 
         self.label = tk.Label(self.root, text="BonVino Bodegas", font=("Helvetica", 24, "bold"), bg='#f5f5f5', fg='#333333')
         self.listbox = tk.Listbox(self.root, selectmode=tk.MULTIPLE, height=20, width=60, font=("Helvetica", 12))
