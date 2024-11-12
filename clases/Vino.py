@@ -1,10 +1,11 @@
 from .Varietal import *
 from .Maridaje import *
 from persistencias.PersistenciaVino import PersistenciaVino
+from persistencias.PersistenciaVinoMaridaje import PersistenciaVinoMaridaje
 
 class Vino:
-    def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
-        self.id = None
+    def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct, id=None):
+        self.id = id
         self.nombre = nombre
         self.imagenEtiqueta = imagenEtiqueta
         self.notaCataVino = notaCataVino
@@ -51,7 +52,7 @@ class Vino:
 
 
      # varietalAPI [descripcion, porcentaje, tipoDeUva]
-    def crearVarietales(self,varietales, arrayDeTipoDeUva):
+    def crearVarietales(self, varietales, arrayDeTipoDeUva):
         for varietal in varietales:
             tipo_Uva = varietal[2]
             tipoDeUvaObjeto = self.buscarTipoUva(arrayDeTipoDeUva, tipo_Uva)  
@@ -85,8 +86,13 @@ class Vino:
         else:
             print("Error al persistir")
 
+    """
+    def persistirVinoMaridaje(self, maridaje_obj):
+        vino_maridaje_obj = self.persistenciaVinoMaridaje.agregar(self, maridaje_obj)
+    """
+
     def actualizarPersistencia(self):
-        self.persistenciaVino.actualizar(self, self.id, self.precio, self.imagenEtiqueta, self.notaCataVino, self.fechaAct)
+        self.persistenciaVino.actualizar(self.id, precio=self.precio, imagenEtiqueta=self.imagenEtiqueta, notaCataVino=self.notaCataVino, fechaAct=self.fechaAct)
         
     
     def __str__(self):

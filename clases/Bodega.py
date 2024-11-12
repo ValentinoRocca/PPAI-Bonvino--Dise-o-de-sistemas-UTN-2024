@@ -1,7 +1,8 @@
 from datetime import *
 from clases.Vino import *
 from persistencias.PersistenciaBodega import PersistenciaBodega
-
+from clases.Iterators import *
+from gestor import GestorActualizarVinos
 
 class Bodega:
     def __init__(self, coordenadaUbicacion, descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion, id=None):
@@ -72,7 +73,6 @@ class Bodega:
 
         return nuevoVino
 
-
         
     def __str__(self):
         return f"{self.nombre}, {self.descripcion}"
@@ -101,4 +101,40 @@ class Bodega:
             print("Esta bodega ya existe en la base de datos.")
             print("entro aca")
 
+
+    def crearIterador(self):
+        bodega_iterator = IteradorVinosBodega(self.vinos)
+        return bodega_iterator
+    
+    
+    def actualizarVinoBodega(self, vinoApi, hoy, arregloUvas):
+
+        bodega_iterator = self.crearIterador()
+        
+        bodega_iterator.primero()
+
+        while bodega_iterator.tieneSiguiente():
+
+            vino = bodega_iterator.actual()
+
+
+            existe = bodega_iterator.cumpleFiltro(vino, vinoApi)
+            if existe:
+                vinoActualizado = self.actualizarVino(vino, vinoApi, hoy)
+                vinoActualizado.actualizarPersistencia()
+                
+
+            # Si no existe el vino, lo crea
+            else:
+                maridajeObjeto = GestorActualizarVinos.buscarMaridaje(vinoApi)
+
+                vinoNuevo = self.crearVino(vinoApi, hoy, maridajeObjeto, arregloUvas)
+                vinoNuevo.persistirVino(self) 
+
+            bodega_iterator.siguiente()
+
+    # Le pasa por parametro el string nombre vino y un objeto vino, valida si sus nombres son el mismo
+    def sosElMismoVino(self, vinoBodegaApi, vinoBodegaSeleccionada):
+        return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
+    
 

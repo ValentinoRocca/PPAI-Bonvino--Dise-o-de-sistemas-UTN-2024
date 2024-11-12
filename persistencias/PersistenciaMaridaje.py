@@ -4,7 +4,7 @@ from persistencias.PersistenciaBase import PersistenciaBase
 # Configuración de la base de datos
 db = SqliteDatabase('bodegas.db')
 
-# Definir el modelo Bodega
+# Definir el modelo Maridaje
 class Maridaje(Model):
     descripcion = TextField()
     nombre = TextField()
@@ -16,7 +16,7 @@ class Maridaje(Model):
 db.connect()
 db.create_tables([Maridaje], safe=True)
 
-# Clase de persistencia para Bodega
+# Clase de persistencia para Maridaje
 class PersistenciaMaridaje(PersistenciaBase):
     def agregar(self, maridaje_obj):
         # Verificar si ya existe una bodega con el mismo nombre
@@ -27,47 +27,44 @@ class PersistenciaMaridaje(PersistenciaBase):
         try:
             # Crear la bodega si no existe
             maridaje = Maridaje.create(
-                coordenadas=bodega_obj.coordenadas,
-                descripcion=bodega_obj.descripcion,
-                historia=bodega_obj.historia,
-                nombre=bodega_obj.nombre,
-                periodoActualizacion=bodega_obj.periodoAct,
-                ultimaActualizacion=bodega_obj.ultimaActualizacion
+                nombre=maridaje_obj.nombre,
+                descripcion=maridaje_obj.descripcion,
+                
             )
-            return bodega
+            return maridaje
         except IntegrityError as e:
-            print(f"Error al agregar la bodega: {e}")
+            print(f"Error al agregar el maridaje: {e}")
             return None
 
-    def obtener_por_id(self, bodega_id):
+    def obtener_por_id(self, maridaje_id):
         try:
-            return Bodega.get(Bodega.id == bodega_id)
-        except Bodega.DoesNotExist:
+            return Maridaje.get(Maridaje.id == maridaje_id)
+        except Maridaje.DoesNotExist:
             return None
 
     def obtener_todos(self):
-        return list(Bodega.select())
+        return list(Maridaje.select())
     
     def obtener_por_nombre(self, nombre):
         try:
-            return Bodega.get(Bodega.nombre == nombre)
-        except Bodega.DoesNotExist:
+            return Maridaje.get(Maridaje.nombre == nombre)
+        except Maridaje.DoesNotExist:
             return None
 
-    def actualizar(self, bodega_id, **campos):
+    def actualizar(self, maridaje_id, **campos):
         # Actualizar solo los campos que han sido proporcionados
-        bodega = self.obtener_por_id(bodega_id)
-        if bodega:
+        maridaje = self.obtener_por_id(maridaje_id)
+        if maridaje:
             for campo, valor in campos.items():
-                if hasattr(bodega, campo):
-                    setattr(bodega, campo, valor)
-            bodega.save()
-            return bodega
+                if hasattr(maridaje, campo):
+                    setattr(maridaje, campo, valor)
+            maridaje.save()
+            return maridaje
         return None
 
-    def eliminar(self, bodega_id):
-        bodega = self.obtener_por_id(bodega_id)
-        if bodega:
-            bodega.delete_instance()
+    def eliminar(self, maridaje_id):
+        maridaje = self.obtener_por_id(maridaje_id)
+        if maridaje:
+            maridaje.delete_instance()
             return True
         return False
