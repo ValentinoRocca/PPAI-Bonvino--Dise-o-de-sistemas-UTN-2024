@@ -111,7 +111,7 @@ class PantallaActualizacionVinos:
             self.label.config(text='Bodegas Actualizadas')
             self.label.pack(pady=10, fill=tk.X)
             
-            # Configurar Treeview con las columnas correctas para los datos de Vino
+            # Configurar Treeview si aún no se ha hecho
             if not hasattr(self, 'treeview'):
                 self.treeview = ttk.Treeview(
                     self.root,
@@ -136,7 +136,7 @@ class PantallaActualizacionVinos:
                 self.treeview.column("Varietales", width=150, anchor='w')
                 self.treeview.column("Maridajes", width=150, anchor='w')
                 self.treeview.column("Fecha de Actualización", width=150, anchor='center')
-            
+
             # Limpiar Treeview antes de agregar nuevos datos
             for row in self.treeview.get_children():
                 self.treeview.delete(row)
@@ -149,28 +149,29 @@ class PantallaActualizacionVinos:
                     # Insertar una fila para el nombre de la bodega
                     self.treeview.insert("", "end", values=(f'--- {bodega.nombre} ---', "", "", "", "", "", ""), tags=('bodega',))
 
-                    # Agregar filas para cada vino de la bodega actualizado hoy
+                    # Agregar filas para cada vino actualizado
                     for vino in bodega.vinos:
                         if vino.fechaAct == date.today():
+                            maridajes = "\n".join([maridaje.nombre for maridaje in vino.maridajes])  # Unir maridajes en líneas separadas
+                            varietales = "\n".join([f"{var.descripcion}: {var.porcentajeComposicion}%" for var in vino.varietales])
+                            
                             self.treeview.insert(
                                 "",
                                 "end",
                                 values=(
                                     "",  # Columna Bodega en blanco para vinos
                                     vino.nombre,  # Nombre del vino
-                                    vino.notaCataVino,  # Nota de cata del vino
-                                    vino.añada,  # Añada del vino
-                                    f"${vino.precio:.2f}",  # Precio del vino
-                                    vino.varietales,  # Varietales del vino
-                                    vino.maridajes,  # Maridajes del vino
+                                    vino.notaCataVino,  # Nota de cata
+                                    vino.añada,  # Añada
+                                    f"${vino.precio:.2f}",  # Precio
+                                    varietales,  # Varietales formateados
+                                    maridajes,  # Maridajes formateados
                                     vino.fechaAct.strftime("%d/%m/%Y")  # Fecha de actualización
                                 ),
                                 tags=('vino',)
                             )
 
-                    # Insertar una fila divisoria más larga después de cada bodega
-                    self.treeview.insert("", "end", values=("-------------------------------------------------------------", "", "", "", "", "", ""), tags=('divider',))
-                
+        
             # Configurar los estilos de las filas
             self.treeview.tag_configure('bodega', background="#f0f0f0", font=("Helvetica", 12, "bold"))
             self.treeview.tag_configure('vino', background="#ffffff", font=("Helvetica", 12))
@@ -198,8 +199,7 @@ class PantallaActualizacionVinos:
                     bg="#e74c3c", fg="white"
                 )
             self.btn_cerrar.pack(pady=10)
-
-            
+                
     def cargar_imagen_de_fondo(self, ruta_imagen):
         imagen = Image.open(ruta_imagen)
         imagen = imagen.resize((self.root.winfo_screenwidth(), self.root.winfo_screenheight()), Image.LANCZOS)
