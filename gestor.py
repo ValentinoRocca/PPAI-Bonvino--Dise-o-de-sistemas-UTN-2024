@@ -47,7 +47,7 @@ class GestorActualizarVinos:
         listaMaridajes = self.persistenciaMaridaje.obtener_todos()
         self.arregloMaridajes = self.convertirMaridajes(listaMaridajes)
 
-        """
+        
         for bodega1 in self.arregloBodegasSistema:
             for bodega2 in arregloBodegas:
                 if bodega1.nombre == bodega2.nombre:    
@@ -59,24 +59,16 @@ class GestorActualizarVinos:
                             objMaridajes.append(self.buscarMaridajeDescripcion(maridaje))
                             print("el maridaje que obtuvo", objMaridajes)
                             for mari in objMaridajes:
-                                print("q verga es esto", mari)
+                           
                                 mari.persistirVinoMaridaje(vino)
-        """
-                        
-            
         
-        
-        
-        
-        
-        """
+
         for maridaje in arregloMaridajes:
             maridaje.persistirMaridaje()
-        """
-
-
+        
         for uva in arregloUva:
             self.arregloUvas.append(uva)
+            #uva.persistirTipoUva()
             
 
     def convertirBodegas(self, listaBodegas):

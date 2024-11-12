@@ -115,7 +115,7 @@ class PantallaActualizacionVinos:
             if not hasattr(self, 'treeview'):
                 self.treeview = ttk.Treeview(
                     self.root,
-                    columns=("Bodega", "Nombre Vino", "Nota de Cata", "Añada", "Precio", "Varietales", "Maridajes", "Fecha de Actualización"),
+                    columns=("Bodega", "Nombre Vino", "Nota de Cata", "Añada", "Precio", "Fecha de Actualización"),
                     show='headings'
                 )
                 self.treeview.heading("Bodega", text="Bodega")
@@ -123,18 +123,14 @@ class PantallaActualizacionVinos:
                 self.treeview.heading("Nota de Cata", text="Nota de Cata")
                 self.treeview.heading("Añada", text="Añada")
                 self.treeview.heading("Precio", text="Precio")
-                self.treeview.heading("Varietales", text="Varietales")
-                self.treeview.heading("Maridajes", text="Maridajes")
                 self.treeview.heading("Fecha de Actualización", text="Fecha de Actualización")
 
                 # Configurar tamaños de columnas y alineación
                 self.treeview.column("Bodega", width=200, anchor='w')
                 self.treeview.column("Nombre Vino", width=200, anchor='w')
-                self.treeview.column("Nota de Cata", width=150, anchor='w')
+                self.treeview.column("Nota de Cata", width=300, anchor='w')  # Se agranda la columna Nota de Cata
                 self.treeview.column("Añada", width=80, anchor='center')
                 self.treeview.column("Precio", width=100, anchor='center')
-                self.treeview.column("Varietales", width=150, anchor='w')
-                self.treeview.column("Maridajes", width=150, anchor='w')
                 self.treeview.column("Fecha de Actualización", width=150, anchor='center')
 
             # Limpiar Treeview antes de agregar nuevos datos
@@ -147,59 +143,64 @@ class PantallaActualizacionVinos:
             else:
                 for bodega in arreglobodegaActualizadas:
                     # Insertar una fila para el nombre de la bodega
-                    self.treeview.insert("", "end", values=(f'--- {bodega.nombre} ---', "", "", "", "", "", ""), tags=('bodega',))
+                    self.treeview.insert("", "end", values=(f'--- {bodega.nombre} ---', "", "", "", "", ""), tags=('bodega',))
+
+                    # Agregar una fila vacía para crear espacio entre bodegas
+                    self.treeview.insert("", "end", values=("", "", "", "", "", ""), tags=('divider',))
 
                     # Agregar filas para cada vino actualizado
                     for vino in bodega.vinos:
                         if vino.fechaAct == date.today():
-                            maridajes = "\n".join([maridaje.nombre for maridaje in vino.maridajes])  # Unir maridajes en líneas separadas
-                            varietales = "\n".join([f"{var.descripcion}: {var.porcentajeComposicion}%" for var in vino.varietales])
-                            
+                            # Limitar el texto de "Nota de Cata" a que se ajuste mejor a las celdas
+                            nota_cata = vino.notaCataVino
+                            if len(nota_cata) > 50:  # Cambiar el valor 50 según la longitud deseada
+                                nota_cata = '\n'.join([nota_cata[i:i+50] for i in range(0, len(nota_cata), 50)])
+
+                            # Ya no agregamos maridajes ni varietales
                             self.treeview.insert(
                                 "",
                                 "end",
                                 values=(
                                     "",  # Columna Bodega en blanco para vinos
                                     vino.nombre,  # Nombre del vino
-                                    vino.notaCataVino,  # Nota de cata
+                                    nota_cata,  # Nota de cata ajustada
                                     vino.añada,  # Añada
                                     f"${vino.precio:.2f}",  # Precio
-                                    varietales,  # Varietales formateados
-                                    maridajes,  # Maridajes formateados
                                     vino.fechaAct.strftime("%d/%m/%Y")  # Fecha de actualización
                                 ),
                                 tags=('vino',)
                             )
 
-        
-            # Configurar los estilos de las filas
-            self.treeview.tag_configure('bodega', background="#f0f0f0", font=("Helvetica", 12, "bold"))
-            self.treeview.tag_configure('vino', background="#ffffff", font=("Helvetica", 12))
-            self.treeview.tag_configure('divider', background="#f0f0f0", font=("Helvetica", 12, "italic"))
-            
-            self.treeview.pack(pady=5, fill=tk.BOTH, expand=True)
-
-            # Botones Volver y Cerrar
-            if not self.btn_volver:
-                self.btn_volver = tk.Button(
-                    self.root, 
-                    text='Volver', 
-                    command=self.opImportarActualizacionVinoBodegas, 
-                    font=("Helvetica", 12, "bold"), 
-                    bg="#3498db", fg="white"
-                )
-            self.btn_volver.pack(pady=10)
-
-            if not self.btn_cerrar:
-                self.btn_cerrar = tk.Button(
-                    self.root, 
-                    text="Cerrar", 
-                    command=self.cerrar_ventana, 
-                    font=("Helvetica", 12, "bold"), 
-                    bg="#e74c3c", fg="white"
-                )
-            self.btn_cerrar.pack(pady=10)
+                # Configurar los estilos de las filas
+                self.treeview.tag_configure('bodega', background="#f0f0f0", font=("Helvetica", 12, "bold"))
+                self.treeview.tag_configure('vino', background="#ffffff", font=("Helvetica", 12))
+                self.treeview.tag_configure('divider', background="#f0f0f0", font=("Helvetica", 12, "italic"))
                 
+                self.treeview.pack(pady=5, fill=tk.BOTH, expand=True)
+
+                # Botones Volver y Cerrar
+                if not self.btn_volver:
+                    self.btn_volver = tk.Button(
+                        self.root, 
+                        text='Volver', 
+                        command=self.opImportarActualizacionVinoBodegas, 
+                        font=("Helvetica", 12, "bold"), 
+                        bg="#3498db", fg="white"
+                    )
+                self.btn_volver.pack(pady=10)
+
+                if not self.btn_cerrar:
+                    self.btn_cerrar = tk.Button(
+                        self.root, 
+                        text="Cerrar", 
+                        command=self.cerrar_ventana, 
+                        font=("Helvetica", 12, "bold"), 
+                        bg="#e74c3c", fg="white"
+                    )
+                self.btn_cerrar.pack(pady=10)
+
+
+
     def cargar_imagen_de_fondo(self, ruta_imagen):
         imagen = Image.open(ruta_imagen)
         imagen = imagen.resize((self.root.winfo_screenwidth(), self.root.winfo_screenheight()), Image.LANCZOS)
