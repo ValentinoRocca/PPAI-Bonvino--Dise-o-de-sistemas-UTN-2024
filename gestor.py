@@ -49,13 +49,14 @@ class GestorActualizarVinos:
                         vino.persistirVino(bodega1)
             
         
-        
+        """
         listaMaridajes = self.persistenciaMaridaje.obtener_todos()
         self.arregloMaridajes = self.convertirMaridajes(listaMaridajes)
+        """
         
         
-        #for maridaje in arregloMaridajes:
-         #   maridaje.persistirMaridaje()
+        for maridaje in arregloMaridajes:
+            maridaje.persistirMaridaje()
 
 
 
@@ -218,14 +219,13 @@ class GestorActualizarVinos:
 
 
     #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
-    def actualizarVinosBodega(self, Bodega, arrayVinosApi):   
+    def actualizarVinosBodega(self, Bodega, arrayVinosApi):
         hoy = self.getFechaActual()
-        
         
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
 
-        
+        # Iterar sobre todos los vinos en la API
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
@@ -234,6 +234,7 @@ class GestorActualizarVinos:
             bodega_iterator = VinoBodegaIterator(Bodega.vinos)
 
             
+            # Buscar si el vino ya existe en la bodega
             while bodega_iterator.tieneSiguiente():
                 vino = bodega_iterator.actual()
 
@@ -254,11 +255,12 @@ class GestorActualizarVinos:
                 vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
                 vinoNuevo.persistirVino(Bodega)
 
-
-                
+            # Avanzar al siguiente vino de la API
             api_iterator.siguiente()
         
+        # Actualizar la fecha de la última actualización de la bodega
         Bodega.setFechaActualizacion(hoy)
+
 
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):

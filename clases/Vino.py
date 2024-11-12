@@ -92,7 +92,6 @@ class Vino:
     """
 
     def actualizarPersistencia(self):
-        print('esta es la fecha actual: ', self.fechaAct)
         self.persistenciaVino.actualizar(self.id, precio=self.precio, imagenEtiqueta=self.imagenEtiqueta, notaCataVino=self.notaCataVino, fechaAct=self.fechaAct)
         
     

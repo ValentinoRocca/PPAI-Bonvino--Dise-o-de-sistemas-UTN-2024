@@ -1,5 +1,5 @@
 
-
+"""
 import tkinter as tk
 import tkinter as tk
 from PIL import ImageTk, Image
@@ -173,7 +173,7 @@ class PantallaActualizacionVinos:
         self.etiqueta_resultado = tk.Label(self.root, text="")
         self.btn_conf_click = tk.BooleanVar(value=False)
         self.btn_imp_click = tk.BooleanVar(value=False)
-
+"""
 
 
         
@@ -339,167 +339,228 @@ class PantallaActualizacionVinos:
 
 
 
-#----------------------------------- cambios chas ----------------------
-
-"""
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-from tkinter import messagebox
 import tkinter as tk
+from tkinter import ttk
 from PIL import ImageTk, Image
 from gestor import GestorActualizarVinos
-from datetime import *
+from datetime import date
 
-class PantallaPrincipal:
-    def __init__(self, gestor):
+class PantallaActualizacionVinos:
+    def _init_(self, gestor):
+        self.root = None
+        self.label = None
+        self.listbox = None
+        self.etiqueta_resultado = None
+        self.bodegas_seleccionadas = []
+        self.btn_confirmar = None
+        self.btn_volver = None
+        self.btn_cerrar = None
         self.gestor = gestor
-        self.root = ttk.Window(themename="superhero")
-        self.root.title("Sistema BonVino")
-        self.root.geometry("800x600")
-        self.root.eval('tk::PlaceWindow . center')  # Centrar ventana
 
-        # Cargar la imagen de fondo solo una vez
-        self.imagen_fondo = Image.open("./img/foto_vino_prueba.jpg")
-        self.imagen_fondo = self.imagen_fondo.resize((800, 600), Image.Resampling.LANCZOS)
-        self.img_tk_fondo = ImageTk.PhotoImage(self.imagen_fondo)
+    def cerrar_ventana(self):
+        self.btn_conf_click.set(True)
+        self.btn_imp_click.set(True)
+        self.root.destroy()
 
-        # Etiqueta para la imagen de fondo (visible solo en inicio)
-        self.label_fondo = ttk.Label(self.root, image=self.img_tk_fondo)
-        self.label_fondo.place(relwidth=1, relheight=1)
+    def opImportarActualizacionVinoBodegas(self):
+        if self.listbox is not None:
+            # Ocultar el Treeview si está visible
+            if hasattr(self, 'treeview'):
+                self.treeview.pack_forget()  # Ocultar el Treeview
+            
+            # Configurar el título y la interfaz
+            self.label.config(text='BonVino Bodegas')
+            self.label.pack(pady=20, fill=tk.X)
 
-        
-        # Contenedor para el contenido inicial
-        self.contenedor_inicio = ttk.Frame(self.root, relief="solid")
-        self.contenedor_inicio.place(relwidth=1, relheight=1)
+            # Ocultar todos los widgets anteriores
+            self.listbox.delete(0, tk.END)
+            for widget in [self.btn_volver, self.btn_cerrar, self.btn_confirmar, self.etiqueta_resultado, self.listbox]:
+                if widget:
+                    widget.pack_forget()
 
-        # Botón para abrir la ventana de bodegas
-        self.btn_visualizar_bodegas = ttk.Button(
-            self.contenedor_inicio, text="Visualizar Bodegas", bootstyle="primary", command=self.mostrar_bodegas
-        )
-        self.btn_visualizar_bodegas.place(relx=0.5, rely=0.5, anchor="center")  # Centrado en la ventana
+            # Mostrar el botón "Importar Actualizaciones" solo en la pantalla inicial
+            if not hasattr(self, 'btn_importar'):
+                self.btn_importar = tk.Button(
+                    self.root,
+                    text='Importar Actualizaciones',
+                    font=("Helvetica", 12, "bold"),
+                    bg="#4CAF50", fg="white",
+                    command=lambda: self.gestor.nuevaActualizacionVino(self, self.btn_imp_click)
+                )
+            self.btn_importar.pack(pady=15)
 
-        self.root.mainloop()
+            # Esperar a que se haga clic en el botón importar
+            self.root.wait_variable(self.btn_imp_click)
 
-    def mostrar_bodegas(self):
-        # Ocultar la imagen de fondo al cambiar de vista
-        self.label_fondo.place_forget()
+            # Al confirmar la importación, ocultar el botón "Importar Actualizaciones"
+            self.btn_importar.pack_forget()
 
-        # Limpiar el contenedor de inicio para mostrar la lista de bodegas
-        for widget in self.contenedor_inicio.winfo_children():
-            widget.destroy()
+            return self.bodegas_seleccionadas if self.btn_conf_click.get() else False
 
-        # Lista de bodegas con selección múltiple
-        self.listbox_bodegas = tk.Listbox(
-            self.contenedor_inicio, font=("Helvetica", 12, "italic"), width=40, height=40, selectmode=tk.MULTIPLE, 
-            bg="#f7f7f7", fg="#333333", selectbackground="#4CAF50", selectforeground="#FFFFFF"
-        )
-        self.listbox_bodegas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 0), pady=(20, 10))
+    def mostrarBodegasActDisponibles(self, arregloBodegasDisp):
+        if self.listbox:
+            self.btn_imp_click.set(True)
+            self.label.config(text='Seleccione las bodegas')
+            self.label.pack(pady=10, fill=tk.X)
+            
+            # Ocultar el botón "Importar Actualizaciones" si existe
+            if hasattr(self, 'btn_importar'):
+                self.btn_importar.pack_forget()
+            
+            self.listbox.delete(0, tk.END)
+            self.listbox.pack(pady=5, fill=tk.X)
 
-        # Scrollbar para el listbox
-        scrollbar_bodegas = ttk.Scrollbar(self.contenedor_inicio, orient=tk.VERTICAL, command=self.listbox_bodegas.yview)
-        self.listbox_bodegas.config(yscrollcommand=scrollbar_bodegas.set)
-        scrollbar_bodegas.pack(side=tk.LEFT, fill=tk.Y, pady=(20, 10))
-
-        # Frame para los botones en la parte inferior
-        btn_frame = ttk.Frame(self.contenedor_inicio)
-        btn_frame.pack(pady=20, anchor='s')  # Fijar el frame en la parte inferior
-
-        # Botón de importar actualizaciones
-        self.btn_importar = ttk.Button(
-            btn_frame, text="Importar Actualizaciones", bootstyle="success", command=self.importar_actualizaciones
-        )
-        self.btn_importar.grid(row=0, column=0, padx=5)
-        
-        # Botón de volver
-        self.btn_volver_inicio = ttk.Button(
-            btn_frame, text="Volver al inicio", bootstyle="secondary", command=self.volver_inicio
-        )
-        self.btn_volver_inicio.grid(row=0, column=1, padx=5)
-
-        # Mostrar bodegas en el listbox
-        bodegas_disponibles = self.gestor.buscarBodegasAActualizar()
-        self.mostrar_bodegas_disponibles(bodegas_disponibles)
-
-        # Habilitar el botón importar solo si hay selección
-        self.listbox_bodegas.bind("<<ListboxSelect>>", self.habilitar_boton_importar)
-
-    def mostrar_bodegas_disponibles(self, bodegas):
-        self.listbox_bodegas.delete(0, tk.END)
-        for bodega in bodegas:
-            self.listbox_bodegas.insert(tk.END, bodega[0])
-
-    def habilitar_boton_importar(self, event):
-        if self.listbox_bodegas.curselection():
-            self.btn_importar["state"] = tk.NORMAL
-        else:
-            self.btn_importar["state"] = tk.DISABLED
-
-    def importar_actualizaciones(self):
-        selecciones = self.listbox_bodegas.curselection()
-        if not selecciones:
-            messagebox.showwarning("Advertencia", "Debe seleccionar al menos una bodega a actualizar")
-            return
-        
-        bodegas_seleccionadas = [self.listbox_bodegas.get(i) for i in selecciones]
-        self.mostrar_ventana_vinos(bodegas_seleccionadas)
-
-    def mostrar_ventana_vinos(self, bodegas_seleccionadas):
-        # Limpiar el contenedor de inicio sin eliminar el fondo
-        for widget in self.contenedor_inicio.winfo_children():
-            widget.destroy()
-
-        frame_vinos = ttk.Frame(self.contenedor_inicio)
-        frame_vinos.pack(fill=tk.BOTH, padx=10, pady=10, expand=True)
-        frame_vinos.pack_propagate(False)  # Evitar que cambie el tamaño del frame
-
-        # Scrollbar para el frame de vinos en caso de que haya demasiados vinos
-        canvas_vinos = tk.Canvas(frame_vinos)
-        canvas_vinos.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-
-        scrollbar_vinos = ttk.Scrollbar(frame_vinos, orient=tk.VERTICAL, command=canvas_vinos.yview)
-        scrollbar_vinos.pack(side=tk.RIGHT, fill=tk.Y)
-
-        canvas_vinos.configure(yscrollcommand=scrollbar_vinos.set)
-        canvas_vinos.bind("<Configure>", lambda e: canvas_vinos.configure(scrollregion=canvas_vinos.bbox("all")))
-
-        vinos_frame_in_canvas = ttk.Frame(canvas_vinos)
-        canvas_vinos.create_window((0, 0), window=vinos_frame_in_canvas, anchor="nw")
-
-        for bodega_nombre in bodegas_seleccionadas:
-            bodega = next((b for b in self.gestor.arregloBodegasSistema if b.nombre == bodega_nombre), None)
-            if bodega is None:
-                continue
-
-            # Título de cada bodega
-            titulo_bodega = ttk.Label(vinos_frame_in_canvas, text=f"{bodega.nombre}", font=("Helvetica", 14, "bold"), foreground="#4CAF50")
-            titulo_bodega.pack(pady=(10, 5))
-
-            # Lista de vinos importados
-            listbox_vinos = tk.Listbox(vinos_frame_in_canvas, font=("Helvetica", 12), width=207, height=10)
-            listbox_vinos.pack(fill=tk.BOTH, padx=(10, 0), pady=(5, 10))
-
-            vinos_importados = self.gestor.obtener_vinos_de_bodega(bodega)
-            if not vinos_importados:
-                listbox_vinos.insert(tk.END, "NO HAY VINOS A ACTUALIZAR")
+            if not arregloBodegasDisp:
+                self.label.config(text='NO HAY BODEGAS PARA ACTUALIZAR')
+                self.btn_cerrar = tk.Button(
+                    self.root, 
+                    text="Cerrar", 
+                    command=self.cerrar_ventana, 
+                    font=("Helvetica", 12, "bold"), 
+                    bg="#e74c3c", fg="white"
+                )
+                self.btn_cerrar.pack(pady=20)
             else:
-                for vino in vinos_importados:
-                    listbox_vinos.insert(tk.END, vino)
+                for tupla in arregloBodegasDisp:
+                    self.listbox.insert(tk.END, tupla[0])
+                if not self.btn_confirmar:
+                    self.btn_confirmar = tk.Button(
+                        self.root, 
+                        text="Confirmar selección", 
+                        font=("Helvetica", 12, "bold"), 
+                        bg="#3498db", fg="white",
+                        command=lambda: self.tomarSeleccionBodega(arregloBodegasDisp)
+                    )
+                self.btn_confirmar.pack(pady=10)
+            
+            # Esperar la confirmación del usuario
+            self.root.wait_variable(self.btn_conf_click)
 
-        # Botón "Volver a bodegas" en la vista de vinos
-        btn_volver_bodegas = ttk.Button(self.contenedor_inicio, text="Volver a bodegas", bootstyle="secondary", command=self.mostrar_bodegas)
-        btn_volver_bodegas.pack(side=tk.BOTTOM, pady=10)  # Siempre al final del contenedor, visible
+    def tomarSeleccionBodega(self, arregloBodegasDisp):
+        if self.listbox:
+            self.btn_conf_click.set(True)
+            self.etiqueta_resultado.pack(pady=5, fill=tk.X)
+            seleccion = self.listbox.curselection()
+            self.bodegas_seleccionadas = [arregloBodegasDisp[i] for i in seleccion if i < len(arregloBodegasDisp)]
+            if self.bodegas_seleccionadas:
+                self.btn_confirmar.pack_forget()
 
-    def volver_inicio(self):
-        #Vuelve a la pantalla principal de inicio sin reiniciar el objeto
-        # Limpiar widgets del contenedor de inicio y volver a mostrar la imagen de fondo
-        for widget in self.contenedor_inicio.winfo_children():
-            widget.destroy()
+    def mostrarResumenActualizacion(self, arreglobodegaActualizadas):
+        if self.listbox:
+            self.listbox.pack_forget()  # Ocultamos el listbox
+            self.etiqueta_resultado.pack_forget()
+            self.label.config(text='Bodegas Actualizadas')
+            self.label.pack(pady=10, fill=tk.X)
+            
+            # Configurar Treeview con las columnas correctas para los datos de Vino
+            if not hasattr(self, 'treeview'):
+                self.treeview = ttk.Treeview(
+                    self.root,
+                    columns=("Bodega", "Nombre Vino", "Nota de Cata", "Añada", "Precio", "Varietales", "Maridajes", "Fecha de Actualización"),
+                    show='headings'
+                )
+                self.treeview.heading("Bodega", text="Bodega")
+                self.treeview.heading("Nombre Vino", text="Nombre Vino")
+                self.treeview.heading("Nota de Cata", text="Nota de Cata")
+                self.treeview.heading("Añada", text="Añada")
+                self.treeview.heading("Precio", text="Precio")
+                self.treeview.heading("Varietales", text="Varietales")
+                self.treeview.heading("Maridajes", text="Maridajes")
+                self.treeview.heading("Fecha de Actualización", text="Fecha de Actualización")
 
-        self.label_fondo.place(relwidth=1, relheight=1)  # Volver a mostrar la imagen de fondo
+                # Configurar tamaños de columnas y alineación
+                self.treeview.column("Bodega", width=200, anchor='w')
+                self.treeview.column("Nombre Vino", width=200, anchor='w')
+                self.treeview.column("Nota de Cata", width=150, anchor='w')
+                self.treeview.column("Añada", width=80, anchor='center')
+                self.treeview.column("Precio", width=100, anchor='center')
+                self.treeview.column("Varietales", width=150, anchor='w')
+                self.treeview.column("Maridajes", width=150, anchor='w')
+                self.treeview.column("Fecha de Actualización", width=150, anchor='center')
+            
+            # Limpiar Treeview antes de agregar nuevos datos
+            for row in self.treeview.get_children():
+                self.treeview.delete(row)
 
-        # Reutilizar el contenedor para el botón inicial
-        self.btn_visualizar_bodegas = ttk.Button(
-            self.contenedor_inicio, text="Visualizar Bodegas", bootstyle="primary", command=self.mostrar_bodegas
-        )
-        self.btn_visualizar_bodegas.place(relx=0.5, rely=0.5, anchor="center")  # Centrado
-"""
+            if not arreglobodegaActualizadas:
+                self.etiqueta_resultado.config(text='NO SE SELECCIONARON BODEGAS', font=("Helvetica", 14))
+                self.etiqueta_resultado.pack(pady=20, fill=tk.X)
+            else:
+                for bodega in arreglobodegaActualizadas:
+                    # Insertar una fila para el nombre de la bodega
+                    self.treeview.insert("", "end", values=(f'--- {bodega.nombre} ---', "", "", "", "", "", ""), tags=('bodega',))
+
+                    # Agregar filas para cada vino de la bodega actualizado hoy
+                    for vino in bodega.vinos:
+                        if vino.fechaAct == date.today():
+                            self.treeview.insert(
+                                "",
+                                "end",
+                                values=(
+                                    "",  # Columna Bodega en blanco para vinos
+                                    vino.nombre,  # Nombre del vino
+                                    vino.notaCataVino,  # Nota de cata del vino
+                                    vino.añada,  # Añada del vino
+                                    f"${vino.precio:.2f}",  # Precio del vino
+                                    vino.varietales,  # Varietales del vino
+                                    vino.maridajes,  # Maridajes del vino
+                                    vino.fechaAct.strftime("%d/%m/%Y")  # Fecha de actualización
+                                ),
+                                tags=('vino',)
+                            )
+
+                    # Insertar una fila divisoria más larga después de cada bodega
+                    self.treeview.insert("", "end", values=("-------------------------------------------------------------", "", "", "", "", "", ""), tags=('divider',))
+                
+            # Configurar los estilos de las filas
+            self.treeview.tag_configure('bodega', background="#f0f0f0", font=("Helvetica", 12, "bold"))
+            self.treeview.tag_configure('vino', background="#ffffff", font=("Helvetica", 12))
+            self.treeview.tag_configure('divider', background="#f0f0f0", font=("Helvetica", 12, "italic"))
+            
+            self.treeview.pack(pady=5, fill=tk.BOTH, expand=True)
+
+            # Botones Volver y Cerrar
+            if not self.btn_volver:
+                self.btn_volver = tk.Button(
+                    self.root, 
+                    text='Volver', 
+                    command=self.opImportarActualizacionVinoBodegas, 
+                    font=("Helvetica", 12, "bold"), 
+                    bg="#3498db", fg="white"
+                )
+            self.btn_volver.pack(pady=10)
+
+            if not self.btn_cerrar:
+                self.btn_cerrar = tk.Button(
+                    self.root, 
+                    text="Cerrar", 
+                    command=self.cerrar_ventana, 
+                    font=("Helvetica", 12, "bold"), 
+                    bg="#e74c3c", fg="white"
+                )
+            self.btn_cerrar.pack(pady=10)
+
+            
+    def cargar_imagen_de_fondo(self, ruta_imagen):
+        imagen = Image.open(ruta_imagen)
+        imagen = imagen.resize((self.root.winfo_screenwidth(), self.root.winfo_screenheight()), Image.LANCZOS)
+        foto = ImageTk.PhotoImage(imagen)
+        self.background_label = tk.Label(self.root, image=foto)
+        self.background_label.image = foto
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+    def habilitar_ventana(self):
+        self.root = tk.Tk()
+        self.root.title("Actualización de Bodegas")
+        self.root.geometry("800x600")
+        self.root.state('zoomed')
+        self.root.configure(bg='#f5f5f5')
+        self.cargar_imagen_de_fondo("./img/bonvino.jpg")
+
+        self.label = tk.Label(self.root, text="BonVino Bodegas", font=("Helvetica", 24, "bold"), bg='#f5f5f5', fg='#333333')
+        self.listbox = tk.Listbox(self.root, selectmode=tk.MULTIPLE, height=20, width=60, font=("Helvetica", 12))
+        self.etiqueta_resultado = tk.Label(self.root, text="", bg='#f5f5f5', fg='#333333')
+        self.btn_conf_click = tk.BooleanVar(value=False)
+        self.btn_imp_click = tk.BooleanVar(value=False)
+
+        self.label.pack(pady=20, fill=tk.X)
