@@ -11,7 +11,7 @@ gestor = GestorActualizarVinos(interfazApi)
 
 def main(gestor, arregloBodegasDisp, arregloMaridajes, arregloUvas):
         gestor.cargarDatosAlSistema(arregloBodegasDisp, arregloMaridajes, arregloUvas)
-        interfaz = PantallaActualizacionVinos()
+        interfaz = PantallaActualizacionVinos(gestor)
         interfaz.habilitar_ventana() 
         interfaz.opImportarActualizacionVinoBodegas()
         interfaz.root.mainloop()
