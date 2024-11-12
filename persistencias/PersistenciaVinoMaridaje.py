@@ -1,6 +1,9 @@
 from peewee import SqliteDatabase, Model, ForeignKeyField, IntegrityError
 from persistencias.PersistenciaVino import Vino
 from persistencias.PersistenciaMaridaje import Maridaje  # Suponiendo que ya tienes un modelo Maridaje
+from persistencias.PersistenciaBase import PersistenciaBase
+
+db = SqliteDatabase('bodegas.db')
 
 # Definir el modelo VinoMaridaje
 class VinoMaridaje(Model):
@@ -34,6 +37,24 @@ class PersistenciaVinoMaridaje(PersistenciaBase):
             return VinoMaridaje.get(VinoMaridaje.id == vino_maridaje_id)
         except VinoMaridaje.DoesNotExist:
             return None
+        
+    def obtener_por_id_vino(self, id_vino):
+        try:
+            # Usar select() para obtener todos los vinos asociados a la bodega
+            return list(VinoMaridaje.select().where(VinoMaridaje.vino == id_vino))
+        except VinoMaridaje.DoesNotExist:
+            return []  # Retorna una lista vacía si no hay vinos asociados a la bodega
+
+        
+    def actualizar(self, varietal_id, **campos):
+        varietal = self.obtener_por_id(varietal_id)
+        if varietal:
+            for campo, valor in campos.items():
+                if hasattr(varietal, campo):
+                    setattr(varietal, campo, valor)
+            varietal.save()
+            return varietal
+        return None
 
     def obtener_todos(self):
         return list(VinoMaridaje.select())

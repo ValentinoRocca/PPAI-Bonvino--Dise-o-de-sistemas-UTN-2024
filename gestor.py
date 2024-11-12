@@ -5,8 +5,12 @@ from clases.TipoUva import *
 from clases.Varietal import *
 from datetime import date
 from persistencias.PersistenciaBodega import PersistenciaBodega
+from persistencias.PersistenciaMaridaje import PersistenciaMaridaje
+from persistencias.PersistenciaVino import PersistenciaVino
+from persistencias.PersistenciaVinoMaridaje import PersistenciaVinoMaridaje
 from clases import Bodega
 from clases import Vino
+from clases import Maridaje
 from clases.Iterators import *
 #from clases import InterfazBodega
 
@@ -19,6 +23,8 @@ class GestorActualizarVinos:
         self.interfazBodega = interfaz
         self.persistenciaBodega = PersistenciaBodega()
         self.persistenciaVino = PersistenciaVino()
+        self.persistenciaMaridaje = PersistenciaMaridaje()
+        self.persistenciaVinoMaridaje = PersistenciaVinoMaridaje()
 
 
     def obtener_vinos_de_bodega(self, nombre_bodega):
@@ -38,20 +44,40 @@ class GestorActualizarVinos:
         self.arregloBodegasSistema = self.convertirBodegas(listaBodegasBaseDatos)
 
         
+        listaMaridajes = self.persistenciaMaridaje.obtener_todos()
+        self.arregloMaridajes = self.convertirMaridajes(listaMaridajes)
+
+        """
         for bodega1 in self.arregloBodegasSistema:
             for bodega2 in arregloBodegas:
                 if bodega1.nombre == bodega2.nombre:    
                     for vino in bodega2.vinos:
                         vino.persistirVino(bodega1)
+                        
+                        objMaridajes = []
+                        for maridaje in vino.maridajes:
+                            objMaridajes.append(self.buscarMaridajeDescripcion(maridaje))
+                            print("el maridaje que obtuvo", objMaridajes)
+                            for mari in objMaridajes:
+                                print("q verga es esto", mari)
+                                mari.persistirVinoMaridaje(vino)
+        """
+                        
             
         
         
+        
+        
+        
+        """
         for maridaje in arregloMaridajes:
-            self.arregloMaridajes.append(maridaje)
             maridaje.persistirMaridaje()
+        """
+
 
         for uva in arregloUva:
             self.arregloUvas.append(uva)
+            
 
     def convertirBodegas(self, listaBodegas):
         bodegasConvertidas = []
@@ -63,6 +89,7 @@ class GestorActualizarVinos:
 
             listaVinos = self.persistenciaVino.obtener_por_id_bodega(bodega.id)
             vinosParseados = self.convertirVinos(listaVinos)    
+
 
 
 
@@ -85,12 +112,44 @@ class GestorActualizarVinos:
 
         return bodegasConvertidas
 
+
+    def convertirMaridajes(self, listaMaridajes):
+        maridajesConvertidos = []
+
+        for maridaje in listaMaridajes:
+
+            maridajeObtenido = Maridaje(
+                descripcion=maridaje.descripcion,
+                nombre=maridaje.nombre,
+                id=maridaje.id
+            )
+
+            maridajesConvertidos.append(maridajeObtenido)
+
+        return maridajesConvertidos
+
+    def obtenerMaridajesVino(self, id_vino):
+
+        maridajesObtenidos = []
+
+        listaMaridajes = self.persistenciaVinoMaridaje.obtener_por_id_vino(id_vino)
+    
+        for linea in listaMaridajes:
+            maridajesObtenidos.append(self.persistenciaMaridaje.obtener_por_id(linea.maridaje_id))
+
+        return maridajesObtenidos
+    
+
+
+
     def convertirVinos(self, listaVinos):
         vinosConvertidos = []
         for vino in listaVinos:
 
             precioInt = int(vino.precio)
             añadaInt = int(vino.añada)
+
+            maridajesVino = self.obtenerMaridajesVino(vino.id)
 
             vinoObtenido = Vino(
                 nombre=vino.nombre,
@@ -101,7 +160,15 @@ class GestorActualizarVinos:
                 fechaAct=vino.fechaAct,
                 id=vino.id
             )
+
+            for mari in maridajesVino:
+                print("maridaje antes de agregar", mari.nombre)
+                vinoObtenido.agregarMaridaje(mari)
+
+            print("maridajes agregados al vino", vinoObtenido.maridajes)
             vinosConvertidos.append(vinoObtenido)
+
+
         return vinosConvertidos
 
 
@@ -207,15 +274,9 @@ class GestorActualizarVinos:
             while bodega_iterator.tieneSiguiente():
                 vino = bodega_iterator.actual()
 
-                print("entro al while")
-
-                print("vinoApi", vinoApi[0])
-                print("Vino", vino.nombre)
-
                 if self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
                     vinoActualizado.actualizarPersistencia()
-                    print("vino actualizado", vinoActualizado.nombre, vinoActualizado.fechaAct)
                     existe = True
                     break
 
@@ -224,9 +285,9 @@ class GestorActualizarVinos:
             # Si no existe el vino, lo crea
             if not existe:
                 maridajeAPI = self.buscarMaridaje(vinoApi)
+
                 vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
                 vinoNuevo.persistirVino(Bodega)
-                print("vino creado", vinoNuevo.nombre, vinoNuevo.fechaAct)
 
             # Avanzar al siguiente vino de la API
             api_iterator.siguiente()
@@ -238,6 +299,7 @@ class GestorActualizarVinos:
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):
         maridajesNuevoVino = []
+
         for maridajeApi in vinoApi[5]:
             for maridaje in self.arregloMaridajes:
                 if maridaje.sosMaridaje(maridajeApi):
@@ -245,6 +307,15 @@ class GestorActualizarVinos:
                 
         return maridajesNuevoVino
         
+    def buscarMaridajeDescripcion(self, maridaje):
+
+
+        for maridajeSistema in self.arregloMaridajes:
+            if maridaje.descripcion == maridajeSistema.descripcion:
+                return maridajeSistema
+
+        return None
+
     # Le pasa por parametro el string nombre vino y un objeto vino, valida si sus nombres son el mismo
     def sosElMismoVino(self, vinoBodegaApi, vinoBodegaSeleccionada):
         return (vinoBodegaApi[0] == vinoBodegaSeleccionada.nombre)
