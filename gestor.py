@@ -11,6 +11,7 @@ from persistencias.PersistenciaVinoMaridaje import PersistenciaVinoMaridaje
 from clases import Bodega
 from clases import Vino
 from clases import Maridaje
+from clases import TipoUva
 from clases.Iterators import *
 #from clases import InterfazBodega
 
@@ -25,6 +26,7 @@ class GestorActualizarVinos:
         self.persistenciaVino = PersistenciaVino()
         self.persistenciaMaridaje = PersistenciaMaridaje()
         self.persistenciaVinoMaridaje = PersistenciaVinoMaridaje()
+        self.persistenciaTipoUva = PersistenciaTipoUva()
 
 
     def obtener_vinos_de_bodega(self, nombre_bodega):
@@ -46,8 +48,11 @@ class GestorActualizarVinos:
         
         listaMaridajes = self.persistenciaMaridaje.obtener_todos()
         self.arregloMaridajes = self.convertirMaridajes(listaMaridajes)
-
-        """
+        
+        listaTipoUva = self.persistenciaTipoUva.obtener_todos()
+        self.arregloMaridajes = self.convertirTipoUva(listaTipoUva)
+        
+        
         for bodega1 in self.arregloBodegasSistema:
             for bodega2 in arregloBodegas:
                 if bodega1.nombre == bodega2.nombre:    
@@ -61,7 +66,9 @@ class GestorActualizarVinos:
                             for mari in objMaridajes:
                                 print("q verga es esto", mari)
                                 mari.persistirVinoMaridaje(vino)
-        """
+        
+
+                        for varietal
                         
             
         
@@ -74,10 +81,11 @@ class GestorActualizarVinos:
             maridaje.persistirMaridaje()
         """
 
-
+        """
         for uva in arregloUva:
             self.arregloUvas.append(uva)
-            
+            uva.persistirTipoUva()
+        """
 
     def convertirBodegas(self, listaBodegas):
         bodegasConvertidas = []
@@ -111,6 +119,22 @@ class GestorActualizarVinos:
 
 
         return bodegasConvertidas
+
+    def convertirTipoUva(self, listaTipoUva):
+
+        uvasConvertidas = []
+
+        for uva in listaTipoUva:
+            
+            tipoUvaObtenida = TipoUva(
+                descripcion=uva.descripcion,
+                nombre=uva.nombre,
+                id=uva.id
+            )
+
+            uvasConvertidas.append(tipoUvaObtenida)
+
+        return uvasConvertidas
 
 
     def convertirMaridajes(self, listaMaridajes):

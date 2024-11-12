@@ -11,8 +11,8 @@ class Varietal:
     def setTipoUva(self, tipoUva):
         self.tipoUva = tipoUva
 
-    def persistirVarietal(self):
-        varietal = self.persistenciaVarietal.agregar(self)
+    def persistirVarietal(self, tipoUva):
+        varietal = self.persistenciaVarietal.agregar(self, tipoUva)
         if varietal:
             self.id = varietal.id
         else:

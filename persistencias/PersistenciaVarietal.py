@@ -22,7 +22,7 @@ db.create_tables([Varietal], safe=True)
 
 # Clase de persistencia para Varietal
 class PersistenciaVarietal(PersistenciaBase):
-    def agregar(self, varietal_obj):
+    def agregar(self, varietal_obj, tipoUva):
         # Verificar si ya existe un varietal similar en la base de datos
         if Varietal.select().where(Varietal.descripcion == varietal_obj.descripcion).exists():
             print("El varietal ya existe en la base de datos.")
@@ -33,7 +33,7 @@ class PersistenciaVarietal(PersistenciaBase):
             varietal = Varietal.create(
                 descripcion=varietal_obj.descripcion,
                 porcentajeComposicion=varietal_obj.porcentajeComposicion,
-                tipoUva=varietal_obj.tipoUva.id  # Debe ser una instancia de TipoUva con id
+                tipoUva=tipoUva.id  # Debe ser una instancia de TipoUva con id
             )
             return varietal
         except IntegrityError as e:
