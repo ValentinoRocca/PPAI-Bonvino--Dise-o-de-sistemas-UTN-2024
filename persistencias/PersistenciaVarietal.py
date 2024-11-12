@@ -33,7 +33,8 @@ class PersistenciaVarietal(PersistenciaBase):
             varietal = Varietal.create(
                 descripcion=varietal_obj.descripcion,
                 porcentajeComposicion=varietal_obj.porcentajeComposicion,
-                tipoUva=tipoUva.id  # Debe ser una instancia de TipoUva con id
+                tipoUva=tipoUva.id,  # Debe ser una instancia de TipoUva con id
+                
             )
             return varietal
         except IntegrityError as e:
