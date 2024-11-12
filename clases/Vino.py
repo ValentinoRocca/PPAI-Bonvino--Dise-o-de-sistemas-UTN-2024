@@ -3,8 +3,8 @@ from .Maridaje import *
 from persistencias.PersistenciaVino import PersistenciaVino
 
 class Vino:
-    def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct):
-        self.id = None
+    def __init__(self,nombre, imagenEtiqueta, notaCataVino, precio, añada, fechaAct, id=None):
+        self.id = id
         self.nombre = nombre
         self.imagenEtiqueta = imagenEtiqueta
         self.notaCataVino = notaCataVino
@@ -86,7 +86,6 @@ class Vino:
             print("Error al persistir")
 
     def actualizarPersistencia(self):
-        print('esta es la fecha actual: ', self.fechaAct)
         self.persistenciaVino.actualizar(self.id, precio=self.precio, imagenEtiqueta=self.imagenEtiqueta, notaCataVino=self.notaCataVino, fechaAct=self.fechaAct)
         
     

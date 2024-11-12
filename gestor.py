@@ -83,7 +83,6 @@ class GestorActualizarVinos:
             bodegasConvertidas.append(bodegaObtenida)
 
 
-            print("bodega creada", bodegaObtenida)
         return bodegasConvertidas
 
     def convertirVinos(self, listaVinos):
@@ -99,7 +98,8 @@ class GestorActualizarVinos:
                 notaCataVino=vino.notaCataVino,
                 precio=precioInt,
                 añada=añadaInt,
-                fechaAct=vino.fechaAct
+                fechaAct=vino.fechaAct,
+                id=vino.id
             )
             vinosConvertidos.append(vinoObtenido)
         return vinosConvertidos
@@ -124,7 +124,6 @@ class GestorActualizarVinos:
             arregloBodegasSeleccionadas = pantalla.bodegas_seleccionadas
 
 
-            print("arreglo de bodegas selecionadas", arregloBodegasSeleccionadas)
             #Aca guardamos en un array los objetos Bodega que el user selec (Antes teniamos los nombres de las Bodegas no los obj)
             arregloBodegasParaActualizar = []
             arregloBodegasParaActualizar = self.buscarBodegaSeleccionada(arregloBodegasSeleccionadas)
@@ -171,14 +170,11 @@ class GestorActualizarVinos:
     #esta funcion es un for que por cada bodega que selec el user realice la func ActualizarVinosBodega
     def buscarVinosBodegaSeleccionada(self, arregloBodegasParaActualizar):
         bodegasActualizadas = []
-        print("arreglo de bodeas para act", arregloBodegasParaActualizar[0])
         
         for bodegaSeleccionada in arregloBodegasParaActualizar:
-            print("id de la bodega a actualizar", bodegaSeleccionada.id)
             #vinosApi = bodegaSeleccionada.vinosAPI
             #self.interfazBodega.buscarVinosApi(Bogdega)
             vinosApi = self.buscarVinosApi(bodegaSeleccionada)
-            print("vinos obtenidos de la api", vinosApi)
             
             self.actualizarVinosBodega(bodegaSeleccionada, vinosApi)
             bodegasActualizadas.append(bodegaSeleccionada)
@@ -192,42 +188,52 @@ class GestorActualizarVinos:
 
 
     #Recorre los vinos api buscandolo en la bodega actual, si encuentra el vino, actualiza los datos en la bodega de nuestro sistema, si no lo encuentra lo crea y le hace un append.
-    def actualizarVinosBodega(self, Bodega, arrayVinosApi):   
+    def actualizarVinosBodega(self, Bodega, arrayVinosApi):
         hoy = self.getFechaActual()
-        
         
         # Crear iterador para los vinos de la API
         api_iterator = IteradorVinosBodegaApi(arrayVinosApi)
 
-        
+        # Iterar sobre todos los vinos en la API
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
             existe = False
-            print('Vino API Rey: ', vinoApi)
 
             # Crear iterador para los vinos de la bodega
             bodega_iterator = VinoBodegaIterator(Bodega.vinos)
+
             
+            # Buscar si el vino ya existe en la bodega
             while bodega_iterator.tieneSiguiente():
-                vino = bodega_iterator.siguiente()
-                print('Vino Rey: ', vino)
+                vino = bodega_iterator.actual()
+
+                print("entro al while")
+
+                print("vinoApi", vinoApi[0])
+                print("Vino", vino.nombre)
+
                 if self.sosElMismoVino(vinoApi, vino):
                     vinoActualizado = Bodega.actualizarVino(vino, vinoApi, hoy)
-                    print("vino actualizado", vinoActualizado)
                     vinoActualizado.actualizarPersistencia()
+                    print("vino actualizado", vinoActualizado.nombre, vinoActualizado.fechaAct)
                     existe = True
                     break
+
+                bodega_iterator.siguiente()
 
             # Si no existe el vino, lo crea
             if not existe:
                 maridajeAPI = self.buscarMaridaje(vinoApi)
                 vinoNuevo = Bodega.crearVino(vinoApi, hoy, maridajeAPI, self.arregloUvas)
-                print("bodega antes de persistir", Bodega)
                 vinoNuevo.persistirVino(Bodega)
+                print("vino creado", vinoNuevo.nombre, vinoNuevo.fechaAct)
 
+            # Avanzar al siguiente vino de la API
             api_iterator.siguiente()
         
+        # Actualizar la fecha de la última actualización de la bodega
         Bodega.setFechaActualizacion(hoy)
+
 
     # Le pasa por parametro el string nombre de un obj Maridaje y recorre todos los maridajes hasta encontrar el obj en cuestion y retornarlo
     def buscarMaridaje(self, vinoApi):

@@ -23,12 +23,12 @@ class VinoBodegaIterator:
     def tieneSiguiente(self):
         return self.index < len(self.vinos_bodega)
 
-    def siguiente(self):
-        if self.tieneSiguiente():
+    def actual(self):
             vino = self.vinos_bodega[self.index]
-            self.index += 1
             return vino
-        else:
-            raise StopIteration
+        
+
+    def siguiente(self):
+        self.index += 1
 
             
