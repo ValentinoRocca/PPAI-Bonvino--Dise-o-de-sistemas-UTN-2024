@@ -5,32 +5,28 @@ from persistencias.PersistenciaBase import PersistenciaBase
 db = SqliteDatabase('bodegas.db')
 
 # Definir el modelo Bodega
-class Bodega(Model):
-    coordenadas = TextField()
+class Maridaje(Model):
     descripcion = TextField()
-    historia = TextField()
-    nombre = CharField(max_length=100)
-    periodoActualizacion = IntegerField()
-    ultimaActualizacion = DateField()
+    nombre = TextField()
 
     class Meta:
         database = db
 
 # Crear tabla si no existe
 db.connect()
-db.create_tables([Bodega], safe=True)
+db.create_tables([Maridaje], safe=True)
 
 # Clase de persistencia para Bodega
-class PersistenciaBodega(PersistenciaBase):
-    def agregar(self, bodega_obj):
+class PersistenciaMaridaje(PersistenciaBase):
+    def agregar(self, maridaje_obj):
         # Verificar si ya existe una bodega con el mismo nombre
-        if Bodega.select().where(Bodega.nombre == bodega_obj.nombre).exists():
-            print("La bodega ya existe en la base de datos.")
+        if Maridaje.select().where(Maridaje.nombre == maridaje_obj.nombre).exists():
+            print("El maridaje ya existe en la base de datos.")
             return None
 
         try:
             # Crear la bodega si no existe
-            bodega = Bodega.create(
+            maridaje = Maridaje.create(
                 coordenadas=bodega_obj.coordenadas,
                 descripcion=bodega_obj.descripcion,
                 historia=bodega_obj.historia,
@@ -75,4 +71,3 @@ class PersistenciaBodega(PersistenciaBase):
             bodega.delete_instance()
             return True
         return False
-

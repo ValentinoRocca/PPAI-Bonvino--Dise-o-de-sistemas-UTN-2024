@@ -298,5 +298,5 @@ bodega5.agregarVinosApi(vinosApiAchaval)
 # bodegas del sistema_: 
 bodegasSistema = [bodega1, bodega2, bodega3, bodega4, bodega5]
 
-maridajesSistema=[maridaje1, maridaje2, maridaje3,maridaje4, maridaje5, maridaje6, maridaje7,maridaje8, maridaje9,maridaje10, maridaje11,maridaje12,maridaje13,maridaje14,maridaje15,maridaje16]
+maridajesSistema=[maridaje1, maridaje2, maridaje3, maridaje4, maridaje5, maridaje6, maridaje7,maridaje8, maridaje9,maridaje10, maridaje11,maridaje12,maridaje13,maridaje14,maridaje15,maridaje16]
 
