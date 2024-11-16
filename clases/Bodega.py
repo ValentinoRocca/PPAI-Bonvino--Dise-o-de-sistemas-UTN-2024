@@ -2,7 +2,6 @@ from datetime import *
 from clases.Vino import *
 from persistencias.PersistenciaBodega import PersistenciaBodega
 from clases.Iterators import *
-from gestor import GestorActualizarVinos
 
 class Bodega:
     def __init__(self, coordenadaUbicacion, descripcion, historia, nombre, periodoActualizacion, ultimaActualizacion, id=None):
@@ -103,11 +102,13 @@ class Bodega:
 
 
     def crearIterador(self):
-        bodega_iterator = IteradorVinosBodega(self.vinos)
+        bodega_iterator = IteradorVinosBodega(self.vinos, self)
         return bodega_iterator
     
     
-    def actualizarVinoBodega(self, vinoApi, hoy, arregloUvas):
+    def actualizarVinosBodega(self, vinoApi, hoy, arregloUvas, gestor):
+
+        actualizado = False
 
         bodega_iterator = self.crearIterador()
         
@@ -117,21 +118,31 @@ class Bodega:
 
             vino = bodega_iterator.actual()
 
+            #print("indice:", bodega_iterator.index)
+            #print("vino a actualizar:", vino)
+
+            
 
             existe = bodega_iterator.cumpleFiltro(vino, vinoApi)
             if existe:
                 vinoActualizado = self.actualizarVino(vino, vinoApi, hoy)
                 vinoActualizado.actualizarPersistencia()
+                actualizado = True
+                break
                 
-
-            # Si no existe el vino, lo crea
+            # Si no existe el vino cotinua hasta encontrarlo
             else:
-                maridajeObjeto = GestorActualizarVinos.buscarMaridaje(vinoApi)
+                bodega_iterator.siguiente()
+                continue
 
-                vinoNuevo = self.crearVino(vinoApi, hoy, maridajeObjeto, arregloUvas)
-                vinoNuevo.persistirVino(self) 
+        if not actualizado:
+            maridajeObjeto = gestor.buscarMaridaje(vinoApi)
 
-            bodega_iterator.siguiente()
+            vinoNuevo = self.crearVino(vinoApi, hoy, maridajeObjeto, arregloUvas)
+            vinoNuevo.persistirVino(self) 
+
+            
+        print("avanzo el bodega iterador")
 
     # Le pasa por parametro el string nombre vino y un objeto vino, valida si sus nombres son el mismo
     def sosElMismoVino(self, vinoBodegaApi, vinoBodegaSeleccionada):

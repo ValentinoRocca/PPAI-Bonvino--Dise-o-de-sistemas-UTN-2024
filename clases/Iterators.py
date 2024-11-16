@@ -1,6 +1,6 @@
 from clases.IteratorAbs import InterfazIterator
 
-from clases.Bodega import Bodega
+
 # Implementación para el iterador de vinos desde API
 class IteradorVinosBodegaApi(InterfazIterator):
     def __init__(self, vinos_api):
@@ -23,8 +23,9 @@ class IteradorVinosBodegaApi(InterfazIterator):
 
 # Implementación para el iterador de vinos de la bodega
 class IteradorVinosBodega(InterfazIterator):
-    def __init__(self, vinos_bodega):
+    def __init__(self, vinos_bodega, objeto_bodega):
         super().__init__(vinos_bodega)
+        self.bodega = objeto_bodega
 
     def tieneSiguiente(self):
         return self.index < len(self.vinos)
@@ -38,8 +39,8 @@ class IteradorVinosBodega(InterfazIterator):
     def primero(self):
         self.index = 0
 
-    def cumpleFiltro(vinoApi, vino):
-        return Bodega.sosElMismoVino(vino, vinoApi)
+    def cumpleFiltro(self, vinoApi, vino):
+        return self.bodega.sosElMismoVino(vino, vinoApi)
        
         
 

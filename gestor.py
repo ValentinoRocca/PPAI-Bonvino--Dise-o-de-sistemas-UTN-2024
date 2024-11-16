@@ -9,10 +9,10 @@ from persistencias.PersistenciaMaridaje import PersistenciaMaridaje
 from persistencias.PersistenciaVino import PersistenciaVino
 from persistencias.PersistenciaVinoMaridaje import PersistenciaVinoMaridaje
 from persistencias.PersistenciaVarietal import PersistenciaVarietal
-from clases import Bodega
-from clases import Vino
-from clases import Maridaje
-from clases import TipoUva
+from clases.Bodega import Bodega
+from clases.Vino import Vino
+from clases.Maridaje import Maridaje
+from clases.TipoUva import TipoUva
 from clases.Iterators import *
 #from clases import InterfazBodega
 
@@ -325,12 +325,16 @@ class GestorActualizarVinos:
         while api_iterator.tieneSiguiente():
             vinoApi = api_iterator.actual()
 
+            print("indice:", api_iterator.index)
+            print("vino a actualizar:", vinoApi)
+
             # Crear iterador para los vinos de la bodega
-            Bodega.actualizarVinosBodega(vinoApi, hoy, self.arregloUvas)
+            Bodega.actualizarVinosBodega(vinoApi, hoy, self.arregloUvas, self)
 
             
             # Avanzar al siguiente vino de la API
             api_iterator.siguiente()
+            print("avanzo el api iterador")
         
         # Actualizar la fecha de la última actualización de la bodega
         Bodega.setFechaActualizacion(hoy)
